@@ -35,7 +35,7 @@ def main(argv):
             continue
     else:
         evaluate(model,
-                 checkpoint,
+                 #checkpoint,
                  ds_test,
                  ds_info,
                  run_paths)

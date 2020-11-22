@@ -2,16 +2,40 @@ import gin
 import logging
 import tensorflow as tf
 import tensorflow_datasets as tfds
-
 from input_pipeline.preprocessing import preprocess, augment
+from input_pipeline.visualize import visualize
+
+def check_distribution(dataset):
+    # check class balance
+    balance = {'0': 0, '1': 0}
+    for (img, label) in dataset:
+        if label == 0:
+            balance['0'] = balance['0'] + 1
+        else:
+            balance['1'] = balance['1'] + 1
+
+    balance['perc-0'] = 100 * balance['0'] / (balance['0'] + balance['1'])
+    balance['perc-1'] = 100 * balance['1'] / (balance['0'] + balance['1'])
+    print("percentage of 0 label:" + str(balance['perc-0']) + "%, percentage of 1 label:" + str(balance['perc-1']))
+    return balance
+
 
 @gin.configurable
 def load(name, data_dir):
     if name == "idrid":
         logging.info(f"Preparing dataset {name}...")
-        # ...
-
-        return
+        (ds_train, ds_val, ds_test), ds_info = tfds.load(
+            'idrid',
+            split=['train[:80%]', 'train[80%:]', 'test'],
+            shuffle_files=True,
+            as_supervised=True,
+            with_info=True,
+            data_dir=data_dir
+        )
+        # train_balance = check_distribution(ds_train)
+        # val_balance = check_distribution(ds_val)
+        # test_balance = check_distribution(ds_test)
+        return prepare(ds_train, ds_val, ds_test, ds_info)
 
     elif name == "eyepacs":
         logging.info(f"Preparing dataset {name}...")
@@ -42,21 +66,22 @@ def load(name, data_dir):
             with_info=True,
             data_dir=data_dir
         )
-
         return prepare(ds_train, ds_val, ds_test, ds_info)
 
     else:
         raise ValueError
 
+
 @gin.configurable
 def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
+
     # Prepare training dataset
     ds_train = ds_train.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    # visualize(ds_train)
     if caching:
         ds_train = ds_train.cache()
-    ds_train = ds_train.map(
-        augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.repeat(-1)
@@ -79,3 +104,4 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
     return ds_train, ds_val, ds_test, ds_info
+

@@ -1,3 +1,4 @@
+
 # Architectures
 vgg_like.base_filters = 8
 vgg_like.n_blocks = 3
@@ -13,9 +14,14 @@ Trainer.log_interval = 1e4
 Trainer.ckpt_interval = 1e4
 
 # Input pipeline
-load.name = 'mnist'
-load.data_dir = '/home/data/tensorflow_datasets'
-preprocess.img_height = 28
-preprocess.img_width = 28
+#load.name = 'mnist'
+load.name = 'idrid'
+load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
+preprocess.img_height = 256 #28
+preprocess.img_width = 256 #28
+preprocess.ds_name = "idrid"
+visualize.img_height = 256 #28
+visualize.img_width = 256 #28
+visualize.num_pics = 3
 prepare.batch_size = 32
 prepare.caching = False
