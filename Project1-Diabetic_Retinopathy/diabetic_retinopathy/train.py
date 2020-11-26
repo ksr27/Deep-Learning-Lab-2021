@@ -1,12 +1,13 @@
 import gin
 import tensorflow as tf
 import logging
+import datetime
 
 @gin.configurable
 class Trainer(object):
     def __init__(self, model, ds_train, ds_val, ds_info, run_paths, total_steps, log_interval, ckpt_interval):
         # Summary Writer
-        # ....
+        self.summary_writer = tf.summary.create_file_writer(log_dir="logs/scalars/" + datetime.now().strftime("%Y%m%d-%H%M%S"))
 
         # Checkpoint Manager
         # ...
@@ -76,12 +77,16 @@ class Trainer(object):
                                              self.test_loss.result(),
                                              self.test_accuracy.result() * 100))
 
+                # Write summary to tensorboard
+                with self.summary_writer.as_default():
+                    tf.summary.scalar('Train loss', self.train_loss.result(), step=step)
+                    tf.summary.scalar('Train accuracy', self.train_accuracy.result(), step=step)
+                    tf.summary.scalar('Test loss', self.test_loss.result(), step=step)
+                    tf.summary.scalar('Test accuracy', self.test_accuracy.result(), step=step)
+
                 # Reset train metrics
                 self.train_loss.reset_states()
                 self.train_accuracy.reset_states()
-
-                # Write summary to tensorboard
-                # ...
 
                 yield self.test_accuracy.result().numpy()
 
@@ -95,3 +100,4 @@ class Trainer(object):
                 # Save final checkpoint
                 # ...
                 return self.test_accuracy.result().numpy()
+
