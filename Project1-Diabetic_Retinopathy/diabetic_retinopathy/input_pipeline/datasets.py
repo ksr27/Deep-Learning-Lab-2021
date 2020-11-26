@@ -78,7 +78,8 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # Prepare training dataset
     ds_train = ds_train.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    # visualize(ds_train)
+
+    visualize(ds_train)
     if caching:
         ds_train = ds_train.cache()
     ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)

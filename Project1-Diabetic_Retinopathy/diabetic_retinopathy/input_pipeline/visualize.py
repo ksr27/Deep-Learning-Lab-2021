@@ -3,7 +3,7 @@ import datetime
 import gin
 
 @gin.configurable
-def visualize(ds, img_height, img_width, num_pics):
+def visualize(ds, num_pics):
     logdir = "logs/img" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")  # Sets up a timestamped log directory.
     file_writer = tf.summary.create_file_writer(logdir)  # Creates a file writer for the log directory.
 
@@ -14,4 +14,4 @@ def visualize(ds, img_height, img_width, num_pics):
 
     # Using the file writer, log the images to tensorboard
     with file_writer.as_default():
-        tf.summary.image("random image", images, max_outputs=num_pics)
+        tf.summary.image("random image", images, max_outputs=num_pics, step=0)
