@@ -18,7 +18,7 @@ def visualize(ds, img_height, img_width, num_pics):
 
     # Using the file writer, log the images to tensorboard
     with file_writer.as_default():
-        tf.summary.image("random image", images, max_outputs=num_pics)
+        tf.summary.image("random image", images, max_outputs=num_pics, step = 0)
 
 @gin.configurable
 def plot_confusion_matrix(cm, class_names):
