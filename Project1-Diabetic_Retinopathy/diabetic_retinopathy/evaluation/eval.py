@@ -46,7 +46,7 @@ def evaluate(model, ds_test, ds_info, run_paths): #checkpoint,
         tf.summary.scalar('Eval loss', loss.result(), step=0)
         tf.summary.scalar('Eval accuracy', accuracy.result(), step=0)
         tf.summary.image('Eval confusion matrix',
-                          plot_to_image(plot_confusion_matrix(confusion_matrix.result(),class_names=['0', '1'])),
+                          plot_to_image(plot_confusion_matrix(confusion_matrix.result(),class_names=['1', '0'])),
                           step=0)
         tf.summary.scalar('Eval sensitivity', sensitivity.result(), step=0)
         tf.summary.scalar('Eval specificity', specificity.result(), step=0)

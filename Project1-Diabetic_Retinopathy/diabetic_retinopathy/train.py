@@ -124,7 +124,7 @@ class Trainer(object):
                     tf.summary.scalar('Train accuracy', self.train_accuracy.result(), step=step)
                     tf.summary.image('Train Confusion Matrix',
                                      plot_to_image(plot_confusion_matrix(self.train_confusion_matrix.result(),
-                                                                         class_names=['0', '1'])),
+                                                                         class_names=['1', '0'])),
                                      step=step)
                     tf.summary.scalar('Train sensitivity', self.train_sensitivity.result(), step=step)
                     tf.summary.scalar('Train specificity', self.train_specificity.result(), step=step)
@@ -135,7 +135,7 @@ class Trainer(object):
                     tf.summary.scalar('Test accuracy', self.test_accuracy.result(), step=step)
                     tf.summary.image('Test Confusion Matrix',
                                      plot_to_image(plot_confusion_matrix(self.test_confusion_matrix.result(),
-                                                                         class_names=['0', '1'])),
+                                                                         class_names=['1', '0'])),
                                      step=step)
                     tf.summary.scalar('Test sensitivity', self.test_sensitivity.result(), step=step)
                     tf.summary.scalar('Test specificity', self.test_specificity.result(), step=step)
