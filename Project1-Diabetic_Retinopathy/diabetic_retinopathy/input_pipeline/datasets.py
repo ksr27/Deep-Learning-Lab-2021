@@ -19,6 +19,17 @@ def check_distribution(dataset):
     print("percentage of 0 label:" + str(balance['perc-0']) + "%, percentage of 1 label:" + str(balance['perc-1']))
     return balance
 
+@tf.function
+def balance_ds(ds):
+    ## returns ds with pos and neg example always following after each other: [0,1,0,1,0,1,...]
+    ds_pos = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 1), []))
+    ds_neg = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 0), [])).repeat()
+    ds = tf.data.Dataset.zip((ds_pos, ds_neg))
+
+    ds = ds.flat_map(
+        lambda ex_pos, ex_neg: tf.data.Dataset.from_tensors(ex_pos).concatenate(
+            tf.data.Dataset.from_tensors(ex_neg)))
+    return ds
 
 @gin.configurable
 def load(name, data_dir):
@@ -78,11 +89,13 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # Prepare training dataset
     ds_train = ds_train.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    # visualize(ds_train)
+
+    visualize(ds_train)
     if caching:
         ds_train = ds_train.cache()
     ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
+    ds_train = balance_ds(ds_train)
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.repeat(-1)
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)

@@ -1,6 +1,7 @@
 import gin
 import tensorflow as tf
 
+@tf.function
 @gin.configurable
 def preprocess(image, label, img_height, img_width,ds_name):
     """Dataset preprocessing: Normalizing and resizing"""
@@ -17,7 +18,7 @@ def preprocess(image, label, img_height, img_width,ds_name):
     image = tf.image.resize(image, size=(img_height, img_width))
     return image, label
 
-
+@tf.function
 def augment(image, label):
     """Data augmentation"""
 
