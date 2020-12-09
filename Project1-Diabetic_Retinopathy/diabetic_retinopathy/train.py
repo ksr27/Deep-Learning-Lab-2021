@@ -12,12 +12,15 @@ class Trainer(object):
         self.summary_writer = tf.summary.create_file_writer("logs/train/"
                                                             + datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 
-        # Checkpoint Manager
-        # ...
-
         # Loss objective
         self.loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
         self.optimizer = tf.keras.optimizers.Adam()
+
+        # Checkpoint Manager
+        self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=self.optimizer,
+                                        net=model, iterator=iter(ds_train))
+        self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts', max_to_keep=3)
+
 
         # Metrics
         self.train_loss = tf.keras.metrics.Mean(name='train_loss')
@@ -79,6 +82,13 @@ class Trainer(object):
         self.test_roc_auc.update_state(labels, predictions)
 
     def train(self):
+
+        self.ckpt.restore(self.manager.latest_checkpoint)
+        if self.manager.latest_checkpoint:
+            logging.info("Restored from {}".format(self.manager.latest_checkpoint))
+        else:
+            logging.info("Initializing from scratch.")
+
         for idx, (images, labels) in enumerate(self.ds_train):
 
             step = idx + 1
@@ -153,13 +163,14 @@ class Trainer(object):
 
                 yield self.test_accuracy.result().numpy()
 
-            if step % self.ckpt_interval == 0:
-                logging.info(f'Saving checkpoint to {self.run_paths["path_ckpts_train"]}.')
                 # Save checkpoint
-                # ...
+           # self.ckpt.step.assign_add(1)
+            if step % self.ckpt_interval == 0:
+                save_path = self.manager.save()
+                logging.info(f'Saving checkpoint to {self.run_paths["path_ckpts_train"]}.')
 
             if step % self.total_steps == 0:
                 logging.info(f'Finished training after {step} steps.')
                 # Save final checkpoint
-                # ...
+                save_path = self.manager.save()
                 return self.test_accuracy.result().numpy()

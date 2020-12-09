@@ -4,6 +4,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from input_pipeline.preprocessing import preprocess, augment
 from input_pipeline.visualize import visualize
+import numpy as np
 
 def check_distribution(dataset):
     # check class balance
@@ -18,6 +19,8 @@ def check_distribution(dataset):
     balance['perc-1'] = 100 * balance['1'] / (balance['0'] + balance['1'])
     print("percentage of 0 label:" + str(balance['perc-0']) + "%, percentage of 1 label:" + str(balance['perc-1']))
     return balance
+
+
 
 @tf.function
 def balance_ds(ds):
@@ -103,6 +106,7 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # Prepare validation dataset
     ds_val = ds_val.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_val = balance_ds(ds_val)
     ds_val = ds_val.batch(batch_size)
     if caching:
         ds_val = ds_val.cache()
@@ -111,6 +115,7 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # Prepare test dataset
     ds_test = ds_test.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_test = balance_ds(ds_test)
     ds_test = ds_test.batch(batch_size)
     if caching:
         ds_test = ds_test.cache()

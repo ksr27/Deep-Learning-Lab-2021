@@ -1,22 +1,26 @@
 
 # Architectures
-vgg_like.base_filters = 8
+#vgg_like.base_filters = 8
 vgg_like.n_blocks = 3
-vgg_like.dense_units = 32
-vgg_like.dropout_rate = 0.2
+#vgg_like.dense_units = 32
+#vgg_like.dropout_rate = 0.2
+
+vgg_like.base_filters=[8, 16, 32, 64]
+vgg_like.dense_units=[8, 16, 32, 64]
+vgg_like.dropout_rates =[0.1, 0.2, 0.3, 0.4, 0.5]
 
 # Layers
 vgg_block.kernel_size = (3, 3)
 
 # Training
-Trainer.total_steps = 1e5
-Trainer.log_interval = 1e4
-Trainer.ckpt_interval = 1e4
+Trainer.total_steps = 1
+Trainer.log_interval = 1e1
+Trainer.ckpt_interval = 1
 
 # Input pipeline
 #load.name = 'mnist'
 load.name = 'idrid'
-load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
+load.data_dir = 'C:/Users/ASUS/tensorflow_datasets/'
 preprocess.img_height = 256 #28
 preprocess.img_width = 256 #28
 preprocess.ds_name = "idrid"

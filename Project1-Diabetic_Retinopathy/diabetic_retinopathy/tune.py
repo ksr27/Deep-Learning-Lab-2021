@@ -42,7 +42,7 @@ analysis = tune.run(
         "vgg_like.base_filters": tune.choice([8, 16]),
         "vgg_like.n_blocks": tune.choice([2, 3, 4, 5]),
         "vgg_like.dense_units": tune.choice([32, 64]),
-        "vgg_like.dropout_rate": tune.uniform(0, 0.9),
+        "vgg_like.dropout_rate": tune.uniform(0.1, 0.9),
     })
 
 print("Best config: ", analysis.get_best_config(metric="val_accuracy"))
