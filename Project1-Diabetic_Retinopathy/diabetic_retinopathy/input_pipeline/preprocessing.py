@@ -1,6 +1,8 @@
 import gin
 import tensorflow as tf
+import imgaug.augmenters as iaa
 
+@tf.function
 @gin.configurable
 def preprocess(image, label, img_height, img_width,ds_name):
     """Dataset preprocessing: Normalizing and resizing"""
@@ -17,10 +19,13 @@ def preprocess(image, label, img_height, img_width,ds_name):
     image = tf.image.resize(image, size=(img_height, img_width))
     return image, label
 
-
+@tf.function
 def augment(image, label):
     """Data augmentation"""
 
-    return image, label
+    flipped_image = tf.image.flip_left_right(image)
+    rotated_image = tf.image.rot90(flipped_image)
+    cropped_image = tf.image.central_crop(rotated_image, central_fraction=0.8)
+    return cropped_image, label
 
 

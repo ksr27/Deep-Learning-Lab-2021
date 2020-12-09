@@ -2,7 +2,7 @@ import tensorflow as tf
 
 
 class ConfusionMatrix(tf.keras.metrics.Metric):
-    
+
     def __init__(self, name="confusion_matrix", **kwargs):
         super(ConfusionMatrix, self).__init__(name=name, **kwargs)
         # ...
@@ -30,7 +30,7 @@ class ConfusionMatrix(tf.keras.metrics.Metric):
 
 
 class Accuracy(tf.keras.metrics.Metric):
-    
+
     def __init__(self, name="accuracy"):
         super(Accuracy, self).__init__(name=name)
         self.true_positives = self.add_weight(name='tp', initializer='zeros')
@@ -58,7 +58,7 @@ class Accuracy(tf.keras.metrics.Metric):
 
 
 class Sensitivity(tf.keras.metrics.Metric):
-    
+
     def __init__(self, name="sensitivity"):
         super(Sensitivity, self).__init__(name=name)
         self.true_positives = self.add_weight(name='tp', initializer='zeros')

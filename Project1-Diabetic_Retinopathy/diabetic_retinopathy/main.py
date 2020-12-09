@@ -33,6 +33,12 @@ def main(argv):
         trainer = Trainer(model, ds_train, ds_val, ds_info, run_paths)
         for _ in trainer.train():
             continue
+
+        evaluate(model,
+                 #checkpoint,
+                 ds_test,
+                 ds_info,
+                 run_paths)
     else:
         evaluate(model,
                  #checkpoint,
