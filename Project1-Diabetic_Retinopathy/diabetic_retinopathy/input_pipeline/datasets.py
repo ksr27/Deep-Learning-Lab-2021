@@ -2,8 +2,10 @@ import gin
 import logging
 import tensorflow as tf
 import tensorflow_datasets as tfds
-from input_pipeline.preprocessing import preprocess, augment
+from input_pipeline.preprocessing import preprocess1, preprocess2, augment, histogram_equalization
 from input_pipeline.visualize import visualize
+import cv2
+import numpy as np
 
 def check_distribution(dataset):
     # check class balance
@@ -88,21 +90,38 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     # Prepare training dataset
     ds_train = ds_train.map(
-        preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
-    # visualize(ds_train)
+    for image,label in ds_train:
+        #cv2.imwrite("prev_he_img.png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+        image = histogram_equalization(image)
+        #cv2.imwrite("he_img.png",cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+    #visualize(ds_train)
+    # Prepare training dataset
+    ds_train = ds_train.map(
+        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    #visualize(ds_train)
+
     if caching:
         ds_train = ds_train.cache()
     ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
     ds_train = balance_ds(ds_train)
+
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.repeat(-1)
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)
 
     # Prepare validation dataset
     ds_val = ds_val.map(
-        preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    for image,label in ds_val:
+        image = histogram_equalization(image)
+    # Prepare training dataset
+    ds_val = ds_val.map(
+        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+    ds_val = balance_ds(ds_val)
     ds_val = ds_val.batch(batch_size)
     if caching:
         ds_val = ds_val.cache()
@@ -110,7 +129,13 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     # Prepare test dataset
     ds_test = ds_test.map(
-        preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    for image,label in ds_test:
+        image = histogram_equalization(image)
+
+    ds_test = ds_test.map(
+        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_test = balance_ds(ds_test)
     ds_test = ds_test.batch(batch_size)
     if caching:
         ds_test = ds_test.cache()

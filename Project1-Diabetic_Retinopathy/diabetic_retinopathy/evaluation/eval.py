@@ -6,7 +6,12 @@ import datetime
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
 
 @gin.configurable
-def evaluate(model, ds_test, ds_info, run_paths): #checkpoint,
+def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
+
+    # restore latest checkpoint
+    ckpt = tf.train.Checkpoint(net=model)
+    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial()
+
     # init loss and metrics
     loss = tf.keras.metrics.SparseCategoricalCrossentropy(name='eval_loss', from_logits=True)
     accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
@@ -36,9 +41,9 @@ def evaluate(model, ds_test, ds_info, run_paths): #checkpoint,
     logging.info(template.format(loss.result(),
                                  accuracy.result() * 100,
                                  confusion_matrix.result(),
-                                 sensitivity.result(),
-                                 specificity.result(),
-                                 f1_score.result(),
+                                 sensitivity.result()*100,
+                                 specificity.result()*100,
+                                 f1_score.result()*100,
                                  roc_auc.result()))
 
     # Write evaluation summary to tensorboard
