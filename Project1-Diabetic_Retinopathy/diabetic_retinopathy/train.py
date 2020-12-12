@@ -81,9 +81,9 @@ class Trainer(object):
         self.test_f1_score.update_state(labels, predictions)
         self.test_roc_auc.update_state(labels, predictions)
 
-    def train(self):
-
-        self.ckpt.restore(self.manager.latest_checkpoint)
+    def train(self,restore_ckpt=True):
+        if restore_ckpt:
+            self.ckpt.restore(self.manager.latest_checkpoint)
         if self.manager.latest_checkpoint:
             logging.info("Restored from {}".format(self.manager.latest_checkpoint))
         else:

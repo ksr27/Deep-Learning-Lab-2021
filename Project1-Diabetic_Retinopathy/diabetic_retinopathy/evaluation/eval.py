@@ -55,4 +55,4 @@ def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
         tf.summary.scalar('Eval specificity', specificity.result(), step=0)
         tf.summary.scalar('Eval F1 Score', f1_score.result(), step=0)
         tf.summary.scalar('Eval ROC AUC', roc_auc.result(), step=0)
-    return
+    return accuracy.result()

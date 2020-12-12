@@ -9,9 +9,13 @@ def gen_run_folder(path_model_id=''):
         path_model_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'experiments'))
         date_creation = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S-%f')
         run_id = 'run_' + date_creation
-        if path_model_id:
+        #path_model_id = path_model_id.replace(".","-")
+
+        if len(path_model_id)>0:
             run_id += '_' + path_model_id
         run_paths['path_model_id'] = os.path.join(path_model_root, run_id)
+        print(run_paths)
+
     else:
         run_paths['path_model_id'] = path_model_id
 

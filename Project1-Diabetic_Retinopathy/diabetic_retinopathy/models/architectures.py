@@ -3,21 +3,19 @@ import tensorflow as tf
 
 from models.layers import vgg_block
 
+
+
 @gin.configurable
-def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropout_rates):
+def vgg_like(input_shape, n_classes, base_filter, n_blocks, dense_unit, dropout_rate):
 
-    for base_filter in range(4):
-        for dense_unit in range(4):
-            for dropout_rate in range(5):
-
-                inputs = tf.keras.Input(input_shape)
-                out = vgg_block(inputs, base_filters[base_filter])
-                for i in range(2, n_blocks):
-                    out = vgg_block(out, base_filters[base_filter] * 2 ** (i))
-                out = tf.keras.layers.GlobalAveragePooling2D()(out)
-                out = tf.keras.layers.Dense(dense_units[dense_unit], activation=tf.nn.relu)(out)
-                out = tf.keras.layers.Dropout(dropout_rates[dropout_rate])(out)
-                outputs = tf.keras.layers.Dense(n_classes, activation=tf.nn.softmax)(out)
+    inputs = tf.keras.Input(input_shape)
+    out = vgg_block(inputs, base_filter)
+    for i in range(2, n_blocks):
+        out = vgg_block(out, base_filter * 2 ** (i))
+    out = tf.keras.layers.GlobalAveragePooling2D()(out)
+    out = tf.keras.layers.Dense(dense_unit, activation=tf.nn.relu)(out)
+    out = tf.keras.layers.Dropout(dropout_rate)(out)
+    outputs = tf.keras.layers.Dense(n_classes, activation=tf.nn.softmax)(out)
 
     return tf.keras.Model(inputs=inputs, outputs=outputs, name='vgg_like')
 

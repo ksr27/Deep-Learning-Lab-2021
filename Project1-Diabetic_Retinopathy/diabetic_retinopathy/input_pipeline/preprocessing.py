@@ -1,6 +1,7 @@
 import gin
 import tensorflow as tf
 import imgaug.augmenters as iaa
+import tensorflow_addons as tfa
 
 @tf.function
 @gin.configurable
@@ -26,6 +27,7 @@ def augment(image, label):
     flipped_image = tf.image.flip_left_right(image)
     rotated_image = tf.image.rot90(flipped_image)
     cropped_image = tf.image.central_crop(rotated_image, central_fraction=0.8)
-    return cropped_image, label
+    different_rotate = tfa.image.transform_ops.rotate(cropped_image, 1.0472)
+    return different_rotate, label
 
 
