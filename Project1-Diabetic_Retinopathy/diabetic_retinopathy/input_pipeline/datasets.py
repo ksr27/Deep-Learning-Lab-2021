@@ -106,7 +106,13 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # visualize(ds_train)
     if caching:
         ds_train = ds_train.cache()
-    ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_train_aug = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    print(len(ds_train_aug))
+    ds_train = ds_train.concatenate(ds_train_aug)
+
+    #ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+    print(len(ds_train))
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
     ds_train = balance_ds(ds_train)
     ds_train = ds_train.batch(batch_size)

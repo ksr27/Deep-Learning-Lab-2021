@@ -2,6 +2,8 @@ import gin
 import tensorflow as tf
 import imgaug.augmenters as iaa
 import tensorflow_addons as tfa
+import matplotlib.pyplot as plt
+
 
 @tf.function
 @gin.configurable
@@ -23,11 +25,10 @@ def preprocess(image, label, img_height, img_width,ds_name):
 @tf.function
 def augment(image, label):
     """Data augmentation"""
-
     flipped_image = tf.image.flip_left_right(image)
     rotated_image = tf.image.rot90(flipped_image)
-    cropped_image = tf.image.central_crop(rotated_image, central_fraction=0.8)
-    different_rotate = tfa.image.transform_ops.rotate(cropped_image, 1.0472)
-    return different_rotate, label
-
+    #cropped_image = tf.image.central_crop(rotated_image, central_fraction=0.8)
+    transposed_image= tf.image.transpose(rotated_image)
+    #different_rotate = tfa.image.transform_ops.rotate(transposed_image, 1.0472)
+    return transposed_image, label
 

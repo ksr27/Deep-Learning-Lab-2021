@@ -14,7 +14,7 @@ def gen_run_folder(path_model_id=''):
         if len(path_model_id)>0:
             run_id += '_' + path_model_id
         run_paths['path_model_id'] = os.path.join(path_model_root, run_id)
-        print(run_paths)
+        #print(run_paths)
 
     else:
         run_paths['path_model_id'] = path_model_id

@@ -7,8 +7,9 @@ from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
 
 @gin.configurable
 def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
-    ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=model.optimizer,net=model, iterator=iter(ds_test))
-    ckpt.restore(checkpoint)
+ #   if checkpoint is not None:
+  #      ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=model.optimizer,net=model, iterator=iter(ds_test))
+  #      ckpt.restore(checkpoint)
 
     # init loss and metrics
     loss = tf.keras.metrics.SparseCategoricalCrossentropy(name='eval_loss', from_logits=True)
