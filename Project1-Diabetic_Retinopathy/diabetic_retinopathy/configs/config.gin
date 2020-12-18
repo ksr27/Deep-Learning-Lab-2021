@@ -3,6 +3,7 @@
 vgg_like.base_filter = 8
 vgg_like.n_blocks = 3
 vgg_like.dense_unit = 64
+vgg_like.dropout_rate = 0.15
 
 
 # Layers
