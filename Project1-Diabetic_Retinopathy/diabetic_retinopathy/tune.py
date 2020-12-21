@@ -21,7 +21,7 @@ def train_func(config):
     utils_misc.set_loggers(run_paths['path_logs_train'], logging.INFO)
 
     # gin-config
-    gin.parse_config_files_and_bindings(['/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/configs/config.gin'], bindings)
+    gin.parse_config_files_and_bindings(['/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/configs/config.gin'], [])
     utils_params.save_config(run_paths['path_gin'], gin.config_str())
 
     # setup pipeline
@@ -43,9 +43,9 @@ analysis = tune.run(
         "vgg_like.base_filters": tune.choice([8,16]),
         "vgg_like.n_blocks": tune.choice([3, 4, 6]),
         "vgg_like.dense_units": tune.choice([32, 64]),
-        "vgg_like.dropout_rate": tune.uniform(0.1, 0.4),
+        "vgg_like.dropout_rate": tune.choice([0.1, 0.2, 0.3, 0.4]),
         "apply_clahe.clip_limit": tune.choice([2.0,4.0,6.0]),
-        "prepare.batch_size": tune.choice([16,32]),
+        "prepare.batch_size": tune.choice([16,32])
     })
 
 print("Best config for val accuracy: ", analysis.get_best_config(metric="val_accuracy",mode="max", scope="all"))

@@ -179,10 +179,10 @@ class Trainer(object):
                 with self.summary_writer.as_default():
                     tf.summary.scalar('Train loss', self.train_loss.result(), step=step)
                     tf.summary.scalar('Train accuracy', self.train_accuracy.result(), step=step)
-                    tf.summary.image('Train Confusion Matrix',
-                                     plot_to_image(plot_confusion_matrix(self.train_confusion_matrix.result(),
-                                                                         class_names=['1', '0'])),
-                                     step=step)
+                    #tf.summary.image('Train Confusion Matrix',
+                    #                 plot_to_image(plot_confusion_matrix(self.train_confusion_matrix.result(),
+                    #                                                     class_names=['1', '0'])),
+                    #                 step=step)
                     tf.summary.scalar('Train sensitivity', self.train_sensitivity.result(), step=step)
                     tf.summary.scalar('Train specificity', self.train_specificity.result(), step=step)
                     tf.summary.scalar('Train F1 Score', self.train_f1_score.result(), step=step)
@@ -190,10 +190,10 @@ class Trainer(object):
 
                     tf.summary.scalar('Test loss', self.test_loss.result(), step=step)
                     tf.summary.scalar('Test accuracy', self.test_accuracy.result(), step=step)
-                    tf.summary.image('Test Confusion Matrix',
-                                     plot_to_image(plot_confusion_matrix(self.test_confusion_matrix.result(),
-                                                                         class_names=['1', '0'])),
-                                     step=step)
+                    #tf.summary.image('Test Confusion Matrix',
+                    #                 plot_to_image(plot_confusion_matrix(self.test_confusion_matrix.result(),
+                    #                                                     class_names=['1', '0'])),
+                    #                 step=step)
                     tf.summary.scalar('Test sensitivity', self.test_sensitivity.result(), step=step)
                     tf.summary.scalar('Test specificity', self.test_specificity.result(), step=step)
                     tf.summary.scalar('Test F1 Score', self.test_f1_score.result(), step=step)
@@ -213,7 +213,7 @@ class Trainer(object):
             # Save checkpoint
             if step % self.ckpt_interval == 0:
                 save_path = self.manager.save()
-                logging.info(f'Saving checkpoint to /tf_cpkt/{self.timestamp}.')
+                #logging.info(f'Saving checkpoint to /tf_cpkt/{self.timestamp}.')
 
             if step % self.total_steps == 0:
                 logging.info(f'Finished training after {step} steps.')
