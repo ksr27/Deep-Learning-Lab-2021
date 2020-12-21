@@ -16,7 +16,7 @@
         "label": {
             "type": "tensorflow_datasets.core.features.class_label_feature.ClassLabel",
             "content": {
-                "num_classes": 6
+                "num_classes": 2
             }
         }
     }

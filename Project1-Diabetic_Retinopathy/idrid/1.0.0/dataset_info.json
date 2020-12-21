@@ -1,6 +1,6 @@
 {
   "citation": "@data{h25w98-18,\ndoi = {10.21227/H25W98},\nurl = {https://dx.doi.org/10.21227/H25W98},\nauthor = {Prasanna Porwal; Samiksha Pachade; Ravi Kamble; Manesh Kokare; Girish Deshmukh; Vivek Sahasrabuddhe; Fabrice Meriaudeau },\npublisher = {IEEE Dataport},\ntitle = {Indian Diabetic Retinopathy Image Dataset (IDRiD)},\nyear = {2018} }",
-  "description": "Indian Diabetic Retinopathy Image Dataset (IDRiD), B. Disease Grading: \nit consists of\n1. Original color fundus images (516 images divided into train set (413 images) and test set (103 images) - JPG Files)\n2. Groundtruth Labels for Diabetic Retinopathy and Diabetic Macular Edema Severity Grade (Divided into train and test set - CSV File)",
+  "description": "Indian Diabetic Retinopathy Image Dataset (IDRiD), B. Disease Grading, it consists of:\n1. Original color fundus images (516 images divided into train set (413 images) and test set (103 images) - JPG Files)\n2. Groundtruth Labels for Diabetic Retinopathy and Diabetic Macular Edema Severity Grade (Divided into train and test \n   set - CSV File)",
   "location": {
     "urls": [
       "https://idrid.grand-challenge.org"
