@@ -2,7 +2,7 @@ import gin
 import logging
 import tensorflow as tf
 import tensorflow_datasets as tfds
-from input_pipeline.preprocessing import preprocess1, preprocess2, augment, histogram_equalization
+from input_pipeline.preprocessing import preprocess, preprocess2, augment, apply_clahe, he_tf
 from input_pipeline.visualize import visualize
 import cv2
 import numpy as np
@@ -22,10 +22,18 @@ def check_distribution(dataset):
     return balance
 
 @tf.function
-def balance_ds(ds):
+def balance_ds(ds, aug_ds,aug_flag):
     ## returns ds with pos and neg example always following after each other: [0,1,0,1,0,1,...]
-    ds_pos = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 1), []))
-    ds_neg = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 0), [])).repeat()
+    ds_pos = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 1), []))
+    if aug_flag:
+        ds_neg = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 0), [])) #.repeat()
+        aug_ds_pos = aug_ds.filter(lambda image,label: tf.reshape(tf.equal(label, 1), []))
+        aug_ds_neg = aug_ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), []))
+        ds_neg = ds_neg.concatenate(aug_ds_neg)
+        #len_pos = [i for i, _ in enumerate(ds_pos)][-1] + 1
+        ds_pos = ds_pos.concatenate(aug_ds_pos.take(39)) #= len(ds_neg)- len(ds_pos) = (330-207)*2-207 #(len(ds)-len_pos)*2-len_pos)
+    else:
+        ds_neg = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), [])).repeat()
     ds = tf.data.Dataset.zip((ds_pos, ds_neg))
 
     ds = ds.flat_map(
@@ -90,38 +98,42 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     # Prepare training dataset
     ds_train = ds_train.map(
-        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
+    #visualize(ds_train)
+    #i=0
     for image,label in ds_train:
-        #cv2.imwrite("prev_he_img.png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
-        image = histogram_equalization(image)
-        #cv2.imwrite("he_img.png",cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
-    #visualize(ds_train)
-    # Prepare training dataset
-    ds_train = ds_train.map(
-        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    #visualize(ds_train)
+        #if(i<10):
+        #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/prev_he_img"+str(i)+".png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+        image = apply_clahe(image)
+        image = tf.convert_to_tensor(image)
+        #if (i < 10):
+        #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/he_img" + str(i) + ".png",cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+        #i = i+1
 
+    # Prepare training dataset
+    ds_train = ds_train.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     if caching:
-        ds_train = ds_train.cache()
-    ds_train = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+            ds_train = ds_train.cache()
+    # Data augmentation
+    ds_train_aug = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    #visualize(ds_train_aug)
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
-    ds_train = balance_ds(ds_train)
+    ds_train = balance_ds(ds_train,ds_train_aug,True)
 
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.repeat(-1)
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)
 
     # Prepare validation dataset
-    ds_val = ds_val.map(
-        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    for image,label in ds_val:
-        image = histogram_equalization(image)
-    # Prepare training dataset
-    ds_val = ds_val.map(
-        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_val = ds_val.map(preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    for image, label in ds_val:
+        image = apply_clahe(image)
+        image = tf.convert_to_tensor(image)
 
-    ds_val = balance_ds(ds_val)
+    # Prepare validation dataset
+    ds_val = ds_val.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_val = balance_ds(ds_val,ds_train_aug,False)
     ds_val = ds_val.batch(batch_size)
     if caching:
         ds_val = ds_val.cache()
@@ -129,13 +141,13 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     # Prepare test dataset
     ds_test = ds_test.map(
-        preprocess1, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    for image,label in ds_test:
-        image = histogram_equalization(image)
-
-    ds_test = ds_test.map(
-        preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    ds_test = balance_ds(ds_test)
+        preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    for image, label in ds_test:
+        image = apply_clahe(image)
+        image = tf.convert_to_tensor(image)
+    # Prepare test dataset
+    ds_test = ds_test.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+    ds_test = balance_ds(ds_test,ds_train_aug,False)
     ds_test = ds_test.batch(batch_size)
     if caching:
         ds_test = ds_test.cache()

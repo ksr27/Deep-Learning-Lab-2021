@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import itertools
 import io
+import cv2
 
 @gin.configurable
 def visualize(ds, img_height, img_width, num_pics):
@@ -14,11 +15,12 @@ def visualize(ds, img_height, img_width, num_pics):
     images = []
     for image, label in ds.take(num_pics):  # take 3 random elements of ds
         image = tf.cast(image*255, tf.uint8) #scale back to 0-255 and convert to uint
+        cv2.imwrite("img"+ datetime.datetime.now().strftime("%Y%m%d-%H%M%S")+".png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
         images.append(image)
 
     # Using the file writer, log the images to tensorboard
-    with file_writer.as_default():
-        tf.summary.image("random image", images, max_outputs=num_pics, step = 0)
+    #with file_writer.as_default():
+    #    tf.summary.image("random image", images, max_outputs=num_pics, step = 0)
 
 @gin.configurable
 def plot_confusion_matrix(cm, class_names):

@@ -4,13 +4,17 @@ from evaluation.metrics import ConfusionMatrix, Accuracy, Sensitivity, Specifici
 import logging
 import datetime
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
+from shutil import copyfile
+from deep_visualization.grad_cam import grad_cam_wbp
 
 @gin.configurable
-def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
+def evaluate(model, checkpoint, ds_test, ds_train,visualize_flag, run_paths):
 
     # restore latest checkpoint
     ckpt = tf.train.Checkpoint(net=model)
-    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial()
+    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial() #tf.train.latest_checkpoint(checkpoint))
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     # init loss and metrics
     loss = tf.keras.metrics.SparseCategoricalCrossentropy(name='eval_loss', from_logits=True)
@@ -22,7 +26,7 @@ def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
     roc_auc = RocAuc()
 
     # create summary writer for tensorboard logging
-    summary_writer = tf.summary.create_file_writer("logs/eval/"+datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+    summary_writer = tf.summary.create_file_writer("logs/eval/"+timestamp)
 
     # run model on each image and get loss+ metric values
     for (images, labels) in ds_test:
@@ -57,4 +61,12 @@ def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
         tf.summary.scalar('Eval specificity', specificity.result(), step=0)
         tf.summary.scalar('Eval F1 Score', f1_score.result(), step=0)
         tf.summary.scalar('Eval ROC AUC', roc_auc.result(), step=0)
+
+    # log current config file
+    copyfile('./configs/config.gin', './logs/eval/' + timestamp + '/config.gin')
+
+    # run grad cam
+    if visualize_flag:
+        grad_cam_wbp(model, "conv2d_5", ds_train, timestamp, 1)
+
     return

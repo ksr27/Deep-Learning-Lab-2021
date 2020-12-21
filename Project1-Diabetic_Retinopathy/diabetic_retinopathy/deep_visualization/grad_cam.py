@@ -18,25 +18,23 @@ def guided_relu(x):
 
 
 @gin.configurable
-def grad_cam_wbp(model, checkpoint, layer, ds, class_index, img_height, img_width, num_of_batches):
-    # restore latest checkpoint
-    ckpt = tf.train.Checkpoint(net=model)
-    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial()
+def grad_cam_wbp(model, layer, ds, timestamp, class_index, img_height, img_width, num_of_batches):
 
     grad_model = tf.keras.models.Model([model.inputs], [model.get_layer(layer).output, model.output])
 
     # replace relu with custom gradient guided relu
-    for layer in grad_model.layers[1:]:
+    for layer in grad_model.layers[1:len(grad_model.layers)-1]:
         if hasattr(layer, 'activation'):
             layer.activation = guided_relu
 
     # create summary writer for tensorboard logging
-    path = "logs/gradcam/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    path = "logs/eval/" + timestamp+ "/gradcam"
     summary_writer = tf.summary.create_file_writer(path)
 
     for images, label in ds.take(num_of_batches):
         with tf.GradientTape() as tape:
-            conv_outputs, predictions = grad_model(images)
+            conv_outputs, predictions = grad_model(images, training=False)
+            pred_labels = tf.math.argmax(predictions, axis=1, output_type=tf.dtypes.int32)
             class_prediction = predictions[:, class_index]
 
         guided_grads = tape.gradient(class_prediction, conv_outputs)  # guided backpropagation
@@ -58,15 +56,14 @@ def grad_cam_wbp(model, checkpoint, layer, ds, class_index, img_height, img_widt
             comp_image = cv2.cvtColor(np.array(tf.cast(images[j, :, :, :] * 255, tf.uint8)), cv2.COLOR_RGB2BGR)
             cv2.imwrite(path + '/comp' + str(j) + '.png', comp_image)
             cv2.imwrite(path + '/cam_' + str(j) + '_class' + str(class_index) + '_label' + str(np.array(label))
-                        + '_pred' + str(np.array(class_prediction))+ '.png', output_image)
+                        + '_pred' + str(np.array(pred_labels))+ '.png', output_image)
 
             with summary_writer.as_default():
                 tf.summary.image(
-                    'Comparison' + str(j) + ' for class' + str(class_index) + ', label: ' + str(np.array(label)),
-                    tf.expand_dims(cv2.cvtColor(comp_image, cv2.COLOR_BGR2RGB), axis=0),
-                    step=0)
+                    'Comparison' + str(j),tf.expand_dims(cv2.cvtColor(comp_image, cv2.COLOR_BGR2RGB), axis=0), step=0)
                 tf.summary.image(
-                    'GradCam' + str(j) + ' for class' + str(class_index) + ', label: ' + str(np.array(label)),
+                    'GradCam' + str(j) + ' for class' + str(class_index) + ', label: ' + str(np.array(label))
+                    + '_pred' + str(np.array(pred_labels)),
                     tf.expand_dims(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB), axis=0),
                     step=0)
 
