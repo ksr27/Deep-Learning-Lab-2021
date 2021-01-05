@@ -9,12 +9,9 @@ vgg_like.dropout_rate = 0.25
 vgg_block.kernel_size = (3, 3)
 
 # Training
-Trainer.total_steps = 5e3 #1e5
-Trainer.log_interval = 2e2 #1e4
+Trainer.total_steps = 5e3
+Trainer.log_interval = 2e2
 Trainer.ckpt_interval = 2e2
-
-# Evaluation
-#evaluate.run_paths = '/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy'
 
 # Deep Visualization
 #grad_cam_wbp.num_of_batches = 1
@@ -24,14 +21,22 @@ Trainer.ckpt_interval = 2e2
 # Input pipeline
 load.name = 'idrid'
 load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
-preprocess.img_height = 256 #28
-preprocess.img_width = 256 #28
+
+preprocess.ds_name = 'idrid'
+preprocess.img_height = 256
+preprocess.img_width = 256
+preprocess.he_flag = True
+
 he_tf.img_height = 256
 he_tf.img_width = 256
+
+prepare.clahe_flag = True
+prepare.batch_size = 16
+prepare.caching = True
+
 apply_clahe.clip_limit = 2.0
-preprocess.ds_name = "idrid"
+
 #visualize.img_height = 256
 #visualize.img_width = 256
 #visualize.num_pics = 1
-prepare.batch_size = 16 #32
-prepare.caching = True #False
+

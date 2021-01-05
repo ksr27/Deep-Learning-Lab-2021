@@ -2,10 +2,9 @@ import gin
 import logging
 import tensorflow as tf
 import tensorflow_datasets as tfds
-from input_pipeline.preprocessing import preprocess, preprocess2, augment, apply_clahe, he_tf
+from input_pipeline.preprocessing import preprocess, preprocess2, augment, apply_clahe
 from input_pipeline.visualize import visualize
 import cv2
-import numpy as np
 
 def check_distribution(dataset):
     # check class balance
@@ -23,17 +22,28 @@ def check_distribution(dataset):
 
 @tf.function
 def balance_ds(ds, aug_ds,aug_flag):
+    """balances ds to equal amount of 0 and 1 labels by either augmenting or repeating
+
+    Parameters:
+        ds (tf.data.Dataset): datasets to balance
+        aug_ds (tf.data.Dataset): augmented dataset to use for balancing
+        aug_flag (bool): If true missing (img,label) pairs are taken from aug_ds, if false missing pairs are generated
+        by repeating existing samples
+
+    Returns:
+        ds (tf.data.Dataset): balanced dataset
+    """
     ## returns ds with pos and neg example always following after each other: [0,1,0,1,0,1,...]
     ds_pos = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 1), []))
+    ds_neg = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), []))
     if aug_flag:
-        ds_neg = ds.filter(lambda image,label: tf.reshape(tf.equal(label, 0), [])) #.repeat()
         aug_ds_pos = aug_ds.filter(lambda image,label: tf.reshape(tf.equal(label, 1), []))
         aug_ds_neg = aug_ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), []))
         ds_neg = ds_neg.concatenate(aug_ds_neg)
         #len_pos = [i for i, _ in enumerate(ds_pos)][-1] + 1
         ds_pos = ds_pos.concatenate(aug_ds_pos.take(39)) #= len(ds_neg)- len(ds_pos) = (330-207)*2-207 #(len(ds)-len_pos)*2-len_pos)
     else:
-        ds_neg = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), [])).repeat()
+        ds_neg = ds_neg.repeat()
     ds = tf.data.Dataset.zip((ds_pos, ds_neg))
 
     ds = ds.flat_map(
@@ -53,9 +63,6 @@ def load(name, data_dir):
             with_info=True,
             data_dir=data_dir
         )
-        # train_balance = check_distribution(ds_train)
-        # val_balance = check_distribution(ds_val)
-        # test_balance = check_distribution(ds_test)
         return prepare(ds_train, ds_val, ds_test, ds_info)
 
     elif name == "eyepacs":
@@ -94,7 +101,7 @@ def load(name, data_dir):
 
 
 @gin.configurable
-def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
+def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching, clahe_flag):
 
     # Prepare training dataset
     ds_train = ds_train.map(
@@ -102,14 +109,15 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     #visualize(ds_train)
     #i=0
-    for image,label in ds_train:
-        #if(i<10):
-        #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/prev_he_img"+str(i)+".png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
-        image = apply_clahe(image)
-        image = tf.convert_to_tensor(image)
-        #if (i < 10):
-        #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/he_img" + str(i) + ".png",cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
-        #i = i+1
+    if clahe_flag:
+        for image,label in ds_train:
+            #if(i<10):
+            #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/prev_he_img"+str(i)+".png", cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+            image = apply_clahe(image)
+            image = tf.convert_to_tensor(image)
+            #if (i < 10):
+            #    cv2.imwrite("./histogramEqualization/4.0-he-clahe/he_img" + str(i) + ".png",cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR))
+            #i = i+1
 
     # Prepare training dataset
     ds_train = ds_train.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
@@ -127,9 +135,10 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
 
     # Prepare validation dataset
     ds_val = ds_val.map(preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    for image, label in ds_val:
-        image = apply_clahe(image)
-        image = tf.convert_to_tensor(image)
+    if clahe_flag:
+        for image, label in ds_val:
+            image = apply_clahe(image)
+            image = tf.convert_to_tensor(image)
 
     # Prepare validation dataset
     ds_val = ds_val.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
@@ -142,9 +151,10 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching):
     # Prepare test dataset
     ds_test = ds_test.map(
         preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    for image, label in ds_test:
-        image = apply_clahe(image)
-        image = tf.convert_to_tensor(image)
+    if clahe_flag:
+        for image, label in ds_test:
+            image = apply_clahe(image)
+            image = tf.convert_to_tensor(image)
     # Prepare test dataset
     ds_test = ds_test.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_test = balance_ds(ds_test,ds_train_aug,False)

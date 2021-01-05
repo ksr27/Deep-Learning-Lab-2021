@@ -9,32 +9,66 @@ import random
 
 @gin.configurable
 def apply_clahe(img,clip_limit):
+    """applies contrast limited adaptive histogram equalization to image
+
+    Parameters:
+        img (int,int,int): input image (f.e. (256,256,3))
+        clip_limit (string): limit for amplification by clipping the histogram at this value
+
+    Returns:
+        img (int,int): image with clahe applied to it
+    """
+
     img_in = np.array(img)
-    #hsv = cv2.cvtColor(img_in, cv2.COLOR_RGB2HSV)
-    rgb = cv2.split(img_in)
     clahe = cv2.createCLAHE(clipLimit=clip_limit, tileGridSize=(8, 8))
-    rgb[0] = clahe.apply(rgb[0])
-    rgb[1] = clahe.apply(rgb[1])
-    rgb[2] = clahe.apply(rgb[2])
-    img = cv2.merge(rgb)
-    return img#cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+
+    # convert img to hsv (hue, saturation, value) format
+    hsv = cv2.cvtColor(img_in, cv2.COLOR_RGB2HSV)
+    hsv = cv2.split(hsv)
+
+    # apply clahe to value channel only
+    hsv[2] = clahe.apply(hsv[2])
+
+    hsv = cv2.merge(hsv)
+    #rgb[0] = clahe.apply(rgb[0])
+    #rgb[1] = clahe.apply(rgb[1])
+    #rgb[2] = clahe.apply(rgb[2])
+    return cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
 
 @gin.configurable
 @tf.function
 def he_tf(img, img_height, img_width):
+    """applies histogram equalization to image
+
+    Parameters:
+        img (int,int,int): input image
+        img_height (int): image height
+        img_width (int): image width
+
+    Returns:
+        img (int,int): histogram equalized image
+    """
     r = img[:, :, 0]
     g = img[:, :, 1]
     b = img[:, :, 2]
+
+    # run he for each channel separately
     r = he_channel(r)
     g = he_channel(g)
     b = he_channel(b)
-    #cv2.imwrite("r-he.png", np.array(r))
     img = tf.stack([r, g, b], axis=2)
-    #cv2.imwrite("he_img.png", cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR))
     return img
 
 @tf.function
 def he_channel(img):
+    """applies histogram equalization to one channel
+
+    Parameters:
+        img (int,int): one channel input image
+
+    Returns:
+        img (int,int): histogram equalized one channel image
+    """
     img = tf.expand_dims(img,axis = 2)
     values_range = tf.constant([0., 255.], dtype = tf.float32)
     histogram = tf.histogram_fixed_width(tf.cast(img,tf.float32), values_range, 256)
@@ -52,7 +86,7 @@ def he_channel(img):
 
 @tf.function
 @gin.configurable
-def preprocess(image, label, img_height, img_width,ds_name):
+def preprocess(image, label, img_height, img_width,ds_name, he_flag):
     """Dataset preprocessing: Normalizing and resizing"""
 
     # Crop and pad image to square in central region (for idrid dataset)
@@ -65,7 +99,8 @@ def preprocess(image, label, img_height, img_width,ds_name):
     image = tf.cast(image, tf.uint8)
 
     # Normalize image: `uint8` -> `float32`.
-    image = he_tf(image)
+    if he_flag:
+        image = he_tf(image)
     #image = tf.cast(image, tf.float32)/255.
 
     return image, label
@@ -83,13 +118,17 @@ def preprocess2(image, label):
 @tf.function
 def augment(image, label):
     """Data augmentation"""
+
+    # flip image
     if(bool(random.getrandbits(1))):
         image = tf.image.flip_left_right(image)
+
+    # rotate iamge at random angle
     random_angle = tf.random.uniform(shape=tf.shape(label),minval=-math.pi, maxval=math.pi)
     image = tfa.image.rotate(image,random_angle,interpolation = 'Bilinear')
-    #cropped_image = tf.image.central_crop(rotated_image, central_fraction=0.8)
+
+    # transpose image
     if (bool(random.getrandbits(1))):
         image = tf.image.transpose(image)
-    #different_rotate = tfa.image.transform_ops.rotate(transposed_image, 1.0472)
     return image, label
 
