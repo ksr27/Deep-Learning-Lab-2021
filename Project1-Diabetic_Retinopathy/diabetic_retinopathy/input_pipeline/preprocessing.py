@@ -132,3 +132,55 @@ def augment(image, label):
         image = tf.image.transpose(image)
     return image, label
 
+def check_distribution(dataset):
+    # check class balance
+    balance = {'0': 0, '1': 0}
+    for (img, label) in dataset:
+        if label == 0:
+            balance['0'] = balance['0'] + 1
+        else:
+            balance['1'] = balance['1'] + 1
+
+    balance['perc-0'] = 100 * balance['0'] / (balance['0'] + balance['1'])
+    balance['perc-1'] = 100 * balance['1'] / (balance['0'] + balance['1'])
+    #print("percentage of 0 label:" + str(balance['perc-0']) + "%, percentage of 1 label:" + str(balance['perc-1']))
+    return balance
+
+@tf.function
+@gin.configurable
+def balance_ds(ds,split,aug_perc):
+    """balances ds to equal amount of 0 and 1 labels by either augmenting or repeating
+
+    Parameters:
+        ds (tf.data.Dataset): datasets to balance
+        split (string): name of ds
+        aug_perc (float): percentage of ds to be augmented
+
+    Returns:
+        ds (tf.data.Dataset): balanced dataset
+    """
+    ## returns ds with pos and neg example always following after each other: [0,1,0,1,0,1,...]
+    ds_pos = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 1), []))
+    ds_neg = ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), []))
+    if split == 'train':
+        # augment specified percentage of train dataset
+        aug_ds = ds.repeat().take(int(len(ds)*aug_perc))
+        aug_ds = aug_ds.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+        balance_aug = check_distribution(aug_ds)
+        balance_ds = check_distribution(ds)
+
+        aug_ds_pos = aug_ds.filter(lambda image, label: tf.reshape(tf.equal(label, 1), []))
+        aug_ds_neg = aug_ds.filter(lambda image, label: tf.reshape(tf.equal(label, 0), []))
+        
+        ds_neg = ds_neg.concatenate(aug_ds_neg)
+        num_take = balance_ds['0']+balance_aug['0']-balance_ds['1']
+        ds_pos = ds_pos.concatenate(aug_ds_pos.take(num_take)) #= len(ds_neg)- len(ds_pos) = (330-207)*2-207 #(len(ds)-len_pos)*2-len_pos)
+    else:
+        ds_neg = ds_neg.repeat()
+    ds = tf.data.Dataset.zip((ds_pos, ds_neg))
+
+    ds = ds.flat_map(
+        lambda ex_pos, ex_neg: tf.data.Dataset.from_tensors(ex_pos).concatenate(
+            tf.data.Dataset.from_tensors(ex_neg)))
+    return ds
