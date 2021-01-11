@@ -4,12 +4,26 @@ from evaluation.metrics import ConfusionMatrix, Accuracy, Sensitivity, Specifici
 import logging
 import datetime
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
+from deep_visualization.grad_cam import grad_cam_wbp
 
 @gin.configurable
-def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
- #   if checkpoint is not None:
-  #      ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=model.optimizer,net=model, iterator=iter(ds_test))
-  #      ckpt.restore(checkpoint)
+def evaluate(model, checkpoint, ds_test, visualize_flag):
+    """Evaluates model using test dataset.
+
+    Parameters:
+        model (keras.Model): keras model object
+        checkpoint (string): checkpoint to load trained model params from
+        ds_test (tf.data.Dataset): datasets with (image,label) pairs to run though trained model
+        visualize_flag (bool): Flag to enable/disable deep visualization
+
+    Returns:
+        Nothing, evaluation results are logged to tensorboard and console
+    """
+    # restore latest checkpoint
+    ckpt = tf.train.Checkpoint(net=model)
+    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial()
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     # init loss and metrics
     loss = tf.keras.metrics.SparseCategoricalCrossentropy(name='eval_loss', from_logits=True)
@@ -21,7 +35,7 @@ def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
     roc_auc = RocAuc()
 
     # create summary writer for tensorboard logging
-    summary_writer = tf.summary.create_file_writer("logs/eval/"+datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+    summary_writer = tf.summary.create_file_writer("logs/eval/"+timestamp)
 
     # run model on each image and get loss+ metric values
     for (images, labels) in ds_test:
@@ -40,20 +54,25 @@ def evaluate(model, checkpoint, ds_test, ds_info, run_paths):
     logging.info(template.format(loss.result(),
                                  accuracy.result() * 100,
                                  confusion_matrix.result(),
-                                 sensitivity.result(),
-                                 specificity.result(),
-                                 f1_score.result(),
+                                 sensitivity.result()*100,
+                                 specificity.result()*100,
+                                 f1_score.result()*100,
                                  roc_auc.result()))
 
     # Write evaluation summary to tensorboard
     with summary_writer.as_default():
         tf.summary.scalar('Eval loss', loss.result(), step=0)
         tf.summary.scalar('Eval accuracy', accuracy.result(), step=0)
-        tf.summary.image('Eval confusion matrix',
-                          plot_to_image(plot_confusion_matrix(confusion_matrix.result(),class_names=['1', '0'])),
-                          step=0)
+        #tf.summary.image('Eval confusion matrix',
+        #                  plot_to_image(plot_confusion_matrix(confusion_matrix.result(),class_names=['1', '0'])),
+        #                  step=0)
         tf.summary.scalar('Eval sensitivity', sensitivity.result(), step=0)
         tf.summary.scalar('Eval specificity', specificity.result(), step=0)
         tf.summary.scalar('Eval F1 Score', f1_score.result(), step=0)
         tf.summary.scalar('Eval ROC AUC', roc_auc.result(), step=0)
-    return accuracy.result()
+
+            # run grad cam
+    if visualize_flag:
+        grad_cam_wbp(model, "conv2d_5", ds_test, timestamp, 1)
+
+    return

@@ -28,23 +28,18 @@ def main(argv):
 
     # model
     model = vgg_like(input_shape=ds_info.features["image"].shape, n_classes=ds_info.features["label"].num_classes)
+    model.summary()
 
     if FLAGS.train:
-        trainer = Trainer(model, ds_train, ds_val, ds_info, run_paths)
+        trainer = Trainer(model, ds_train, ds_val, ds_test, ds_info, run_paths)
         for _ in trainer.train():
             continue
-
-        evaluate(model,
-                 #checkpoint,
-                 ds_test,
-                 ds_info,
-                 run_paths)
     else:
         evaluate(model,
-                 #checkpoint,
+                 './tf_ckpts/20201218-101156',
                  ds_test,
-                 ds_info,
-                 run_paths)
+                 ds_train, # for gradcam
+                 True) #visualize Flag
 
 if __name__ == "__main__":
     app.run(main)
