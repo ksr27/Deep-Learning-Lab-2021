@@ -179,7 +179,6 @@ def balance_ds(ds,split,aug_perc):
     else:
         ds_neg = ds_neg.repeat()
     ds = tf.data.Dataset.zip((ds_pos, ds_neg))
-
     ds = ds.flat_map(
         lambda ex_pos, ex_neg: tf.data.Dataset.from_tensors(ex_pos).concatenate(
             tf.data.Dataset.from_tensors(ex_neg)))

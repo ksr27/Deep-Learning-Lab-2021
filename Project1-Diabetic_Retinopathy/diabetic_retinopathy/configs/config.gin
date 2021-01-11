@@ -20,7 +20,7 @@ Trainer.ckpt_interval = 2e2
 
 # Input pipeline
 load.name = 'idrid'
-load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
+load.data_dir = '/Users/XXX/tensorflow_datasets'
 
 preprocess.ds_name = 'idrid'
 preprocess.img_height = 256
@@ -39,4 +39,3 @@ apply_clahe.clip_limit = 2.0
 #visualize.img_height = 256
 #visualize.img_width = 256
 #visualize.num_pics = 1
-

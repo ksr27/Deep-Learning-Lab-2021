@@ -1,9 +1,11 @@
 import tensorflow as tf
 
+
 class ConfusionMatrix(tf.keras.metrics.Metric):
 
     def __init__(self, name="confusion_matrix", **kwargs):
         super(ConfusionMatrix, self).__init__(name=name, **kwargs)
+        # ...
         self.true_positives = self.add_weight(name='tp', initializer='zeros')
         self.false_positives = self.add_weight(name='fp', initializer='zeros')
         self.false_negatives = self.add_weight(name='fn', initializer='zeros')

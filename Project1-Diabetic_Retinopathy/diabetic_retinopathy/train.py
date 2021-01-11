@@ -38,14 +38,6 @@ class Trainer(object):
         self.test_f1_score = F1Score()
         self.test_roc_auc = RocAuc()
 
-        self.eval_loss = tf.keras.metrics.Mean(name='test_loss')
-        self.eval_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
-        self.eval_confusion_matrix = ConfusionMatrix()
-        self.eval_sensitivity = Sensitivity()
-        self.eval_specificity = Specificity()
-        self.eval_f1_score = F1Score()
-        self.eval_roc_auc = RocAuc()
-
         self.model = model
         self.ds_train = ds_train
         self.ds_val = ds_val
@@ -89,24 +81,11 @@ class Trainer(object):
         self.test_f1_score.update_state(labels, predictions)
         self.test_roc_auc.update_state(labels, predictions)
 
-    @tf.function
-    def eval_step(self, images, labels):
-        # training=False is only needed if there are layers with different
-        # behavior during training versus inference (e.g. Dropout).
-        predictions = self.model(images, training=False)
-        t_loss = self.loss_object(labels, predictions)
 
-        self.eval_loss(t_loss)
-        self.eval_accuracy(labels, predictions)
-        self.eval_confusion_matrix.update_state(labels, predictions)
-        self.eval_sensitivity.update_state(labels, predictions)
-        self.eval_specificity.update_state(labels, predictions)
-        self.eval_f1_score.update_state(labels, predictions)
-        self.eval_roc_auc.update_state(labels, predictions)
+    def train(self,restore_ckpt=True):
+        if restore_ckpt:
+            self.ckpt.restore(self.manager.latest_checkpoint)
 
-    def train(self):
-
-        self.ckpt.restore(self.manager.latest_checkpoint)
         if self.manager.latest_checkpoint:
             logging.info("Restored from {}".format(self.manager.latest_checkpoint))
         else:
@@ -128,14 +107,6 @@ class Trainer(object):
                 self.test_f1_score.reset_states()
                 self.test_roc_auc.reset_states()
 
-                self.eval_loss.reset_states()
-                self.eval_accuracy.reset_states()
-                self.eval_confusion_matrix.reset_states()
-                self.eval_sensitivity.reset_states()
-                self.eval_specificity.reset_states()
-                self.eval_f1_score.reset_states()
-                self.eval_roc_auc.reset_states()
-
                 for test_images, test_labels in self.ds_val:
                     self.test_step(test_images, test_labels)
 
@@ -144,13 +115,7 @@ class Trainer(object):
 
                 # ROC AUC: {},, Test ROC AUC: {}
                 template = 'Step {}, Accuracy: {},Confusion Matrix: {}, Sensitivity: {}, Specificity: {}, ' \
-                           '\n Test Accuracy: {}, Test Confusion Matrix: {}, Test Sensitivity: {}, Test Specificity: {},' \
-                           ' \n Eval Accuracy: {}, Eval Confusion Matrix: {}, Eval Sensitivity: {}, Eval Specificity: {}'
-                # template = 'Step {}, Loss: {}, Accuracy: {},Confusion Matrix: {}, Sensitivity: {}, Specificity: {}, ' \
-                       #    'F1 Score: {}, \n Test Loss: {}, Test Accuracy: {}, Test Confusion Matrix: {}, ' \
-                       #    'Test Sensitivity: {}, Test Specificity: {}, Test F1 Score: {} \n Eval Loss: {}, ' \
-                       #    'Eval Accuracy: {}, Eval Confusion Matrix: {}, Eval Sensitivity: {}, Eval Specificity: {}, ' \
-                       #    'Eval F1 Score: {}'
+                           '\n Test Accuracy: {}, Test Confusion Matrix: {}, Test Sensitivity: {}, Test Specificity: {}'
                 logging.info(template.format(
                                             step,
                                             #self.train_loss.result(),
@@ -165,15 +130,7 @@ class Trainer(object):
                                             self.test_accuracy.result() * 100,
                                             self.test_confusion_matrix.result(),
                                             self.test_sensitivity.result() * 100,
-                                            self.test_specificity.result() * 100, #,self.test_roc_auc.result()
-                                            #self.test_f1_score.result() * 100,
-
-                                            #self.eval_loss.result(),
-                                            self.eval_accuracy.result() * 100,
-                                            self.eval_confusion_matrix.result(),
-                                            self.eval_sensitivity.result() * 100,
-                                            self.eval_specificity.result() * 100))  # ,self.test_roc_auc.result()
-                                            #self.eval_f1_score.result() * 100))
+                                            self.test_specificity.result() * 100))  # ,self.test_roc_auc.result()
 
                 # Write summary to tensorboard
                 with self.summary_writer.as_default():
@@ -219,6 +176,5 @@ class Trainer(object):
                 logging.info(f'Finished training after {step} steps.')
                 # Save final checkpoint
                 save_path = self.manager.save()
-                # log current config file
-                copyfile('./configs/config.gin', './logs/train/'+self.timestamp+'/config.gin')
-                return self.test_accuracy.result().numpy(), self.eval_accuracy.result().numpy()
+                return self.test_accuracy.result().numpy()
+

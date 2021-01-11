@@ -21,3 +21,4 @@ def vgg_block(inputs, filters, kernel_size): #dropout_rate
     #out = tf.keras.layers.Dropout(dropout_rate)(out)
 
     return out
+

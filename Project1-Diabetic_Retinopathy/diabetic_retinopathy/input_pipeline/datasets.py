@@ -6,6 +6,7 @@ from input_pipeline.preprocessing import preprocess, preprocess2, augment, apply
 from input_pipeline.visualize import visualize
 import cv2
 
+
 @gin.configurable
 def load(name, data_dir):
     if name == "idrid":
@@ -77,10 +78,8 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching, clahe_flag)
     # Prepare training dataset
     ds_train = ds_train.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     if caching:
-            ds_train = ds_train.cache()
-    # Data augmentation
-    #ds_train_aug = ds_train.map(augment, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-    #visualize(ds_train_aug)
+        ds_train = ds_train.cache()
+
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples // 10)
     ds_train = balance_ds(ds_train,'train')
 
@@ -110,7 +109,7 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching, clahe_flag)
         for image, label in ds_test:
             image = apply_clahe(image)
             image = tf.convert_to_tensor(image)
-    # Prepare test dataset
+            
     ds_test = ds_test.map(preprocess2, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_test = balance_ds(ds_test,'test')
     ds_test = ds_test.batch(batch_size)
@@ -119,4 +118,3 @@ def prepare(ds_train, ds_val, ds_test, ds_info, batch_size, caching, clahe_flag)
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
     return ds_train, ds_val, ds_test, ds_info
-

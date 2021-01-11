@@ -71,7 +71,7 @@ def evaluate(model, checkpoint, ds_test, visualize_flag):
         tf.summary.scalar('Eval F1 Score', f1_score.result(), step=0)
         tf.summary.scalar('Eval ROC AUC', roc_auc.result(), step=0)
 
-    # run grad cam
+            # run grad cam
     if visualize_flag:
         grad_cam_wbp(model, "conv2d_5", ds_test, timestamp, 1)
 
