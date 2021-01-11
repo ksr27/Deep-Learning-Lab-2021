@@ -1,0 +1,20 @@
+
+# Architectures
+
+# Layers
+
+
+# Training
+Trainer.total_steps = 5e3
+Trainer.log_interval = 2e2
+Trainer.ckpt_interval = 2e2
+
+# Input pipeline
+load.name = 'hapt'
+load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
+
+
+prepare.batch_size = 16
+prepare.caching = True
+prepare.window_length = 250
+prepare.window_shift = 125
