@@ -3,39 +3,41 @@
 vgg_like.base_filters = 8
 vgg_like.n_blocks = 4
 vgg_like.dense_units = 128
-vgg_like.dropout_rate = 0.25
+vgg_like.dropout_rate = 0.2528771655547242
 
 # Layers
 vgg_block.kernel_size = (3, 3)
 
 # Training
-Trainer.total_steps = 5e3
+#Trainer.total_steps = 5e3
 Trainer.log_interval = 2e2
 Trainer.ckpt_interval = 2e2
+Trainer.initial_lr = 0.1
+Trainer.momentum = 0.6158420045180355
+Trainer.epochs = 100
 
 # Deep Visualization
-#grad_cam_wbp.num_of_batches = 1
-#grad_cam_wbp.img_height = 256
-#grad_cam_wbp.img_width = 256
+grad_cam_wbp.num_of_batches = 1
+grad_cam_wbp.img_height = 256
+grad_cam_wbp.img_width = 256
 
 # Input pipeline
-load.name = 'idrid'
-load.data_dir = '/Users/XXX/tensorflow_datasets'
 
-preprocess.ds_name = 'idrid'
+preprocess.ds_name = 'idrid' #'eyepacs'
 preprocess.img_height = 256
 preprocess.img_width = 256
-preprocess.he_flag = True
+preprocess.he_flag = False
+balance_ds.aug_perc = 5.4
 
 he_tf.img_height = 256
 he_tf.img_width = 256
 
-prepare.clahe_flag = True
+prepare.clahe_flag = False #True
 prepare.batch_size = 16
 prepare.caching = True
 
-apply_clahe.clip_limit = 2.0
+apply_clahe.clip_limit = 4.0
 
-#visualize.img_height = 256
-#visualize.img_width = 256
-#visualize.num_pics = 1
+visualize.num_pics = 3
+
+

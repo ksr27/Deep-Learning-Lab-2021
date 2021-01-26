@@ -16,8 +16,10 @@ def vgg_block(inputs, filters, kernel_size): #dropout_rate
     """
 
     out = tf.keras.layers.Conv2D(filters, kernel_size, padding='same', activation=tf.nn.relu)(inputs)
+    out = tf.keras.layers.BatchNormalization()(out)
     out = tf.keras.layers.Conv2D(filters, kernel_size, padding='same', activation=tf.nn.relu)(out)
     out = tf.keras.layers.MaxPool2D((2, 2))(out)
+    out = tf.keras.layers.BatchNormalization()(out)
     #out = tf.keras.layers.Dropout(dropout_rate)(out)
 
     return out
