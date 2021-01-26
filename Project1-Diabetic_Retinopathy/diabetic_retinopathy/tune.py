@@ -2,23 +2,23 @@ import logging
 import gin
 from ray import tune
 import tensorflow as tf
+from ray.tune.suggest.hyperopt import HyperOptSearch
+from hyperopt import hp
 from input_pipeline.datasets import load
 from models.architectures import vgg_like
 from train import Trainer
 from utils import utils_params, utils_misc
-from evaluation.eval import evaluate
 
 def train_func(config,run_paths):
     # Hyperparameters
     bindings = []
     for key, value in config.items():
        bindings.append(f'{key}={value}')
-    # generate folder structures
     # set loggers
    # utils_misc.set_loggers(run_paths['path_logs_train'], logging.INFO)
 
     # gin-config
-    gin.parse_config_files_and_bindings(['~/configs/config.gin'], bindings)
+    gin.parse_config_files_and_bindings(['/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/configs/config.gin'], bindings)
     utils_params.save_config(run_paths['path_gin'], gin.config_str())
 
 
@@ -32,6 +32,8 @@ def train_func(config,run_paths):
     for val_accuracy in trainer.train():
         tune.report(val_accuracy=val_accuracy)
 
+
+hyperopt = HyperOptSearch(metric="val_accuracy", mode="max")
 
 analysis = tune.run(
     train_func, num_samples=2, resources_per_trial={'cpu': 4},

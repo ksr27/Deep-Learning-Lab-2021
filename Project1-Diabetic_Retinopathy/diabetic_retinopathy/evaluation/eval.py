@@ -1,6 +1,6 @@
 import tensorflow as tf
 import gin
-from evaluation.metrics import ConfusionMatrix, Accuracy, Sensitivity, Specificity, F1Score, RocAuc
+from evaluation.metrics import ConfusionMatrix, BalancedAccuracy, Sensitivity, Specificity, F1Score, RocAuc
 import logging
 import datetime
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
@@ -21,13 +21,12 @@ def evaluate(model, checkpoint, ds_test, visualize_flag):
     """
     # restore latest checkpoint
     ckpt = tf.train.Checkpoint(net=model)
-    status = ckpt.restore(tf.train.latest_checkpoint(checkpoint)).expect_partial()
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
     # init loss and metrics
     loss = tf.keras.metrics.SparseCategoricalCrossentropy(name='eval_loss', from_logits=True)
-    accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
+    accuracy = BalancedAccuracy() #tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
     confusion_matrix = ConfusionMatrix()
     sensitivity = Sensitivity()
     specificity = Specificity()
@@ -71,8 +70,8 @@ def evaluate(model, checkpoint, ds_test, visualize_flag):
         tf.summary.scalar('Eval F1 Score', f1_score.result(), step=0)
         tf.summary.scalar('Eval ROC AUC', roc_auc.result(), step=0)
 
-            # run grad cam
+    # run grad cam
     if visualize_flag:
-        grad_cam_wbp(model, "conv2d_5", ds_test, timestamp, 1)
+        grad_cam_wbp(model, "conv2d_7", ds_test, timestamp, 1)
 
     return
