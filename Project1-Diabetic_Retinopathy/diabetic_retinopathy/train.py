@@ -21,7 +21,7 @@ class Trainer(object):
             initial_lr, decay_steps=ds_info['size'], decay_rate=0.96, staircase=True)
         self.optimizer = tf.keras.optimizers.SGD(learning_rate=self.lr_schedule, momentum=momentum, nesterov=True)
 
-        # Checkpoint Manager
+        # Checkpoint Manager #Baran
         self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), net=model, optimizer=self.optimizer,
                                         iterator=iter(ds_train))  #
         self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts/' + self.timestamp, max_to_keep=epochs)
@@ -156,7 +156,7 @@ class Trainer(object):
                 self.train_specificity.reset_states()
                 self.train_f1_score.reset_states()
 
-                # Save checkpoint
+                # Save checkpoint #Baran
                 self.manager.save()
 
                 self.current_epoch += 1
