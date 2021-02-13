@@ -3,7 +3,7 @@ import tensorflow as tf
 
 
 @gin.configurable
-def vgg_block(inputs, filters, kernel_size):
+def vgg_block(inputs, filters, kernel_size): #Baran
     """A VGG block consisting of two convolutional layers followed by a max-pooling layer, with batch normalization
 
     Parameters:
