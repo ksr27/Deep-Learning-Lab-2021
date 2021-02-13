@@ -2,9 +2,10 @@ import gin
 import tensorflow as tf
 from models.layers import vgg_block
 
+
 @gin.configurable
 def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropout_rate):
-    """Defines a VGG-like architecture.
+    """A VGG-like architecture.
 
     Parameters:
         input_shape (tuple: 3): input shape of the neural network
@@ -20,9 +21,9 @@ def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropou
 
     assert n_blocks > 0, 'Number of blocks has to be at least 1.'
     inputs = tf.keras.Input(input_shape)
-    out = vgg_block(inputs, base_filters) #dropout_rate
+    out = vgg_block(inputs, base_filters)
     for i in range(1, n_blocks):
-        out = vgg_block(out, base_filters * 2 ** (i)) #, dropout_rate*(i+1)
+        out = vgg_block(out, base_filters * 2 ** (i))
     out = tf.keras.layers.GlobalAveragePooling2D()(out)
     out = tf.keras.layers.Dense(dense_units, activation=tf.nn.relu)(out)
     out = tf.keras.layers.Dropout(dropout_rate)(out)

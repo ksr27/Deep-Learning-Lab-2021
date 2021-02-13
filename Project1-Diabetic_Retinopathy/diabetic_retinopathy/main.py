@@ -9,10 +9,10 @@ from utils import utils_params, utils_misc
 from models.architectures import vgg_like
 
 FLAGS = flags.FLAGS
-flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
+
 
 def main(argv):
-
     # generate folder structures
     run_paths = utils_params.gen_run_folder()
 
@@ -24,21 +24,23 @@ def main(argv):
     utils_params.save_config(run_paths['path_gin'], gin.config_str())
 
     # setup pipeline
-    ds_train, ds_val, ds_test, ds_info, ds_train_size, batch_size = datasets.load()
+    ds_train, ds_val, ds_test, ds_info = datasets.load()
 
     # model
-    model = vgg_like(input_shape=ds_info.features["image"].shape, n_classes=2)#ds_info.features["label"].num_classes)
+    model = vgg_like(input_shape=ds_info['input_shape'], n_classes=ds_info["num_classes"])
     model.summary()
 
     if FLAGS.train:
-        trainer = Trainer(model, ds_train, ds_val, ds_test, ds_info, ds_train_size,batch_size, run_paths)
+        trainer = Trainer(model, ds_train, ds_val, ds_test, ds_info, run_paths)
         for _ in trainer.train():
             continue
     else:
         evaluate(model,
-                 '/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/gpu_ray_results/best_runs/bt_graham_yes_no/tf_ckpts/20210119-142425',
+                 './results/best_runs/clahe/tf_ckpts/ckpt-24',
                  ds_test,
-                 True) #visualize Flag
+                 ds_info,
+                 visualize_flag=True)
+
 
 if __name__ == "__main__":
     app.run(main)

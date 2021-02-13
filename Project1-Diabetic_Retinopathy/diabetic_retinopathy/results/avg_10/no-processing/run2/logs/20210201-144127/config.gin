@@ -1,0 +1,44 @@
+
+# Architectures
+vgg_like.base_filters = 8
+vgg_like.n_blocks = 4
+vgg_like.dense_units = 128
+vgg_like.dropout_rate = 0.2528771655547242
+
+# Layers
+vgg_block.kernel_size = (3, 3)
+
+# Training
+#Trainer.total_steps = 1e4 
+Trainer.log_interval = 1e2 
+Trainer.ckpt_interval = 1e2
+Trainer.epochs = 80
+Trainer.initial_lr = 0.1
+Trainer.momentum = 0.6158420045180355
+
+# Evaluation
+#evaluate.run_paths = '/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy'
+
+# Deep Visualization
+#grad_cam_wbp.num_of_batches = 1
+#grad_cam_wbp.img_height = 256
+#grad_cam_wbp.img_width = 256
+
+# Input pipeline
+load.name = 'idrid'
+load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy'
+preprocess.img_height = 256 
+preprocess.img_width = 256 
+he_tf.img_height = 256
+he_tf.img_width = 256
+apply_clahe.clip_limit = 2.9535738776656766
+preprocess.ds_name = "idrid"
+preprocess.he_flag = False 
+balance_ds.aug_perc = 5.393893855028685
+
+#visualize.img_height = 256
+#visualize.img_width = 256
+#visualize.num_pics = 1
+prepare.batch_size = 16
+prepare.caching = True 
+prepare.clahe_flag = False

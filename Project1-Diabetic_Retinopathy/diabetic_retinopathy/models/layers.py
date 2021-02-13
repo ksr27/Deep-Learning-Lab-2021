@@ -1,9 +1,10 @@
 import gin
 import tensorflow as tf
 
+
 @gin.configurable
-def vgg_block(inputs, filters, kernel_size): #dropout_rate
-    """A single VGG block consisting of two convolutional layers, followed by a max-pooling layer.
+def vgg_block(inputs, filters, kernel_size):
+    """A VGG block consisting of two convolutional layers followed by a max-pooling layer, with batch normalization
 
     Parameters:
         inputs (Tensor): input of the VGG block
@@ -20,7 +21,5 @@ def vgg_block(inputs, filters, kernel_size): #dropout_rate
     out = tf.keras.layers.Conv2D(filters, kernel_size, padding='same', activation=tf.nn.relu)(out)
     out = tf.keras.layers.MaxPool2D((2, 2))(out)
     out = tf.keras.layers.BatchNormalization()(out)
-    #out = tf.keras.layers.Dropout(dropout_rate)(out)
 
     return out
-

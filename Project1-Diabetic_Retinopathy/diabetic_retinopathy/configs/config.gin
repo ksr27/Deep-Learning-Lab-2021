@@ -1,9 +1,21 @@
+# Input pipeline
+load.name = 'idrid' #'eyepacs', 'kaggle_dr'
+
+reformat.ds_name = 'idrid' #'eyepacs', 'kaggle_dr'
+reformat.img_height = 256
+reformat.img_width = 256
+
+prepare.processing_mode = 'clahe' # 'clahe', 'btg'
+apply_clahe.clip_limit = 2.95
+prepare.batch_size = 16
+balance_augment_ds.aug_perc = 5.4
+prepare.caching = True
 
 # Architectures
 vgg_like.base_filters = 8
 vgg_like.n_blocks = 4
 vgg_like.dense_units = 128
-vgg_like.dropout_rate = 0.2528771655547242
+vgg_like.dropout_rate = 0.253
 
 # Layers
 vgg_block.kernel_size = (3, 3)
@@ -13,31 +25,11 @@ vgg_block.kernel_size = (3, 3)
 Trainer.log_interval = 2e2
 Trainer.ckpt_interval = 2e2
 Trainer.initial_lr = 0.1
-Trainer.momentum = 0.6158420045180355
-Trainer.epochs = 100
+Trainer.momentum = 0.616
+Trainer.epochs = 80
 
 # Deep Visualization
 grad_cam_wbp.num_of_batches = 1
-grad_cam_wbp.img_height = 256
-grad_cam_wbp.img_width = 256
 
-# Input pipeline
-
-preprocess.ds_name = 'idrid' #'eyepacs'
-preprocess.img_height = 256
-preprocess.img_width = 256
-preprocess.he_flag = False
-balance_ds.aug_perc = 5.4
-
-he_tf.img_height = 256
-he_tf.img_width = 256
-
-prepare.clahe_flag = False #True
-prepare.batch_size = 16
-prepare.caching = True
-
-apply_clahe.clip_limit = 4.0
-
+# Visualization
 visualize.num_pics = 3
-
-

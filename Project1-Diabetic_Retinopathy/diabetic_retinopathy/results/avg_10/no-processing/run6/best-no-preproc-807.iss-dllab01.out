@@ -1,0 +1,1075 @@
+2021-02-01 15:31:08.884345: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+I0201 15:31:10.103237 140604977559360 datasets.py:14] Preparing dataset idrid...
+I0201 15:31:10.104143 140604977559360 dataset_info.py:361] Load dataset info from /home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/idrid/1.0.0
+I0201 15:31:10.104770 140604977559360 dataset_builder.py:299] Reusing dataset idrid (/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/idrid/1.0.0)
+I0201 15:31:10.104819 140604977559360 dataset_builder.py:510] Constructing tf.data.Dataset for split ['train[:80%]', 'train[80%:]', 'test'], from /home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/idrid/1.0.0
+2021-02-01 15:31:10.108229: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2021-02-01 15:31:10.155686: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.156356: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:4b:00.0 name: GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2021-02-01 15:31:10.156373: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-02-01 15:31:10.157585: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-02-01 15:31:10.158836: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-02-01 15:31:10.158989: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-02-01 15:31:10.160277: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-02-01 15:31:10.160885: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-02-01 15:31:10.163507: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-02-01 15:31:10.163622: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.164332: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.164944: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-02-01 15:31:10.165275: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-02-01 15:31:10.170480: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 3800025000 Hz
+2021-02-01 15:31:10.170729: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4a81910 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-02-01 15:31:10.170739: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2021-02-01 15:31:10.257485: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.258223: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x49c7a60 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2021-02-01 15:31:10.258273: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): GeForce RTX 2080 Ti, Compute Capability 7.5
+2021-02-01 15:31:10.258487: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.259461: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:4b:00.0 name: GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2021-02-01 15:31:10.259492: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-02-01 15:31:10.259525: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-02-01 15:31:10.259539: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2021-02-01 15:31:10.259552: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2021-02-01 15:31:10.259564: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2021-02-01 15:31:10.259577: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2021-02-01 15:31:10.259590: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2021-02-01 15:31:10.259657: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.260642: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.261579: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2021-02-01 15:31:10.261610: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2021-02-01 15:31:10.579865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-02-01 15:31:10.579917: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2021-02-01 15:31:10.579923: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2021-02-01 15:31:10.580153: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.580838: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2021-02-01 15:31:10.581476: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10074 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:4b:00.0, compute capability: 7.5)
+WARNING:tensorflow:AutoGraph could not transform <function preprocess at 0x7fe0b5364160> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module 'gast' has no attribute 'Index'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+W0201 15:31:14.625009 140604977559360 ag_logging.py:146] AutoGraph could not transform <function preprocess at 0x7fe0b5364160> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module 'gast' has no attribute 'Index'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+WARNING:tensorflow:AutoGraph could not transform <function rotate at 0x7fe0b53f6790> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module 'gast' has no attribute 'Index'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+W0201 15:31:14.757537 140604977559360 ag_logging.py:146] AutoGraph could not transform <function rotate at 0x7fe0b53f6790> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module 'gast' has no attribute 'Index'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+I0201 15:31:20.807471 140604977559360 train.py:121] Initializing from scratch.
+2021-02-01 15:31:21.835568: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2021-02-01 15:31:21.978841: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+I0201 15:31:28.323285 140604977559360 train.py:157] Epoch 1/80, Accuracy: 70.36, 
+ Confusion Matrix: 
+ [[498. 178.]
+ [288. 608.]], Sensitivity: 63.36, Specificity: 77.35, 
+ Test Accuracy: 75.59, 
+ Test Confusion Matrix: 
+ [[35.  5.]
+ [17. 26.]], Test Sensitivity: 67.31, Test Specificity: 83.87,
+ Eval Accuracy: 63.08, 
+ Eval Confusion Matrix: 
+ [[43. 16.]
+ [21. 23.]], Eval Sensitivity: 67.19, Eval Specificity: 58.97
+I0201 15:31:30.199839 140604977559360 train.py:157] Epoch 2/80, Accuracy: 72.22, 
+ Confusion Matrix: 
+ [[506. 154.]
+ [286. 638.]], Sensitivity: 63.89, Specificity: 80.56, 
+ Test Accuracy: 79.47, 
+ Test Confusion Matrix: 
+ [[34.  2.]
+ [18. 29.]], Test Sensitivity: 65.38, Test Specificity: 93.55,
+ Eval Accuracy: 64.36, 
+ Eval Confusion Matrix: 
+ [[43. 15.]
+ [21. 24.]], Eval Sensitivity: 67.19, Eval Specificity: 61.54
+I0201 15:31:31.954988 140604977559360 train.py:157] Epoch 3/80, Accuracy: 71.50, 
+ Confusion Matrix: 
+ [[503. 165.]
+ [283. 621.]], Sensitivity: 63.99, Specificity: 79.01, 
+ Test Accuracy: 60.05, 
+ Test Confusion Matrix: 
+ [[44. 20.]
+ [ 8. 11.]], Test Sensitivity: 84.62, Test Specificity: 35.48,
+ Eval Accuracy: 47.82, 
+ Eval Confusion Matrix: 
+ [[53. 34.]
+ [11.  5.]], Eval Sensitivity: 82.81, Eval Specificity: 12.82
+I0201 15:31:33.719069 140604977559360 train.py:157] Epoch 4/80, Accuracy: 76.27, 
+ Confusion Matrix: 
+ [[569. 156.]
+ [217. 630.]], Sensitivity: 72.39, Specificity: 80.15, 
+ Test Accuracy: 78.50, 
+ Test Confusion Matrix: 
+ [[33.  2.]
+ [19. 29.]], Test Sensitivity: 63.46, Test Specificity: 93.55,
+ Eval Accuracy: 64.08, 
+ Eval Confusion Matrix: 
+ [[41. 14.]
+ [23. 25.]], Eval Sensitivity: 64.06, Eval Specificity: 64.10
+I0201 15:31:35.879735 140604977559360 train.py:157] Epoch 5/80, Accuracy: 75.86, 
+ Confusion Matrix: 
+ [[550. 144.]
+ [235. 641.]], Sensitivity: 70.06, Specificity: 81.66, 
+ Test Accuracy: 75.31, 
+ Test Confusion Matrix: 
+ [[28.  1.]
+ [24. 30.]], Test Sensitivity: 53.85, Test Specificity: 96.77,
+ Eval Accuracy: 69.09, 
+ Eval Confusion Matrix: 
+ [[31.  4.]
+ [33. 35.]], Eval Sensitivity: 48.44, Eval Specificity: 89.74
+I0201 15:31:37.660224 140604977559360 train.py:157] Epoch 6/80, Accuracy: 77.13, 
+ Confusion Matrix: 
+ [[533. 107.]
+ [252. 678.]], Sensitivity: 67.90, Specificity: 86.37, 
+ Test Accuracy: 65.38, 
+ Test Confusion Matrix: 
+ [[16.  0.]
+ [36. 31.]], Test Sensitivity: 30.77, Test Specificity: 100.00,
+ Eval Accuracy: 66.69, 
+ Eval Confusion Matrix: 
+ [[23.  1.]
+ [41. 38.]], Eval Sensitivity: 35.94, Eval Specificity: 97.44
+I0201 15:31:39.428223 140604977559360 train.py:157] Epoch 7/80, Accuracy: 77.58, 
+ Confusion Matrix: 
+ [[540. 107.]
+ [245. 678.]], Sensitivity: 68.79, Specificity: 86.37, 
+ Test Accuracy: 63.46, 
+ Test Confusion Matrix: 
+ [[14.  0.]
+ [38. 31.]], Test Sensitivity: 26.92, Test Specificity: 100.00,
+ Eval Accuracy: 64.34, 
+ Eval Confusion Matrix: 
+ [[20.  1.]
+ [44. 38.]], Eval Sensitivity: 31.25, Eval Specificity: 97.44
+I0201 15:31:41.596272 140604977559360 train.py:157] Epoch 8/80, Accuracy: 79.24, 
+ Confusion Matrix: 
+ [[563. 101.]
+ [227. 689.]], Sensitivity: 71.27, Specificity: 87.22, 
+ Test Accuracy: 68.27, 
+ Test Confusion Matrix: 
+ [[19.  0.]
+ [33. 31.]], Test Sensitivity: 36.54, Test Specificity: 100.00,
+ Eval Accuracy: 67.47, 
+ Eval Confusion Matrix: 
+ [[24.  1.]
+ [40. 38.]], Eval Sensitivity: 37.50, Eval Specificity: 97.44
+I0201 15:31:43.382979 140604977559360 train.py:157] Epoch 9/80, Accuracy: 80.47, 
+ Confusion Matrix: 
+ [[566.  87.]
+ [220. 699.]], Sensitivity: 72.01, Specificity: 88.93, 
+ Test Accuracy: 80.77, 
+ Test Confusion Matrix: 
+ [[32.  0.]
+ [20. 31.]], Test Sensitivity: 61.54, Test Specificity: 100.00,
+ Eval Accuracy: 77.40, 
+ Eval Confusion Matrix: 
+ [[40.  3.]
+ [24. 36.]], Eval Sensitivity: 62.50, Eval Specificity: 92.31
+I0201 15:31:45.199870 140604977559360 train.py:157] Epoch 10/80, Accuracy: 83.78, 
+ Confusion Matrix: 
+ [[612.  77.]
+ [180. 715.]], Sensitivity: 77.27, Specificity: 90.28, 
+ Test Accuracy: 82.01, 
+ Test Confusion Matrix: 
+ [[40.  4.]
+ [12. 27.]], Test Sensitivity: 76.92, Test Specificity: 87.10,
+ Eval Accuracy: 73.90, 
+ Eval Confusion Matrix: 
+ [[47. 10.]
+ [17. 29.]], Eval Sensitivity: 73.44, Eval Specificity: 74.36
+I0201 15:31:46.991994 140604977559360 train.py:157] Epoch 11/80, Accuracy: 86.70, 
+ Confusion Matrix: 
+ [[639.  62.]
+ [147. 724.]], Sensitivity: 81.30, Specificity: 92.11, 
+ Test Accuracy: 50.00, 
+ Test Confusion Matrix: 
+ [[52. 31.]
+ [ 0.  0.]], Test Sensitivity: 100.00, Test Specificity: 0.00,
+ Eval Accuracy: 50.00, 
+ Eval Confusion Matrix: 
+ [[64. 39.]
+ [ 0.  0.]], Eval Sensitivity: 100.00, Eval Specificity: 0.00
+I0201 15:31:48.747618 140604977559360 train.py:157] Epoch 12/80, Accuracy: 87.79, 
+ Confusion Matrix: 
+ [[653.  59.]
+ [133. 727.]], Sensitivity: 83.08, Specificity: 92.49, 
+ Test Accuracy: 56.14, 
+ Test Confusion Matrix: 
+ [[50. 26.]
+ [ 2.  5.]], Test Sensitivity: 96.15, Test Specificity: 16.13,
+ Eval Accuracy: 53.06, 
+ Eval Confusion Matrix: 
+ [[63. 36.]
+ [ 1.  3.]], Eval Sensitivity: 98.44, Eval Specificity: 7.69
+I0201 15:31:50.528567 140604977559360 train.py:157] Epoch 13/80, Accuracy: 87.21, 
+ Confusion Matrix: 
+ [[641.  56.]
+ [145. 730.]], Sensitivity: 81.55, Specificity: 92.88, 
+ Test Accuracy: 69.23, 
+ Test Confusion Matrix: 
+ [[20.  0.]
+ [32. 31.]], Test Sensitivity: 38.46, Test Specificity: 100.00,
+ Eval Accuracy: 67.97, 
+ Eval Confusion Matrix: 
+ [[23.  0.]
+ [41. 39.]], Eval Sensitivity: 35.94, Eval Specificity: 100.00
+I0201 15:31:52.342146 140604977559360 train.py:157] Epoch 14/80, Accuracy: 88.73, 
+ Confusion Matrix: 
+ [[665.  53.]
+ [125. 737.]], Sensitivity: 84.18, Specificity: 93.29, 
+ Test Accuracy: 61.29, 
+ Test Confusion Matrix: 
+ [[52. 24.]
+ [ 0.  7.]], Test Sensitivity: 100.00, Test Specificity: 22.58,
+ Eval Accuracy: 54.35, 
+ Eval Confusion Matrix: 
+ [[63. 35.]
+ [ 1.  4.]], Eval Sensitivity: 98.44, Eval Specificity: 10.26
+I0201 15:31:54.137070 140604977559360 train.py:157] Epoch 15/80, Accuracy: 88.87, 
+ Confusion Matrix: 
+ [[670.  59.]
+ [116. 727.]], Sensitivity: 85.24, Specificity: 92.49, 
+ Test Accuracy: 85.24, 
+ Test Confusion Matrix: 
+ [[40.  2.]
+ [12. 29.]], Test Sensitivity: 76.92, Test Specificity: 93.55,
+ Eval Accuracy: 86.22, 
+ Eval Confusion Matrix: 
+ [[48.  1.]
+ [16. 38.]], Eval Sensitivity: 75.00, Eval Specificity: 97.44
+I0201 15:31:55.911949 140604977559360 train.py:157] Epoch 16/80, Accuracy: 90.39, 
+ Confusion Matrix: 
+ [[675.  40.]
+ [111. 746.]], Sensitivity: 85.88, Specificity: 94.91, 
+ Test Accuracy: 85.89, 
+ Test Confusion Matrix: 
+ [[39.  1.]
+ [13. 30.]], Test Sensitivity: 75.00, Test Specificity: 96.77,
+ Eval Accuracy: 87.78, 
+ Eval Confusion Matrix: 
+ [[50.  1.]
+ [14. 38.]], Eval Sensitivity: 78.12, Eval Specificity: 97.44
+I0201 15:31:57.687319 140604977559360 train.py:157] Epoch 17/80, Accuracy: 90.27, 
+ Confusion Matrix: 
+ [[676.  43.]
+ [110. 743.]], Sensitivity: 86.01, Specificity: 94.53, 
+ Test Accuracy: 89.39, 
+ Test Confusion Matrix: 
+ [[46.  3.]
+ [ 6. 28.]], Test Sensitivity: 88.46, Test Specificity: 90.32,
+ Eval Accuracy: 80.87, 
+ Eval Confusion Matrix: 
+ [[51.  7.]
+ [13. 32.]], Eval Sensitivity: 79.69, Eval Specificity: 82.05
+I0201 15:31:59.910064 140604977559360 train.py:157] Epoch 18/80, Accuracy: 90.33, 
+ Confusion Matrix: 
+ [[686.  48.]
+ [105. 743.]], Sensitivity: 86.73, Specificity: 93.93, 
+ Test Accuracy: 88.12, 
+ Test Confusion Matrix: 
+ [[43.  2.]
+ [ 9. 29.]], Test Sensitivity: 82.69, Test Specificity: 93.55,
+ Eval Accuracy: 82.87, 
+ Eval Confusion Matrix: 
+ [[47.  3.]
+ [17. 36.]], Eval Sensitivity: 73.44, Eval Specificity: 92.31
+I0201 15:32:01.729268 140604977559360 train.py:157] Epoch 19/80, Accuracy: 91.35, 
+ Confusion Matrix: 
+ [[693.  43.]
+ [ 93. 743.]], Sensitivity: 88.17, Specificity: 94.53, 
+ Test Accuracy: 86.20, 
+ Test Confusion Matrix: 
+ [[41.  2.]
+ [11. 29.]], Test Sensitivity: 78.85, Test Specificity: 93.55,
+ Eval Accuracy: 85.44, 
+ Eval Confusion Matrix: 
+ [[47.  1.]
+ [17. 38.]], Eval Sensitivity: 73.44, Eval Specificity: 97.44
+I0201 15:32:03.527827 140604977559360 train.py:157] Epoch 20/80, Accuracy: 92.04, 
+ Confusion Matrix: 
+ [[695.  35.]
+ [ 90. 750.]], Sensitivity: 88.54, Specificity: 95.54, 
+ Test Accuracy: 90.69, 
+ Test Confusion Matrix: 
+ [[44.  1.]
+ [ 8. 30.]], Test Sensitivity: 84.62, Test Specificity: 96.77,
+ Eval Accuracy: 83.71, 
+ Eval Confusion Matrix: 
+ [[53.  6.]
+ [11. 33.]], Eval Sensitivity: 82.81, Eval Specificity: 84.62
+I0201 15:32:05.328276 140604977559360 train.py:157] Epoch 21/80, Accuracy: 92.30, 
+ Confusion Matrix: 
+ [[705.  40.]
+ [ 81. 746.]], Sensitivity: 89.69, Specificity: 94.91, 
+ Test Accuracy: 83.93, 
+ Test Confusion Matrix: 
+ [[42.  4.]
+ [10. 27.]], Test Sensitivity: 80.77, Test Specificity: 87.10,
+ Eval Accuracy: 80.37, 
+ Eval Confusion Matrix: 
+ [[52.  8.]
+ [12. 31.]], Eval Sensitivity: 81.25, Eval Specificity: 79.49
+I0201 15:32:07.139528 140604977559360 train.py:157] Epoch 22/80, Accuracy: 92.62, 
+ Confusion Matrix: 
+ [[709.  39.]
+ [ 77. 747.]], Sensitivity: 90.20, Specificity: 95.04, 
+ Test Accuracy: 88.77, 
+ Test Confusion Matrix: 
+ [[42.  1.]
+ [10. 30.]], Test Sensitivity: 80.77, Test Specificity: 96.77,
+ Eval Accuracy: 82.37, 
+ Eval Confusion Matrix: 
+ [[48.  4.]
+ [16. 35.]], Eval Sensitivity: 75.00, Eval Specificity: 89.74
+I0201 15:32:08.931500 140604977559360 train.py:157] Epoch 23/80, Accuracy: 92.05, 
+ Confusion Matrix: 
+ [[711.  50.]
+ [ 75. 736.]], Sensitivity: 90.46, Specificity: 93.64, 
+ Test Accuracy: 88.43, 
+ Test Confusion Matrix: 
+ [[45.  3.]
+ [ 7. 28.]], Test Sensitivity: 86.54, Test Specificity: 90.32,
+ Eval Accuracy: 81.65, 
+ Eval Confusion Matrix: 
+ [[52.  7.]
+ [12. 32.]], Eval Sensitivity: 81.25, Eval Specificity: 82.05
+I0201 15:32:10.643627 140604977559360 train.py:157] Epoch 24/80, Accuracy: 91.27, 
+ Confusion Matrix: 
+ [[697.  49.]
+ [ 88. 736.]], Sensitivity: 88.79, Specificity: 93.76, 
+ Test Accuracy: 86.17, 
+ Test Confusion Matrix: 
+ [[46.  5.]
+ [ 6. 26.]], Test Sensitivity: 88.46, Test Specificity: 83.87,
+ Eval Accuracy: 80.65, 
+ Eval Confusion Matrix: 
+ [[54.  9.]
+ [10. 30.]], Eval Sensitivity: 84.38, Eval Specificity: 76.92
+I0201 15:32:12.469269 140604977559360 train.py:157] Epoch 25/80, Accuracy: 91.98, 
+ Confusion Matrix: 
+ [[704.  44.]
+ [ 82. 742.]], Sensitivity: 89.57, Specificity: 94.40, 
+ Test Accuracy: 91.32, 
+ Test Confusion Matrix: 
+ [[48.  3.]
+ [ 4. 28.]], Test Sensitivity: 92.31, Test Specificity: 90.32,
+ Eval Accuracy: 79.65, 
+ Eval Confusion Matrix: 
+ [[56. 11.]
+ [ 8. 28.]], Eval Sensitivity: 87.50, Eval Specificity: 71.79
+I0201 15:32:14.242446 140604977559360 train.py:157] Epoch 26/80, Accuracy: 93.13, 
+ Confusion Matrix: 
+ [[711.  33.]
+ [ 75. 753.]], Sensitivity: 90.46, Specificity: 95.80, 
+ Test Accuracy: 83.25, 
+ Test Confusion Matrix: 
+ [[48.  8.]
+ [ 4. 23.]], Test Sensitivity: 92.31, Test Specificity: 74.19,
+ Eval Accuracy: 77.58, 
+ Eval Confusion Matrix: 
+ [[55. 12.]
+ [ 9. 27.]], Eval Sensitivity: 85.94, Eval Specificity: 69.23
+I0201 15:32:16.037988 140604977559360 train.py:157] Epoch 27/80, Accuracy: 93.00, 
+ Confusion Matrix: 
+ [[714.  38.]
+ [ 72. 748.]], Sensitivity: 90.84, Specificity: 95.17, 
+ Test Accuracy: 90.35, 
+ Test Confusion Matrix: 
+ [[47.  3.]
+ [ 5. 28.]], Test Sensitivity: 90.38, Test Specificity: 90.32,
+ Eval Accuracy: 74.52, 
+ Eval Confusion Matrix: 
+ [[56. 15.]
+ [ 8. 24.]], Eval Sensitivity: 87.50, Eval Specificity: 61.54
+I0201 15:32:17.838696 140604977559360 train.py:157] Epoch 28/80, Accuracy: 91.48, 
+ Confusion Matrix: 
+ [[702.  50.]
+ [ 84. 736.]], Sensitivity: 89.31, Specificity: 93.64, 
+ Test Accuracy: 79.09, 
+ Test Confusion Matrix: 
+ [[42.  7.]
+ [10. 24.]], Test Sensitivity: 80.77, Test Specificity: 77.42,
+ Eval Accuracy: 68.77, 
+ Eval Confusion Matrix: 
+ [[47. 14.]
+ [17. 25.]], Eval Sensitivity: 73.44, Eval Specificity: 64.10
+I0201 15:32:19.609371 140604977559360 train.py:157] Epoch 29/80, Accuracy: 89.63, 
+ Confusion Matrix: 
+ [[678.  55.]
+ [108. 731.]], Sensitivity: 86.26, Specificity: 93.00, 
+ Test Accuracy: 90.04, 
+ Test Confusion Matrix: 
+ [[45.  2.]
+ [ 7. 29.]], Test Sensitivity: 86.54, Test Specificity: 93.55,
+ Eval Accuracy: 81.15, 
+ Eval Confusion Matrix: 
+ [[53.  8.]
+ [11. 31.]], Eval Sensitivity: 82.81, Eval Specificity: 79.49
+I0201 15:32:21.417376 140604977559360 train.py:157] Epoch 30/80, Accuracy: 93.31, 
+ Confusion Matrix: 
+ [[719.  39.]
+ [ 66. 746.]], Sensitivity: 91.59, Specificity: 95.03, 
+ Test Accuracy: 88.12, 
+ Test Confusion Matrix: 
+ [[43.  2.]
+ [ 9. 29.]], Test Sensitivity: 82.69, Test Specificity: 93.55,
+ Eval Accuracy: 77.52, 
+ Eval Confusion Matrix: 
+ [[50.  9.]
+ [14. 30.]], Eval Sensitivity: 78.12, Eval Specificity: 76.92
+I0201 15:32:23.200611 140604977559360 train.py:157] Epoch 31/80, Accuracy: 92.87, 
+ Confusion Matrix: 
+ [[724.  45.]
+ [ 68. 747.]], Sensitivity: 91.41, Specificity: 94.32, 
+ Test Accuracy: 88.74, 
+ Test Confusion Matrix: 
+ [[47.  4.]
+ [ 5. 27.]], Test Sensitivity: 90.38, Test Specificity: 87.10,
+ Eval Accuracy: 74.74, 
+ Eval Confusion Matrix: 
+ [[53. 13.]
+ [11. 26.]], Eval Sensitivity: 82.81, Eval Specificity: 66.67
+I0201 15:32:24.986164 140604977559360 train.py:157] Epoch 32/80, Accuracy: 94.00, 
+ Confusion Matrix: 
+ [[733.  36.]
+ [ 59. 756.]], Sensitivity: 92.55, Specificity: 95.45, 
+ Test Accuracy: 87.47, 
+ Test Confusion Matrix: 
+ [[44.  3.]
+ [ 8. 28.]], Test Sensitivity: 84.62, Test Specificity: 90.32,
+ Eval Accuracy: 81.37, 
+ Eval Confusion Matrix: 
+ [[50.  6.]
+ [14. 33.]], Eval Sensitivity: 78.12, Eval Specificity: 84.62
+I0201 15:32:26.804951 140604977559360 train.py:157] Epoch 33/80, Accuracy: 93.45, 
+ Confusion Matrix: 
+ [[724.  41.]
+ [ 62. 745.]], Sensitivity: 92.11, Specificity: 94.78, 
+ Test Accuracy: 86.54, 
+ Test Confusion Matrix: 
+ [[38.  0.]
+ [14. 31.]], Test Sensitivity: 73.08, Test Specificity: 100.00,
+ Eval Accuracy: 82.37, 
+ Eval Confusion Matrix: 
+ [[48.  4.]
+ [16. 35.]], Eval Sensitivity: 75.00, Eval Specificity: 89.74
+I0201 15:32:28.608072 140604977559360 train.py:157] Epoch 34/80, Accuracy: 94.46, 
+ Confusion Matrix: 
+ [[734.  36.]
+ [ 51. 749.]], Sensitivity: 93.50, Specificity: 95.41, 
+ Test Accuracy: 82.69, 
+ Test Confusion Matrix: 
+ [[34.  0.]
+ [18. 31.]], Test Sensitivity: 65.38, Test Specificity: 100.00,
+ Eval Accuracy: 78.69, 
+ Eval Confusion Matrix: 
+ [[40.  2.]
+ [24. 37.]], Eval Sensitivity: 62.50, Eval Specificity: 94.87
+I0201 15:32:30.415443 140604977559360 train.py:157] Epoch 35/80, Accuracy: 94.53, 
+ Confusion Matrix: 
+ [[733.  33.]
+ [ 53. 753.]], Sensitivity: 93.26, Specificity: 95.80, 
+ Test Accuracy: 89.08, 
+ Test Confusion Matrix: 
+ [[44.  2.]
+ [ 8. 29.]], Test Sensitivity: 84.62, Test Specificity: 93.55,
+ Eval Accuracy: 81.87, 
+ Eval Confusion Matrix: 
+ [[49.  5.]
+ [15. 34.]], Eval Sensitivity: 76.56, Eval Specificity: 87.18
+I0201 15:32:32.243859 140604977559360 train.py:157] Epoch 36/80, Accuracy: 94.53, 
+ Confusion Matrix: 
+ [[729.  29.]
+ [ 57. 757.]], Sensitivity: 92.75, Specificity: 96.31, 
+ Test Accuracy: 90.66, 
+ Test Confusion Matrix: 
+ [[49.  4.]
+ [ 3. 27.]], Test Sensitivity: 94.23, Test Specificity: 87.10,
+ Eval Accuracy: 71.45, 
+ Eval Confusion Matrix: 
+ [[57. 18.]
+ [ 7. 21.]], Eval Sensitivity: 89.06, Eval Specificity: 53.85
+I0201 15:32:34.063026 140604977559360 train.py:157] Epoch 37/80, Accuracy: 94.51, 
+ Confusion Matrix: 
+ [[734.  29.]
+ [ 58. 763.]], Sensitivity: 92.68, Specificity: 96.34, 
+ Test Accuracy: 91.32, 
+ Test Confusion Matrix: 
+ [[48.  3.]
+ [ 4. 28.]], Test Sensitivity: 92.31, Test Specificity: 90.32,
+ Eval Accuracy: 70.95, 
+ Eval Confusion Matrix: 
+ [[58. 19.]
+ [ 6. 20.]], Eval Sensitivity: 90.62, Eval Specificity: 51.28
+I0201 15:32:35.871992 140604977559360 train.py:157] Epoch 38/80, Accuracy: 94.59, 
+ Confusion Matrix: 
+ [[732.  31.]
+ [ 54. 755.]], Sensitivity: 93.13, Specificity: 96.06, 
+ Test Accuracy: 81.39, 
+ Test Confusion Matrix: 
+ [[36.  2.]
+ [16. 29.]], Test Sensitivity: 69.23, Test Specificity: 93.55,
+ Eval Accuracy: 83.37, 
+ Eval Confusion Matrix: 
+ [[46.  2.]
+ [18. 37.]], Eval Sensitivity: 71.88, Eval Specificity: 94.87
+I0201 15:32:37.636259 140604977559360 train.py:157] Epoch 39/80, Accuracy: 93.95, 
+ Confusion Matrix: 
+ [[724.  34.]
+ [ 61. 751.]], Sensitivity: 92.23, Specificity: 95.67, 
+ Test Accuracy: 87.16, 
+ Test Confusion Matrix: 
+ [[42.  2.]
+ [10. 29.]], Test Sensitivity: 80.77, Test Specificity: 93.55,
+ Eval Accuracy: 86.00, 
+ Eval Confusion Matrix: 
+ [[51.  3.]
+ [13. 36.]], Eval Sensitivity: 79.69, Eval Specificity: 92.31
+I0201 15:32:39.449390 140604977559360 train.py:157] Epoch 40/80, Accuracy: 95.36, 
+ Confusion Matrix: 
+ [[740.  27.]
+ [ 46. 759.]], Sensitivity: 94.15, Specificity: 96.56, 
+ Test Accuracy: 89.70, 
+ Test Confusion Matrix: 
+ [[48.  4.]
+ [ 4. 27.]], Test Sensitivity: 92.31, Test Specificity: 87.10,
+ Eval Accuracy: 68.39, 
+ Eval Confusion Matrix: 
+ [[58. 21.]
+ [ 6. 18.]], Eval Sensitivity: 90.62, Eval Specificity: 46.15
+I0201 15:32:41.218094 140604977559360 train.py:157] Epoch 41/80, Accuracy: 94.40, 
+ Confusion Matrix: 
+ [[730.  32.]
+ [ 56. 754.]], Sensitivity: 92.88, Specificity: 95.93, 
+ Test Accuracy: 83.28, 
+ Test Confusion Matrix: 
+ [[43.  5.]
+ [ 9. 26.]], Test Sensitivity: 82.69, Test Specificity: 83.87,
+ Eval Accuracy: 75.74, 
+ Eval Confusion Matrix: 
+ [[51. 11.]
+ [13. 28.]], Eval Sensitivity: 79.69, Eval Specificity: 71.79
+I0201 15:32:43.030376 140604977559360 train.py:157] Epoch 42/80, Accuracy: 94.66, 
+ Confusion Matrix: 
+ [[730.  28.]
+ [ 56. 758.]], Sensitivity: 92.88, Specificity: 96.44, 
+ Test Accuracy: 84.93, 
+ Test Confusion Matrix: 
+ [[38.  1.]
+ [14. 30.]], Test Sensitivity: 73.08, Test Specificity: 96.77,
+ Eval Accuracy: 79.97, 
+ Eval Confusion Matrix: 
+ [[40.  1.]
+ [24. 38.]], Eval Sensitivity: 62.50, Eval Specificity: 97.44
+I0201 15:32:44.829471 140604977559360 train.py:157] Epoch 43/80, Accuracy: 95.55, 
+ Confusion Matrix: 
+ [[740.  24.]
+ [ 46. 762.]], Sensitivity: 94.15, Specificity: 96.95, 
+ Test Accuracy: 89.08, 
+ Test Confusion Matrix: 
+ [[44.  2.]
+ [ 8. 29.]], Test Sensitivity: 84.62, Test Specificity: 93.55,
+ Eval Accuracy: 82.93, 
+ Eval Confusion Matrix: 
+ [[52.  6.]
+ [12. 33.]], Eval Sensitivity: 81.25, Eval Specificity: 84.62
+I0201 15:32:46.646860 140604977559360 train.py:157] Epoch 44/80, Accuracy: 95.55, 
+ Confusion Matrix: 
+ [[738.  22.]
+ [ 48. 764.]], Sensitivity: 93.89, Specificity: 97.20, 
+ Test Accuracy: 85.86, 
+ Test Confusion Matrix: 
+ [[44.  4.]
+ [ 8. 27.]], Test Sensitivity: 84.62, Test Specificity: 87.10,
+ Eval Accuracy: 77.30, 
+ Eval Confusion Matrix: 
+ [[53. 11.]
+ [11. 28.]], Eval Sensitivity: 82.81, Eval Specificity: 71.79
+I0201 15:32:48.446866 140604977559360 train.py:157] Epoch 45/80, Accuracy: 95.17, 
+ Confusion Matrix: 
+ [[741.  31.]
+ [ 45. 755.]], Sensitivity: 94.27, Specificity: 96.06, 
+ Test Accuracy: 89.39, 
+ Test Confusion Matrix: 
+ [[46.  3.]
+ [ 6. 28.]], Test Sensitivity: 88.46, Test Specificity: 90.32,
+ Eval Accuracy: 74.52, 
+ Eval Confusion Matrix: 
+ [[56. 15.]
+ [ 8. 24.]], Eval Sensitivity: 87.50, Eval Specificity: 61.54
+I0201 15:32:50.246827 140604977559360 train.py:157] Epoch 46/80, Accuracy: 94.71, 
+ Confusion Matrix: 
+ [[735.  33.]
+ [ 50. 752.]], Sensitivity: 93.63, Specificity: 95.80, 
+ Test Accuracy: 90.69, 
+ Test Confusion Matrix: 
+ [[44.  1.]
+ [ 8. 30.]], Test Sensitivity: 84.62, Test Specificity: 96.77,
+ Eval Accuracy: 74.18, 
+ Eval Confusion Matrix: 
+ [[49. 11.]
+ [15. 28.]], Eval Sensitivity: 76.56, Eval Specificity: 71.79
+I0201 15:32:52.038635 140604977559360 train.py:157] Epoch 47/80, Accuracy: 95.67, 
+ Confusion Matrix: 
+ [[741.  23.]
+ [ 45. 763.]], Sensitivity: 94.27, Specificity: 97.07, 
+ Test Accuracy: 89.39, 
+ Test Confusion Matrix: 
+ [[46.  3.]
+ [ 6. 28.]], Test Sensitivity: 88.46, Test Specificity: 90.32,
+ Eval Accuracy: 69.67, 
+ Eval Confusion Matrix: 
+ [[58. 20.]
+ [ 6. 19.]], Eval Sensitivity: 90.62, Eval Specificity: 48.72
+I0201 15:32:53.843069 140604977559360 train.py:157] Epoch 48/80, Accuracy: 96.06, 
+ Confusion Matrix: 
+ [[750.  26.]
+ [ 36. 760.]], Sensitivity: 95.42, Specificity: 96.69, 
+ Test Accuracy: 91.66, 
+ Test Confusion Matrix: 
+ [[45.  1.]
+ [ 7. 30.]], Test Sensitivity: 86.54, Test Specificity: 96.77,
+ Eval Accuracy: 79.87, 
+ Eval Confusion Matrix: 
+ [[53.  9.]
+ [11. 30.]], Eval Sensitivity: 82.81, Eval Specificity: 76.92
+I0201 15:32:55.647749 140604977559360 train.py:157] Epoch 49/80, Accuracy: 96.31, 
+ Confusion Matrix: 
+ [[747.  19.]
+ [ 39. 767.]], Sensitivity: 95.04, Specificity: 97.58, 
+ Test Accuracy: 86.85, 
+ Test Confusion Matrix: 
+ [[40.  1.]
+ [12. 30.]], Test Sensitivity: 76.92, Test Specificity: 96.77,
+ Eval Accuracy: 76.74, 
+ Eval Confusion Matrix: 
+ [[49.  9.]
+ [15. 30.]], Eval Sensitivity: 76.56, Eval Specificity: 76.92
+I0201 15:32:57.434184 140604977559360 train.py:157] Epoch 50/80, Accuracy: 95.23, 
+ Confusion Matrix: 
+ [[740.  29.]
+ [ 46. 757.]], Sensitivity: 94.15, Specificity: 96.31, 
+ Test Accuracy: 90.04, 
+ Test Confusion Matrix: 
+ [[45.  2.]
+ [ 7. 29.]], Test Sensitivity: 86.54, Test Specificity: 93.55,
+ Eval Accuracy: 78.08, 
+ Eval Confusion Matrix: 
+ [[54. 11.]
+ [10. 28.]], Eval Sensitivity: 84.38, Eval Specificity: 71.79
+I0201 15:32:59.202621 140604977559360 train.py:157] Epoch 51/80, Accuracy: 95.36, 
+ Confusion Matrix: 
+ [[742.  29.]
+ [ 44. 757.]], Sensitivity: 94.40, Specificity: 96.31, 
+ Test Accuracy: 90.38, 
+ Test Confusion Matrix: 
+ [[42.  0.]
+ [10. 31.]], Test Sensitivity: 80.77, Test Specificity: 100.00,
+ Eval Accuracy: 78.81, 
+ Eval Confusion Matrix: 
+ [[50.  8.]
+ [14. 31.]], Eval Sensitivity: 78.12, Eval Specificity: 79.49
+I0201 15:33:01.028999 140604977559360 train.py:157] Epoch 52/80, Accuracy: 96.18, 
+ Confusion Matrix: 
+ [[749.  23.]
+ [ 37. 763.]], Sensitivity: 95.29, Specificity: 97.07, 
+ Test Accuracy: 85.58, 
+ Test Confusion Matrix: 
+ [[37.  0.]
+ [15. 31.]], Test Sensitivity: 71.15, Test Specificity: 100.00,
+ Eval Accuracy: 79.75, 
+ Eval Confusion Matrix: 
+ [[43.  3.]
+ [21. 36.]], Eval Sensitivity: 67.19, Eval Specificity: 92.31
+I0201 15:33:02.795706 140604977559360 train.py:157] Epoch 53/80, Accuracy: 95.61, 
+ Confusion Matrix: 
+ [[745.  28.]
+ [ 41. 758.]], Sensitivity: 94.78, Specificity: 96.44, 
+ Test Accuracy: 87.16, 
+ Test Confusion Matrix: 
+ [[42.  2.]
+ [10. 29.]], Test Sensitivity: 80.77, Test Specificity: 93.55,
+ Eval Accuracy: 79.31, 
+ Eval Confusion Matrix: 
+ [[49.  7.]
+ [15. 32.]], Eval Sensitivity: 76.56, Eval Specificity: 82.05
+I0201 15:33:04.609107 140604977559360 train.py:157] Epoch 54/80, Accuracy: 95.04, 
+ Confusion Matrix: 
+ [[738.  30.]
+ [ 48. 756.]], Sensitivity: 93.89, Specificity: 96.18, 
+ Test Accuracy: 93.27, 
+ Test Confusion Matrix: 
+ [[45.  0.]
+ [ 7. 31.]], Test Sensitivity: 86.54, Test Specificity: 100.00,
+ Eval Accuracy: 80.09, 
+ Eval Confusion Matrix: 
+ [[50.  7.]
+ [14. 32.]], Eval Sensitivity: 78.12, Eval Specificity: 82.05
+I0201 15:33:06.376235 140604977559360 train.py:157] Epoch 55/80, Accuracy: 96.44, 
+ Confusion Matrix: 
+ [[751.  21.]
+ [ 35. 765.]], Sensitivity: 95.55, Specificity: 97.33, 
+ Test Accuracy: 76.92, 
+ Test Confusion Matrix: 
+ [[28.  0.]
+ [24. 31.]], Test Sensitivity: 53.85, Test Specificity: 100.00,
+ Eval Accuracy: 75.78, 
+ Eval Confusion Matrix: 
+ [[33.  0.]
+ [31. 39.]], Eval Sensitivity: 51.56, Eval Specificity: 100.00
+I0201 15:33:08.161751 140604977559360 train.py:157] Epoch 56/80, Accuracy: 95.48, 
+ Confusion Matrix: 
+ [[744.  29.]
+ [ 42. 757.]], Sensitivity: 94.66, Specificity: 96.31, 
+ Test Accuracy: 91.97, 
+ Test Confusion Matrix: 
+ [[47.  2.]
+ [ 5. 29.]], Test Sensitivity: 90.38, Test Specificity: 93.55,
+ Eval Accuracy: 68.61, 
+ Eval Confusion Matrix: 
+ [[55. 19.]
+ [ 9. 20.]], Eval Sensitivity: 85.94, Eval Specificity: 51.28
+I0201 15:33:09.979283 140604977559360 train.py:157] Epoch 57/80, Accuracy: 96.44, 
+ Confusion Matrix: 
+ [[753.  23.]
+ [ 33. 763.]], Sensitivity: 95.80, Specificity: 97.07, 
+ Test Accuracy: 90.35, 
+ Test Confusion Matrix: 
+ [[47.  3.]
+ [ 5. 28.]], Test Sensitivity: 90.38, Test Specificity: 90.32,
+ Eval Accuracy: 75.24, 
+ Eval Confusion Matrix: 
+ [[52. 12.]
+ [12. 27.]], Eval Sensitivity: 81.25, Eval Specificity: 69.23
+I0201 15:33:11.780583 140604977559360 train.py:157] Epoch 58/80, Accuracy: 96.31, 
+ Confusion Matrix: 
+ [[747.  19.]
+ [ 39. 767.]], Sensitivity: 95.04, Specificity: 97.58, 
+ Test Accuracy: 87.50, 
+ Test Confusion Matrix: 
+ [[39.  0.]
+ [13. 31.]], Test Sensitivity: 75.00, Test Specificity: 100.00,
+ Eval Accuracy: 83.65, 
+ Eval Confusion Matrix: 
+ [[48.  3.]
+ [16. 36.]], Eval Sensitivity: 75.00, Eval Specificity: 92.31
+I0201 15:33:13.560888 140604977559360 train.py:157] Epoch 59/80, Accuracy: 95.36, 
+ Confusion Matrix: 
+ [[740.  27.]
+ [ 46. 759.]], Sensitivity: 94.15, Specificity: 96.56, 
+ Test Accuracy: 87.81, 
+ Test Confusion Matrix: 
+ [[41.  1.]
+ [11. 30.]], Test Sensitivity: 78.85, Test Specificity: 96.77,
+ Eval Accuracy: 84.72, 
+ Eval Confusion Matrix: 
+ [[51.  4.]
+ [13. 35.]], Eval Sensitivity: 79.69, Eval Specificity: 89.74
+I0201 15:33:15.376495 140604977559360 train.py:157] Epoch 60/80, Accuracy: 95.99, 
+ Confusion Matrix: 
+ [[745.  22.]
+ [ 41. 764.]], Sensitivity: 94.78, Specificity: 97.20, 
+ Test Accuracy: 89.73, 
+ Test Confusion Matrix: 
+ [[43.  1.]
+ [ 9. 30.]], Test Sensitivity: 82.69, Test Specificity: 96.77,
+ Eval Accuracy: 75.52, 
+ Eval Confusion Matrix: 
+ [[54. 13.]
+ [10. 26.]], Eval Sensitivity: 84.38, Eval Specificity: 66.67
+I0201 15:33:17.188181 140604977559360 train.py:157] Epoch 61/80, Accuracy: 97.01, 
+ Confusion Matrix: 
+ [[756.  17.]
+ [ 30. 769.]], Sensitivity: 96.18, Specificity: 97.84, 
+ Test Accuracy: 90.38, 
+ Test Confusion Matrix: 
+ [[42.  0.]
+ [10. 31.]], Test Sensitivity: 80.77, Test Specificity: 100.00,
+ Eval Accuracy: 81.65, 
+ Eval Confusion Matrix: 
+ [[52.  7.]
+ [12. 32.]], Eval Sensitivity: 81.25, Eval Specificity: 82.05
+I0201 15:33:18.991857 140604977559360 train.py:157] Epoch 62/80, Accuracy: 96.56, 
+ Confusion Matrix: 
+ [[750.  18.]
+ [ 36. 768.]], Sensitivity: 95.42, Specificity: 97.71, 
+ Test Accuracy: 91.66, 
+ Test Confusion Matrix: 
+ [[45.  1.]
+ [ 7. 30.]], Test Sensitivity: 86.54, Test Specificity: 96.77,
+ Eval Accuracy: 80.59, 
+ Eval Confusion Matrix: 
+ [[49.  6.]
+ [15. 33.]], Eval Sensitivity: 76.56, Eval Specificity: 84.62
+I0201 15:33:20.789255 140604977559360 train.py:157] Epoch 63/80, Accuracy: 96.63, 
+ Confusion Matrix: 
+ [[751.  18.]
+ [ 35. 768.]], Sensitivity: 95.55, Specificity: 97.71, 
+ Test Accuracy: 90.66, 
+ Test Confusion Matrix: 
+ [[49.  4.]
+ [ 3. 27.]], Test Sensitivity: 94.23, Test Specificity: 87.10,
+ Eval Accuracy: 70.45, 
+ Eval Confusion Matrix: 
+ [[59. 20.]
+ [ 5. 19.]], Eval Sensitivity: 92.19, Eval Specificity: 48.72
+I0201 15:33:22.612900 140604977559360 train.py:157] Epoch 64/80, Accuracy: 96.95, 
+ Confusion Matrix: 
+ [[758.  20.]
+ [ 28. 766.]], Sensitivity: 96.44, Specificity: 97.46, 
+ Test Accuracy: 90.35, 
+ Test Confusion Matrix: 
+ [[47.  3.]
+ [ 5. 28.]], Test Sensitivity: 90.38, Test Specificity: 90.32,
+ Eval Accuracy: 75.80, 
+ Eval Confusion Matrix: 
+ [[56. 14.]
+ [ 8. 25.]], Eval Sensitivity: 87.50, Eval Specificity: 64.10
+I0201 15:33:24.409490 140604977559360 train.py:157] Epoch 65/80, Accuracy: 95.80, 
+ Confusion Matrix: 
+ [[747.  27.]
+ [ 39. 759.]], Sensitivity: 95.04, Specificity: 96.56, 
+ Test Accuracy: 88.43, 
+ Test Confusion Matrix: 
+ [[45.  3.]
+ [ 7. 28.]], Test Sensitivity: 86.54, Test Specificity: 90.32,
+ Eval Accuracy: 76.52, 
+ Eval Confusion Matrix: 
+ [[52. 11.]
+ [12. 28.]], Eval Sensitivity: 81.25, Eval Specificity: 71.79
+I0201 15:33:26.238965 140604977559360 train.py:157] Epoch 66/80, Accuracy: 97.45, 
+ Confusion Matrix: 
+ [[760.  15.]
+ [ 25. 770.]], Sensitivity: 96.82, Specificity: 98.09, 
+ Test Accuracy: 88.77, 
+ Test Confusion Matrix: 
+ [[42.  1.]
+ [10. 30.]], Test Sensitivity: 80.77, Test Specificity: 96.77,
+ Eval Accuracy: 74.74, 
+ Eval Confusion Matrix: 
+ [[53. 13.]
+ [11. 26.]], Eval Sensitivity: 82.81, Eval Specificity: 66.67
+I0201 15:33:28.008939 140604977559360 train.py:157] Epoch 67/80, Accuracy: 96.88, 
+ Confusion Matrix: 
+ [[755.  18.]
+ [ 31. 768.]], Sensitivity: 96.06, Specificity: 97.71, 
+ Test Accuracy: 88.74, 
+ Test Confusion Matrix: 
+ [[47.  4.]
+ [ 5. 27.]], Test Sensitivity: 90.38, Test Specificity: 87.10,
+ Eval Accuracy: 76.58, 
+ Eval Confusion Matrix: 
+ [[57. 14.]
+ [ 7. 25.]], Eval Sensitivity: 89.06, Eval Specificity: 64.10
+I0201 15:33:29.804056 140604977559360 train.py:157] Epoch 68/80, Accuracy: 95.10, 
+ Confusion Matrix: 
+ [[738.  30.]
+ [ 47. 755.]], Sensitivity: 94.01, Specificity: 96.18, 
+ Test Accuracy: 88.09, 
+ Test Confusion Matrix: 
+ [[48.  5.]
+ [ 4. 26.]], Test Sensitivity: 92.31, Test Specificity: 83.87,
+ Eval Accuracy: 77.58, 
+ Eval Confusion Matrix: 
+ [[55. 12.]
+ [ 9. 27.]], Eval Sensitivity: 85.94, Eval Specificity: 69.23
+I0201 15:33:31.584709 140604977559360 train.py:157] Epoch 69/80, Accuracy: 96.44, 
+ Confusion Matrix: 
+ [[751.  21.]
+ [ 35. 765.]], Sensitivity: 95.55, Specificity: 97.33, 
+ Test Accuracy: 84.62, 
+ Test Confusion Matrix: 
+ [[36.  0.]
+ [16. 31.]], Test Sensitivity: 69.23, Test Specificity: 100.00,
+ Eval Accuracy: 78.97, 
+ Eval Confusion Matrix: 
+ [[42.  3.]
+ [22. 36.]], Eval Sensitivity: 65.62, Eval Specificity: 92.31
+I0201 15:33:33.375934 140604977559360 train.py:157] Epoch 70/80, Accuracy: 97.32, 
+ Confusion Matrix: 
+ [[758.  15.]
+ [ 27. 770.]], Sensitivity: 96.56, Specificity: 98.09, 
+ Test Accuracy: 87.16, 
+ Test Confusion Matrix: 
+ [[42.  2.]
+ [10. 29.]], Test Sensitivity: 80.77, Test Specificity: 93.55,
+ Eval Accuracy: 82.15, 
+ Eval Confusion Matrix: 
+ [[51.  6.]
+ [13. 33.]], Eval Sensitivity: 79.69, Eval Specificity: 84.62
+I0201 15:33:35.171698 140604977559360 train.py:157] Epoch 71/80, Accuracy: 96.65, 
+ Confusion Matrix: 
+ [[760.  21.]
+ [ 32. 771.]], Sensitivity: 95.96, Specificity: 97.35, 
+ Test Accuracy: 86.54, 
+ Test Confusion Matrix: 
+ [[38.  0.]
+ [14. 31.]], Test Sensitivity: 73.08, Test Specificity: 100.00,
+ Eval Accuracy: 78.47, 
+ Eval Confusion Matrix: 
+ [[43.  4.]
+ [21. 35.]], Eval Sensitivity: 67.19, Eval Specificity: 89.74
+I0201 15:33:36.956945 140604977559360 train.py:157] Epoch 72/80, Accuracy: 97.14, 
+ Confusion Matrix: 
+ [[761.  20.]
+ [ 25. 766.]], Sensitivity: 96.82, Specificity: 97.46, 
+ Test Accuracy: 89.39, 
+ Test Confusion Matrix: 
+ [[46.  3.]
+ [ 6. 28.]], Test Sensitivity: 88.46, Test Specificity: 90.32,
+ Eval Accuracy: 71.96, 
+ Eval Confusion Matrix: 
+ [[56. 17.]
+ [ 8. 22.]], Eval Sensitivity: 87.50, Eval Specificity: 56.41
+I0201 15:33:38.714281 140604977559360 train.py:157] Epoch 73/80, Accuracy: 98.03, 
+ Confusion Matrix: 
+ [[767.  12.]
+ [ 19. 774.]], Sensitivity: 97.58, Specificity: 98.47, 
+ Test Accuracy: 92.28, 
+ Test Confusion Matrix: 
+ [[49.  3.]
+ [ 3. 28.]], Test Sensitivity: 94.23, Test Specificity: 90.32,
+ Eval Accuracy: 71.17, 
+ Eval Confusion Matrix: 
+ [[55. 17.]
+ [ 9. 22.]], Eval Sensitivity: 85.94, Eval Specificity: 56.41
+I0201 15:33:40.599161 140604977559360 train.py:157] Epoch 74/80, Accuracy: 96.88, 
+ Confusion Matrix: 
+ [[759.  22.]
+ [ 27. 764.]], Sensitivity: 96.56, Specificity: 97.20, 
+ Test Accuracy: 90.69, 
+ Test Confusion Matrix: 
+ [[44.  1.]
+ [ 8. 30.]], Test Sensitivity: 84.62, Test Specificity: 96.77,
+ Eval Accuracy: 82.15, 
+ Eval Confusion Matrix: 
+ [[51.  6.]
+ [13. 33.]], Eval Sensitivity: 79.69, Eval Specificity: 84.62
+I0201 15:33:42.374758 140604977559360 train.py:157] Epoch 75/80, Accuracy: 97.77, 
+ Confusion Matrix: 
+ [[764.  13.]
+ [ 22. 773.]], Sensitivity: 97.20, Specificity: 98.35, 
+ Test Accuracy: 83.65, 
+ Test Confusion Matrix: 
+ [[35.  0.]
+ [17. 31.]], Test Sensitivity: 67.31, Test Specificity: 100.00,
+ Eval Accuracy: 79.47, 
+ Eval Confusion Matrix: 
+ [[41.  2.]
+ [23. 37.]], Eval Sensitivity: 64.06, Eval Specificity: 94.87
+I0201 15:33:44.160169 140604977559360 train.py:157] Epoch 76/80, Accuracy: 97.46, 
+ Confusion Matrix: 
+ [[761.  15.]
+ [ 25. 771.]], Sensitivity: 96.82, Specificity: 98.09, 
+ Test Accuracy: 86.54, 
+ Test Confusion Matrix: 
+ [[38.  0.]
+ [14. 31.]], Test Sensitivity: 73.08, Test Specificity: 100.00,
+ Eval Accuracy: 79.25, 
+ Eval Confusion Matrix: 
+ [[44.  4.]
+ [20. 35.]], Eval Sensitivity: 68.75, Eval Specificity: 89.74
+I0201 15:33:45.970502 140604977559360 train.py:157] Epoch 77/80, Accuracy: 96.97, 
+ Confusion Matrix: 
+ [[764.  20.]
+ [ 28. 772.]], Sensitivity: 96.46, Specificity: 97.47, 
+ Test Accuracy: 92.93, 
+ Test Confusion Matrix: 
+ [[48.  2.]
+ [ 4. 29.]], Test Sensitivity: 92.31, Test Specificity: 93.55,
+ Eval Accuracy: 74.52, 
+ Eval Confusion Matrix: 
+ [[56. 15.]
+ [ 8. 24.]], Eval Sensitivity: 87.50, Eval Specificity: 61.54
+I0201 15:33:47.819907 140604977559360 train.py:157] Epoch 78/80, Accuracy: 96.06, 
+ Confusion Matrix: 
+ [[745.  21.]
+ [ 41. 765.]], Sensitivity: 94.78, Specificity: 97.33, 
+ Test Accuracy: 80.74, 
+ Test Confusion Matrix: 
+ [[37.  3.]
+ [15. 28.]], Test Sensitivity: 71.15, Test Specificity: 90.32,
+ Eval Accuracy: 80.25, 
+ Eval Confusion Matrix: 
+ [[42.  2.]
+ [22. 37.]], Eval Sensitivity: 65.62, Eval Specificity: 94.87
+I0201 15:33:49.630975 140604977559360 train.py:157] Epoch 79/80, Accuracy: 96.82, 
+ Confusion Matrix: 
+ [[753.  18.]
+ [ 32. 767.]], Sensitivity: 95.92, Specificity: 97.71, 
+ Test Accuracy: 93.58, 
+ Test Confusion Matrix: 
+ [[47.  1.]
+ [ 5. 30.]], Test Sensitivity: 90.38, Test Specificity: 96.77,
+ Eval Accuracy: 73.74, 
+ Eval Confusion Matrix: 
+ [[55. 15.]
+ [ 9. 24.]], Eval Sensitivity: 85.94, Eval Specificity: 61.54
+I0201 15:33:49.677803 140604977559360 train.py:226] Finished training after 7821 steps and 80 epochs.
+Model: "vgg_like"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_1 (InputLayer)         [(None, None, None, 3)]   0         
+_________________________________________________________________
+conv2d (Conv2D)              (None, None, None, 8)     224       
+_________________________________________________________________
+batch_normalization (BatchNo (None, None, None, 8)     32        
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, None, None, 8)     584       
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, None, None, 8)     0         
+_________________________________________________________________
+batch_normalization_1 (Batch (None, None, None, 8)     32        
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, None, None, 16)    1168      
+_________________________________________________________________
+batch_normalization_2 (Batch (None, None, None, 16)    64        
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, None, None, 16)    2320      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, None, None, 16)    0         
+_________________________________________________________________
+batch_normalization_3 (Batch (None, None, None, 16)    64        
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, None, None, 32)    4640      
+_________________________________________________________________
+batch_normalization_4 (Batch (None, None, None, 32)    128       
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, None, None, 32)    9248      
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, None, None, 32)    0         
+_________________________________________________________________
+batch_normalization_5 (Batch (None, None, None, 32)    128       
+_________________________________________________________________
+conv2d_6 (Conv2D)            (None, None, None, 64)    18496     
+_________________________________________________________________
+batch_normalization_6 (Batch (None, None, None, 64)    256       
+_________________________________________________________________
+conv2d_7 (Conv2D)            (None, None, None, 64)    36928     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, None, None, 64)    0         
+_________________________________________________________________
+batch_normalization_7 (Batch (None, None, None, 64)    256       
+_________________________________________________________________
+global_average_pooling2d (Gl (None, 64)                0         
+_________________________________________________________________
+dense (Dense)                (None, 128)               8320      
+_________________________________________________________________
+dropout (Dropout)            (None, 128)               0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 2)                 258       
+=================================================================
+Total params: 83,146
+Trainable params: 82,666
+Non-trainable params: 480
+_________________________________________________________________
