@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-class ConfusionMatrix(tf.keras.metrics.Metric):
+class ConfusionMatrix(tf.keras.metrics.Metric): # Baran
 
     def __init__(self, name="confusion_matrix", **kwargs):
         super(ConfusionMatrix, self).__init__(name=name, **kwargs)
@@ -30,7 +30,7 @@ class ConfusionMatrix(tf.keras.metrics.Metric):
         return tf.reshape(x, [2, 2])
 
 
-class Accuracy(tf.keras.metrics.Metric):
+class Accuracy(tf.keras.metrics.Metric): # Baran
 
     def __init__(self, name="accuracy"):
         super(Accuracy, self).__init__(name=name)
@@ -88,7 +88,7 @@ class BalancedAccuracy(tf.keras.metrics.Metric):
         return x / 2
 
 
-class Sensitivity(tf.keras.metrics.Metric):
+class Sensitivity(tf.keras.metrics.Metric): # Baran
 
     def __init__(self, name="sensitivity"):
         super(Sensitivity, self).__init__(name=name)
@@ -116,7 +116,7 @@ class Sensitivity(tf.keras.metrics.Metric):
         return x
 
 
-class Specificity(tf.keras.metrics.Metric):
+class Specificity(tf.keras.metrics.Metric): # Baran
 
     def __init__(self, name="specificity"):
         super(Specificity, self).__init__(name=name)
@@ -144,7 +144,7 @@ class Specificity(tf.keras.metrics.Metric):
         return x
 
 
-class F1Score(tf.keras.metrics.Metric):
+class F1Score(tf.keras.metrics.Metric): # Baran
 
     def __init__(self, name="f1_score"):
         super(F1Score, self).__init__(name=name)
