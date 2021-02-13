@@ -66,7 +66,7 @@ def normalize(image, label, ds_mean, ds_std):
 
 
 @tf.function
-def augment(image, label):
+def augment(image, label): #Baran
     """(randomized) Data augmentation
         * flip image
         * rotate image at random angle
