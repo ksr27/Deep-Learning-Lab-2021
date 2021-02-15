@@ -8,7 +8,7 @@ from shutil import copyfile
 
 
 @gin.configurable
-class Trainer(object):
+class Trainer(object): # Checkpointing: Baran, Using Epoch instead of steps, logging to tensorboard, SGD: Lydia
     def __init__(self, model, ds_train, ds_val, ds_test, ds_info, run_paths, epochs,
                  log_interval, ckpt_interval, initial_lr, momentum):  # total_steps
         # Summary Writer
@@ -156,7 +156,7 @@ class Trainer(object):
                 self.train_specificity.reset_states()
                 self.train_f1_score.reset_states()
 
-                # Save checkpoint #Baran
+                # Save checkpoint 
                 self.manager.save()
 
                 self.current_epoch += 1
