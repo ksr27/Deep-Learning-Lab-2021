@@ -2,7 +2,8 @@
 - Lydia Schönpflug (st169955)
 - Baran Can Gül (st168861)
 
-Project 1: Diabetic Retinopathy
+# Project 1: Diabetic Retinopathy
+
 # Project structure
 Project1-Diabetic_Retinopathy/custom_tfds: contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
 Project1-Diabetic_Retinopathy/diabetic_retinopathy:
