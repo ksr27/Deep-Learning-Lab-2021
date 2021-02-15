@@ -1,3 +1,5 @@
+#Lydia
+
 import tensorflow as tf
 import datetime
 import gin
@@ -10,6 +12,9 @@ import cv2
 
 @gin.configurable
 def visualize(ds, num_pics):
+    """
+    Saves num_pics pictures from ds to file and tensorboard
+    """
     logdir = "logs/img" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")  # Sets up a timestamped log directory.
     file_writer = tf.summary.create_file_writer(logdir)  # Creates a file writer for the log directory.
 
