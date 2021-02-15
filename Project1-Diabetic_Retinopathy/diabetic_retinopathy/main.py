@@ -36,9 +36,9 @@ def main(argv):
             continue
     else:
         evaluate(model,
-                 './results/best_runs/clahe/tf_ckpts/ckpt-24',
-                 ds_test,
-                 ds_info,
+                 checkpoint='./results/best_runs/clahe/tf_ckpts/ckpt-24',
+                 ds_test=ds_test,
+                 ds_info=ds_info,
                  visualize_flag=True)
 
 
