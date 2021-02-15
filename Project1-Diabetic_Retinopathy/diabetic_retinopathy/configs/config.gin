@@ -1,11 +1,12 @@
 # Input pipeline
 load.name = 'idrid' #'eyepacs', 'kaggle_dr'
+load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds' # please adjust the path for your computer/ account here!
 
 reformat.ds_name = 'idrid' #'eyepacs', 'kaggle_dr'
 reformat.img_height = 256
 reformat.img_width = 256
 
-prepare.processing_mode = 'clahe' # 'clahe', 'btg'
+prepare.processing_mode = 'none' # 'clahe', 'btg'
 apply_clahe.clip_limit = 2.95
 prepare.batch_size = 16
 balance_augment_ds.aug_perc = 5.4
