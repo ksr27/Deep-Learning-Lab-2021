@@ -34,8 +34,9 @@ Project1-Diabetic_Retinopathy/diabetic_retinopathy: main project folder
 ```
 
 ### How to run the code
-As we generated custom tfds from "idrid" and a subset of "kaggle_dr" dataset you have to adjust the path to the custom_tfds folder
+Please adjust the path to the custom_tfds folder: 
 `"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds"` for your server user account/ computer in the `config.gin` file.
+
 So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds' ```
 
 #### To run in train mode:
