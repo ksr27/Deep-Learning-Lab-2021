@@ -61,15 +61,15 @@ evaluate(model,
 ```
 
 Take a checkpoint from the following list to evaluate our model on:
-1. No image processing:       `'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*` <br />
+1. No image processing:       `'./results/best_runs/no-processing/tf_ckpts/ckpt-45'` <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
-2. ben graham img processing: `'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'*` <br />
+2. ben graham img processing: `'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'` <br />
    Please adjust the config.gin: prepare.processing_mode = 'btg'
-3. clahe img processing:      `'./results/best_runs/clahe/tf_ckpts/ckpt-24'*` <br />
+3. clahe img processing:      `'./results/best_runs/clahe/tf_ckpts/ckpt-24'` <br />
    Please adjust the config.gin: prepare.processing_mode = 'clahe'
-4. No augmentation:           `'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'*` <br />
+4. No augmentation:           `'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'` <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
-5. No balancing:              `'./results/best_runs/plain/tf_ckpts/ckpt-78'*` <br />
+5. No balancing:              `'./results/best_runs/plain/tf_ckpts/ckpt-78'` <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
 
 ### Results
@@ -138,7 +138,7 @@ evaluator = Evaluator(model,
 
 Take a checkpoint from the following list to evaluate our model on:
 S2L checkpoints:      
-1. basic s2l model: `'./best_runs/basic/s2l/tf_ckpts/ckpt-77'* <br />`
+1. basic s2l model: `'./best_runs/basic/s2l/tf_ckpts/ckpt-77'` <br />
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2l'
@@ -147,7 +147,7 @@ S2L checkpoints:
    lstm_arch.dense_units = 128
    lstm_arch.attention = False
    ```
-2. after hyperparameter opt: `'./best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'* <br />`
+2. after hyperparameter opt: `'./best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'` <br />
     Please adjust the config.gin:
     ```
     hapt_params.mode = 's2l'
@@ -156,7 +156,7 @@ S2L checkpoints:
     lstm_arch.dense_units = 256
     lstm_arch.attention = False
     ```
-3. hyperparameter opt+ attention: `'./best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'* <br />`
+3. hyperparameter opt+ attention: `'./best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'` <br />
     Please adjust the config.gin:
     ```
     hapt_params.mode = 's2l'
@@ -165,7 +165,7 @@ S2L checkpoints:
     lstm_arch.dense_units = 256
     lstm_arch.attention = True
     ```
-5. SCCE with weighting:          `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
+5. SCCE with weighting:          `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'` <br />
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2l'
@@ -174,7 +174,7 @@ S2L checkpoints:
    lstm_arch.dense_units = 256
    lstm_arch.attention = True
       ```
-6. Focal loss:              `'./best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'* <br />`
+6. Focal loss:              `'./best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'` <br />
     Please adjust the config.gin:
     ```
     hapt_params.mode = 's2l'
@@ -183,7 +183,7 @@ S2L checkpoints:
     lstm_arch.dense_units = 256
     lstm_arch.attention = True
        ```
-7. Focal loss+ weighting:  `'./best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'* <br />`
+7. Focal loss+ weighting:  `'./best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'` <br />
     Please adjust the config.gin:
     ```
     hapt_params.mode = 's2l'
@@ -194,7 +194,7 @@ S2L checkpoints:
        ```
 
 S2S checkpoints:
-1. basic s2s model: `'./best_runs/basic/s2s/tf_ckpts/ckpt-70'* <br />`
+1. basic s2s model: `'./best_runs/basic/s2s/tf_ckpts/ckpt-70'` <br />
   Please adjust the config.gin:
   ```
   hapt_params.mode = 's2s'
@@ -202,7 +202,7 @@ S2S checkpoints:
   lstm_arch.lstm_layers = 1
   lstm_arch.dense_units = 128
   ```
-2. after hyperparameter opt: `'./best_runs/arch-opt/s2s/tf_ckpts/ckpt-75'* <br />`
+2. after hyperparameter opt: `'./best_runs/arch-opt/s2s/tf_ckpts/ckpt-75'` <br />
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2s'
@@ -210,7 +210,7 @@ S2S checkpoints:
    lstm_arch.lstm_layers = 2
    lstm_arch.dense_units = 256
    ```
-3. SCCE with weighting          `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'* <br />`
+3. SCCE with weighting          `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'` <br />
   Please adjust the config.gin:
   ```
   hapt_params.mode = 's2s'
@@ -218,7 +218,7 @@ S2S checkpoints:
   lstm_arch.lstm_layers = 2
   lstm_arch.dense_units = 256
      ```
-4. Focal loss:              `'./best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'* <br />`
+4. Focal loss:              `'./best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'` <br />
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2l'
@@ -226,7 +226,7 @@ S2S checkpoints:
    lstm_arch.lstm_layers = 2
    lstm_arch.dense_units = 256
       ```
-5. Focal loss+ weighting:  `'./best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'* <br />`
+5. Focal loss+ weighting:  `'./best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'` <br />
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2l'
@@ -243,7 +243,7 @@ Best overall: scce+weighting
 - Balanced Test Accuracy: **92,30%**
 - Balanced Accuracy on self_recorded_ds: **21,05%**
 
-checkpoint: `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
+checkpoint: `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'` <br />
 
 S2S
 Best overall: scce+weighting
@@ -252,6 +252,6 @@ Best overall: scce+weighting
 - Balanced Test Accuracy: **80,94%**
 - Balanced Accuracy on self_recorded_ds: **22,82%**
 
-checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'* <br />`
+checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'` <br />
 
 see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
