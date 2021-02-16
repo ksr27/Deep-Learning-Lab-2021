@@ -5,11 +5,11 @@
 ## Project 1: Diabetic Retinopathy
 ### Project structure
 ```
-Project1-Diabetic_Retinopathy/custom_tfds: contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
-Project1-Diabetic_Retinopathy/diabetic_retinopathy:
+Project1-Diabetic_Retinopathy/custom_tfds         : contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
+Project1-Diabetic_Retinopathy/diabetic_retinopathy: main project folder
+
    - main.py                          : Run the code with this file
    - train.py                         : Contains trainer class for model training
-   - tune.py                          : For running hyperparameter optimization
    - tune.py                          : For running hyperparameter optimization
    - configs/config.gin               : All configurations for model architecture, dataset loading, visualization etc. can be set here.
    - input_pipeline/datasets.py       : Load dataset and preprocess.
@@ -77,3 +77,30 @@ Best overall:
 checkpoint: *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*
 
 see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
+
+## Project 2: Human Activity Recognition
+### Project structure
+```
+Project2-Human_Activity_Recognition/self_recorded_ds           : contains csv filf reclorded dataset
+Project2-Human_Activity_Recognition/human_activity_recognition : main project folder
+
+   - main.py                          : Run the code with this file
+   - train.py                         : Contains trainer class for model training
+   - tune.py                          : For running hyperparameter optimization
+   - configs/config.gin               : All configurations for model architecture, dataset loading, visualization etc. can be set here.
+   - input_pipeline/datasets.py       : Load dataset and preprocess.
+                   /preprocessing.py  : Dataset loading, preprocessing and managing tfrecord files
+                   /visualization.py  : Confusion matrix visualization
+   - models/architectures.py          : Defines model architecture
+   - evaluation/metrics.py            : Metric classes
+              /evaluate.py            : Class evaluator for evaluating the model on ds_test
+   - logs                             : During train/ evaluation run tensorboard and grad cam images (for evaluation) will be logged here.
+   - tf_ckpts                         : During train/ evaluation run checkpoints will be stored here.
+   - tfrecords/s2s                    : tfrecord files for s2s classifcation
+              /s2l                    : tfrecord files for s2l classifcation
+   - documentation                    : Contains our paper
+   - best_runs/basic                  : logs, checkpoint and train, val and test confusion matrices for basic s2s and s2l model
+              /arch-opt               : logs, checkpoint and train, val and test confusion matrices after hyperparam opt+ adding attention
+              /loss-opt               : logs, checkpoint and train, val and test confusion matrices for different loss configuration
+```
+
