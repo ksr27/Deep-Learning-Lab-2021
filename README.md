@@ -7,30 +7,30 @@
 ```
 Project1-Diabetic_Retinopathy/custom_tfds: contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
 Project1-Diabetic_Retinopathy/diabetic_retinopathy:
-   *main.py* : Run the code with this file
-   *train.py* : Contains trainer class for model training
-   *tune.py* : For running hyperparameter optimization
-   *tune.py* : For running hyperparameter optimization
-   *configs/config.gin*: All configurations for model architecture, dataset loading, visualization etc. can be set here.
-   *input_pipeline/datasets.py*: Load dataset and preprocess.
-                 */preprocessing.py*: Contains preprocessing functions.
-                 */img_processing.py*: Clahe, Ben Graham preprocessing functions
-                 */visualization.py*: Confusion matrix visualization
-   *models/architectures.py*: Defines model architecture
-         */layers.py*: Defines single vgg_block
-   *evaluation/metrics.py*: Metric classes
-             */evaluate.py*: Function for evaluating the model on ds_test
-   *deep visualization/grad_cam.py*: Guided grad cam implementation
-   *logs*: During train/ evaluation run tensorboard and grad cam images (for evaluation) will be logged here.
-   *tf_ckpts*: During train/ evaluation run checkpoints will be stored here.
-   *documentation*: Contains our poster and presentation
-   *results/avg10*: Contains logs and checkpoints for 10 runs for each configuration (basis for our average 10 runs result)
-          */best_runs*: Contains logs and checkpoints for the best run for each configuration
-   *examples_images/btgraham*: Before and after images for Ben Graham image processing.
-                  */clahe*: Before and after images for clahe
-                  */data_augmentation*: Before and after images for data augmentation
-                  */grad_cam*: Before and after images for Grad Cam (for all three image processing options)
-                  */img_evolution*: Shows one images progression through all preprocessing steps.
+   - main.py                          : Run the code with this file
+   - train.py                         : Contains trainer class for model training
+   - tune.py                          : For running hyperparameter optimization
+   - tune.py                          : For running hyperparameter optimization
+   - configs/config.gin               : All configurations for model architecture, dataset loading, visualization etc. can be set here.
+   - input_pipeline/datasets.py       : Load dataset and preprocess.
+                   /preprocessing.py  : Contains preprocessing functions.
+                   /img_processing.py : Clahe, Ben Graham preprocessing functions
+                   /visualization.py  : Confusion matrix visualization
+   - models/architectures.py          : Defines model architecture
+           /layers.py                 : Defines single vgg_block
+   - evaluation/metrics.py            : Metric classes
+              /evaluate.py            : Function for evaluating the model on ds_test
+   - deep visualization/grad_cam.py   : Guided grad cam implementation
+   - logs                             : During train/ evaluation run tensorboard and grad cam images (for evaluation) will be logged here.
+   - tf_ckpts                         : During train/ evaluation run checkpoints will be stored here.
+   - documentation                    : Contains our poster and presentation
+   - results/avg10                    : Contains logs and checkpoints for 10 runs for each configuration (basis for our average 10 runs result)
+           /best_runs                 : Contains logs and checkpoints for the best run for each configuration
+   - examples_images/btgraham         : Before and after images for Ben Graham image processing.
+                    /clahe            : Before and after images for clahe
+                    /data_augmentation: Before and after images for data augmentation
+                    /grad_cam         : Before and after images for Grad Cam (for all three image processing options)
+                    /img_evolution    : Shows one images progression through all preprocessing steps.
 ```
 
 ### How to run the code
