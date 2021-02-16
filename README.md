@@ -5,7 +5,7 @@
 ## Project 1: Diabetic Retinopathy
 ### Project structure
 ```
-Project1-Diabetic_Retinopathy/custom_tfds         : contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
+Project1-Diabetic_Retinopathy/custom_tfds         : contains "idrid" [and a subset of "kaggle_dr" dataset in tfds form that was too big to contribute to github, so if you are interested please contact Lydia (st169955@stud.uni-stuttgart.de)]
 Project1-Diabetic_Retinopathy/diabetic_retinopathy: main project folder
 
    - main.py                          : Run the code with this file
@@ -44,20 +44,18 @@ in *main.py*:
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 ```
 
-Now you can just run `"python main.py"`
-
 #### To run in eval mode:
 ```python
 flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
 ```
+Configurations in config.gin:
+```
+# Evaluation
+evaluate.checkpoint = ' ' # checkpoint to evaluate for
+evaluate.visualize_flag = True # whether to run grad cam or not
 
-Evaluate function:
-```python
-evaluate(model,
-         checkpoint='./results/best_runs/clahe/tf_ckpts/ckpt-24', # add the wanted checkpoint path here (see below)
-         ds_test=ds_test,
-         ds_info=ds_info,
-         visualize_flag=True) #Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
+# Deep Visualization
+grad_cam_wbp.num_of_batches = 1 # num of batches to run gradcam for
 ```
 
 Take a checkpoint from the following list to evaluate our model on:
@@ -80,7 +78,7 @@ Best overall:
 
 checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
 
-see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
+see [results-folder](Project1-Diabetic_Retinopathy/diabetic_retinopathy/results) and [poster](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/poster-team15.pdf) and [presentation](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/presentation-team15.pdf) for more detailed information on our results
 
 ## Project 2: Human Activity Recognition
 ### Project structure
@@ -118,22 +116,21 @@ in *main.py*:
 ```python
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 ```
-
-Now you can just run `"python main.py"`
+Configuration in config.gin:
+```
+Trainer.log_cm = True # whether to save all confusion matrices from training to file
+```
 
 #### To run in eval mode:
 ```python
 flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
 ```
-Now you can just run `"python main.py"`
 
-Evaluator:
-```python
-evaluator = Evaluator(model,
-                      './best_runs/basic/s2l/tf_ckpts/ckpt-77', # add the wanted checkpoint path here (see below)
-                      ds_test,
-                      ds_info,
-                      visualize_flag=False) #Set this flag to visualize the model prediction (logged to ./logs/eval/-timestamp)
+Configurations in config.gin:
+```
+Evaluator.checkpoint     =   # * add the wanted checkpoint path here (see below)*  
+Evaluator.visualize_flag =   # Set this flag to visualize the model prediction (logged to ./logs/eval/-timestamp)
+Evaluator.num_batches    = 1 # num of batches to visualize the output prediction for
 ```
 
 Take a checkpoint from the following list to evaluate our model on:
@@ -254,4 +251,4 @@ Best overall: scce+weighting
 
 checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'` <br />
 
-see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
+see [paper](Project2-Human_Activity_Recognition/documentation/paper.pdf) 
