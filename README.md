@@ -40,12 +40,16 @@ So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Pro
 
 #### To run in train mode:
 in *main.py*:
-```python flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.') ```
+```python 
+flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.') 
+```
 
 Now you can just run `"python main.py"
 
 #### To run in eval mode:
-```python flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.') ```
+```python 
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.') 
+```
 
 Evaluate function:
 ```python
