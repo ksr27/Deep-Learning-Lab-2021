@@ -80,7 +80,7 @@ Best overall:
 
 checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
 
-see [results-folder](/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results) and [poster](/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/poster-team15.pdf) and [presentation](/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/presentation-team15.pdf) for more detailed information on our results
+see [results-folder](Project1-Diabetic_Retinopathy/diabetic_retinopathy/results) and [poster](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/poster-team15.pdf) and [presentation](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/presentation-team15.pdf) for more detailed information on our results
 
 ## Project 2: Human Activity Recognition
 ### Project structure
@@ -254,4 +254,4 @@ Best overall: scce+weighting
 
 checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'` <br />
 
-see [paper](dl-lab-2020-team15/Project2-Human_Activity_Recognition/documentation/paper.pdf) 
+see [paper](Project2-Human_Activity_Recognition/documentation/paper.pdf) 
