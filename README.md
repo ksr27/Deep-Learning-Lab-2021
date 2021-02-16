@@ -180,7 +180,7 @@ S2L checkpoints:
     lstm_arch.dense_units = 256
     lstm_arch.attention = True
     ```
-5. SCCE with weighting          `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
+5. SCCE with weighting:          `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
    Please adjust the config.gin:
    ```
    hapt_params.mode = 's2l'
@@ -208,12 +208,65 @@ S2L checkpoints:
     lstm_arch.attention = True
        ```
 
+S2S checkpoints:
+1. basic s2s model: `'./best_runs/basic/s2s/tf_ckpts/ckpt-70'* <br />`
+  Please adjust the config.gin:
+  ```
+  hapt_params.mode = 's2s'
+  lstm_arch.lstm_units = 128
+  lstm_arch.lstm_layers = 1
+  lstm_arch.dense_units = 128
+  ```
+2. after hyperparameter opt: `'./best_runs/arch-opt/s2s/tf_ckpts/ckpt-75'* <br />`
+   Please adjust the config.gin:
+   ```
+   hapt_params.mode = 's2s'
+   lstm_arch.lstm_units = 256
+   lstm_arch.lstm_layers = 2
+   lstm_arch.dense_units = 256
+   ```
+3. SCCE with weighting          `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'* <br />`
+  Please adjust the config.gin:
+  ```
+  hapt_params.mode = 's2s'
+  lstm_arch.lstm_units = 256
+  lstm_arch.lstm_layers = 2
+  lstm_arch.dense_units = 256
+     ```
+4. Focal loss:              `'./best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'* <br />`
+   Please adjust the config.gin:
+   ```
+   hapt_params.mode = 's2l'
+   lstm_arch.lstm_units = 256
+   lstm_arch.lstm_layers = 2
+   lstm_arch.dense_units = 256
+      ```
+5. Focal loss+ weighting:  `'./best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'* <br />`
+   Please adjust the config.gin:
+   ```
+   hapt_params.mode = 's2l'
+   lstm_arch.lstm_units = 256
+   lstm_arch.lstm_layers = 2
+   lstm_arch.dense_units = 256
+   ```
 ### Results
-Best overall:
-- Balanced Train Accuracy: **94,78%**
-- Balanced Validation Accuracy: **93,27%**
-- Balanced Test Accuracy: **89,62%**
 
-checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
+S2L
+Best overall: scce+weighting
+- Balanced Train Accuracy: **97,20%**
+- Balanced Validation Accuracy: **90,29%**
+- Balanced Test Accuracy: **92,30%**
+- Balanced Accuracy on self_recorded_ds: **21,05%**
+
+checkpoint: `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
+
+S2S
+Best overall: scce+weighting
+- Balanced Train Accuracy: **94,16%**
+- Balanced Validation Accuracy: **79,35%**
+- Balanced Test Accuracy: **80,94%**
+- Balanced Accuracy on self_recorded_ds: **22,82%**
+
+checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'* <br />`
 
 see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
