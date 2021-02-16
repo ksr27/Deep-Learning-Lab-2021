@@ -44,7 +44,7 @@ in *main.py*:
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.') 
 ```
 
-Now you can just run `"python main.py"
+Now you can just run `"python main.py"`
 
 #### To run in eval mode:
 ```python 
