@@ -56,13 +56,13 @@ Evaluate function:
 Take a checkpoint from the following list to evaluate our model on:
 1. No image processing:       *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
-2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'*__
+2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />
    Please adjust the config.gin: prepare.processing_mode = 'btg' 
-3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'*__
+3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />
    Please adjust the config.gin: prepare.processing_mode = 'clahe'
-4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'*__
+4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
-5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'*__
+5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'* <br />
    Please adjust the config.gin: prepare.processing_mode = 'none'
 
 ### Results
