@@ -31,7 +31,14 @@ Trainer.epochs = 80
 
 # Evaluation
 evaluate.checkpoint = './results/best_runs/no-processing/tf_ckpts/ckpt-45'
+# Choose a checkpoint from the list:
+    # No image processing: './results/best_runs/no-processing/tf_ckpts/ckpt-45'
+    # ben graham img processing: './results/best_runs/ben-graham/tf_ckpts/ckpt-48'
+    # clahe img processing: './results/best_runs/clahe/tf_ckpts/ckpt-24'
+    # No augmentation: './results/best_runs/no-augmentation/tf_ckpts/ckpt-74'
+    # No balancing: './results/best_runs/plain/tf_ckpts/ckpt-78'
 evaluate.visualize_flag = True
+
 
 # Deep Visualization
 grad_cam_wbp.num_of_batches = 1

@@ -3,7 +3,7 @@ load.name = 'hapt' #'self-recorded'
 hapt_params.window_length = 250
 hapt_params.window_shift = 125
 hapt_params.num_classes = 13
-hapt_params.mode = 's2s' # 's2l' or 's2s': classification mode
+hapt_params.mode = 's2s'        # 's2l' or 's2s': classification mode
 
 generate_hapt_ds.path = '/home/data/HAPT_dataset/RawData'
 # please adjust the path to the custom ds for your computer/ user account
@@ -13,18 +13,18 @@ prepare.batch_size = 16
 prepare.caching = True
 
 # Architectures
-lstm_arch.lstm_units = 256 #for basic: 128, else: 256
-lstm_arch.lstm_layers = 2 #for basic: 1, else: 2
+lstm_arch.lstm_units = 256          #for basic: 128, else: 256
+lstm_arch.lstm_layers = 2           #for basic: 1, else: 2
 lstm_arch.dense_units = 256
-lstm_arch.dense_layers = 2 #for basic: 0, else: 2
-lstm_arch.dropout_rate = 0.3514 # s2l: 0.1018, s2s: 0.3514
-lstm_arch.attention = False #False #using attention flag for s2l
+lstm_arch.dense_layers = 2          #for basic: 0, else: 2
+lstm_arch.dropout_rate = 0.3514     # s2l: 0.1018, s2s: 0.3514
+lstm_arch.attention = False #True   # temporal attention flag for s2l
 
 # Training
 Trainer.epochs = 80
-Trainer.switch = 50 # epoch to switch from scce to focal loss, set to number > Trainer.epochs if swichting is undesired
-Trainer.gamma = 0.0 #0.5 #gamma = 0.0: SCCE Loss, gamma = 0.5: Focal Loss
-Trainer.beta = 0.0 #0.9999 # loss weighting factor, simplifies to no weighting for beta = 0.0
+Trainer.switch = 50   # epoch to switch from scce to focal loss, set to number > Trainer.epochs if swichting is undesired
+Trainer.gamma = 0.0   #gamma = 0.0: SCCE Loss, gamma = 0.5: Focal Loss
+Trainer.beta = 0.0    #0.9999 # loss weighting factor, simplifies to no weighting for beta = 0.0
 Trainer.log_cm = True # whether to save all confusion matrices from training to file
 
 # Evaluation
