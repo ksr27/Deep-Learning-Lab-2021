@@ -66,9 +66,9 @@ Take a checkpoint from the following list to evaluate our model on:
 
 ### Results
 Best overall: 
-  -Balanced Train Accuracy: **94,78%**
-  -Balanced Validation Accuracy: **93,27%**
-  -Balanced Test Accuracy: **89,62%**
+     -Balanced Train Accuracy: **94,78%**
+     -Balanced Validation Accuracy: **93,27%**
+     -Balanced Test Accuracy: **89,62%**
 
 checkpoint: *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*
 
