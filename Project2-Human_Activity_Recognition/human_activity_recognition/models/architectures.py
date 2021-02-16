@@ -1,32 +1,61 @@
 import gin
 import tensorflow as tf
 
-from models.layers import vgg_block
 
 @gin.configurable
-def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropout_rate):
-    """Defines a VGG-like architecture.
+def lstm_arch(input_shape, n_classes, mode, lstm_layers, lstm_units, dense_layers, dense_units, dropout_rate, attention):
+    """Defines a RNN architecture.
 
     Parameters:
         input_shape (tuple: 3): input shape of the neural network
         n_classes (int): number of classes, corresponding to the number of output neurons
-        base_filters (int): number of base filters, which are doubled for every VGG block
-        n_blocks (int): number of VGG blocks
+        mode (string): 's2s' or 's2l', defines whether to use S2S or S2L classification
+        lstm_layers (int): number of LSTM layers
+        lstm_units: number of units per LSTM layer
+        dense_layers: number of dense layers
         dense_units (int): number of dense units
         dropout_rate (float): dropout rate
+        attention (boolean): attention flag to add temporal attention to the model (only for S2L)
 
     Returns:
         (keras.Model): keras model object
     """
 
-    assert n_blocks > 0, 'Number of blocks has to be at least 1.'
     inputs = tf.keras.Input(input_shape)
-    out = vgg_block(inputs, base_filters) #dropout_rate
-    for i in range(1, n_blocks):
-        out = vgg_block(out, base_filters * 2 ** (i)) #, dropout_rate*(i+1)
-    out = tf.keras.layers.GlobalAveragePooling2D()(out)
-    out = tf.keras.layers.Dense(dense_units, activation=tf.nn.relu)(out)
-    out = tf.keras.layers.Dropout(dropout_rate)(out)
-    outputs = tf.keras.layers.Dense(n_classes)(out)
+    out = inputs
+    if lstm_layers > 1:
+        out = tf.keras.layers.LSTM(lstm_units, return_sequences=True)(out)
 
-    return tf.keras.Model(inputs=inputs, outputs=outputs, name='vgg_like')
+    if mode == 's2l':
+        if attention: # temporal attention
+            out = tf.keras.layers.LSTM(lstm_units, return_sequences=True)(out)
+            attention = tf.keras.layers.Dense(1, activation='tanh')(out) # one neuron layer, weight and bias shapes calculated automatically
+            attention = tf.keras.layers.Flatten()(attention)
+            attention = tf.keras.layers.Activation('softmax')(attention)
+            attention = tf.keras.layers.RepeatVector(lstm_units)(attention)  # (None, 250) to (None, lstm_units,250)
+            attention = tf.keras.layers.Permute([2, 1])(attention)  # change shape from (None, lstm_units,250) to (None, 250, lstm_units)
+            attention_out = tf.keras.layers.Multiply()([out, attention])  # multiply weight with each dimension
+            out = tf.keras.layers.Lambda(lambda xin: tf.keras.backend.sum(xin, axis=-2), output_shape=(lstm_units,))(
+                attention_out)
+        else:
+            out = tf.keras.layers.LSTM(lstm_units)(out)
+    elif mode == 's2s':
+        out = tf.keras.layers.LSTM(lstm_units, return_sequences=True)(out)
+
+    out = tf.keras.layers.Dropout(dropout_rate)(out)
+
+    if mode == 's2l':
+        for i in range(dense_layers):
+            out = tf.keras.layers.Dense(dense_units, activation=tf.nn.relu)(out)
+        outputs = tf.keras.layers.Dense(n_classes)(out)
+
+    elif mode == 's2s':
+        for i in range(dense_layers):
+            dense_layer1 = tf.keras.layers.Dense(dense_units, activation=tf.nn.relu)
+            out = tf.keras.layers.TimeDistributed(dense_layer1)(out)
+        out = tf.keras.layers.TimeDistributed(dense_layer1)(out)
+        dense_layer2 = tf.keras.layers.Dense(n_classes)
+        out = tf.keras.layers.TimeDistributed(dense_layer2)(out)
+        outputs = tf.keras.layers.Activation('linear')(out)
+
+    return tf.keras.Model(inputs=inputs, outputs=outputs, name='lstm_arch')

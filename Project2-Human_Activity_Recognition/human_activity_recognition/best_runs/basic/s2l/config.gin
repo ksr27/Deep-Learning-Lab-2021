@@ -1,0 +1,36 @@
+# find optimum variables for scce switch to focal loss, weighting in s2l+attention
+# params are:
+#    "Trainer.gamma": tune.choice([0.0,0.5,1.0,2.0]),
+#    "Trainer.beta": tune.choice([0.9999,0.0]),
+#    "Trainer.switch": tune.choice([40,50])
+# architecture: 2xLSTM(units=256) + dropout(rate=(0.351462), 2xdense_units(units=[256]), batch_size = [32]
+
+## Architectures
+lstm_arch.lstm_units = 128 #256
+lstm_arch.lstm_layers = 1 #2
+lstm_arch.dense_units = 128 #256
+lstm_arch.dropout_rate = 0.1 #0.10182934265203403 # 0.351462#0.10182934265203403
+lstm_arch.attention = False #True
+
+# Training
+#Trainer.total_steps = 1e2
+Trainer.epochs = 80
+Trainer.log_interval = 1e1
+Trainer.ckpt_interval = 1e1
+Trainer.gamma = 0.0
+Trainer.beta = 0.0
+Trainer.switch = 130
+
+# Input pipeline
+load.name = 'hapt'
+load.data_dir = '/Users/lydiaschoenpflug/tensorflow_datasets'
+
+hapt_params.mode = 's2l'
+hapt_params.window_length = 250
+hapt_params.window_shift = 125
+hapt_params.num_classes = 13
+
+generate_ds.path = '/home/data/HAPT_dataset/RawData'
+
+prepare.batch_size = 16 #16
+prepare.caching = True

@@ -2,13 +2,11 @@ import logging
 import gin
 from ray import tune
 from ray.tune.suggest.hyperopt import HyperOptSearch
-from hyperopt import hp
 
 from input_pipeline.datasets import load
-from models.architectures import vgg_like
+from models.architectures import lstm_arch
 from train import Trainer
 from utils import utils_params, utils_misc
-
 
 def train_func(config):
     # Hyperparameters
@@ -23,14 +21,15 @@ def train_func(config):
     utils_misc.set_loggers(run_paths['path_logs_train'], logging.INFO)
 
     # gin-config
-    gin.parse_config_files_and_bindings(['/Users/lydiaschoenpflug/Documents/Master/WS20-21/DL-Lab/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/configs/config.gin'], [])
+    gin.parse_config_files_and_bindings(['./configs/config.gin'], bindings)
     utils_params.save_config(run_paths['path_gin'], gin.config_str())
 
     # setup pipeline
     ds_train, ds_val, ds_test, ds_info = load()
 
     # model
-    model = vgg_like(input_shape=ds_info.features["image"].shape, n_classes=ds_info.features["label"].num_classes)
+    model = lstm_arch(input_shape=(ds_info['window_length'], ds_info['num_features']), n_classes=ds_info['num_classes'],
+                      mode=ds_info['mode'])
 
     trainer = Trainer(model, ds_train, ds_val, ds_test, ds_info, run_paths)
     for val_accuracy in trainer.train():
@@ -39,24 +38,19 @@ def train_func(config):
 
 hyperopt = HyperOptSearch(metric="val_accuracy", mode="max")
 config = {
-    "prepare.clahe_flag": tune.choice([True, False]),
-    "preprocess.he_flag": tune.choice([True, False]),
-    #"Trainer.total_steps": tune.grid_search([4e3]),
-    "vgg_like.base_filters": tune.choice([8, 16]),
-    "vgg_like.n_blocks": tune.choice([3, 4, 6]),
-    "vgg_like.dense_units": tune.choice([32, 64]),
-    "vgg_like.dropout_rate": tune.choice([0.1, 0.2, 0.3, 0.4]),
-    "apply_clahe.clip_limit": tune.uniform(0.0, 8.0)#,
-    #"prepare.batch_size": tune.choice([16, 32])
+    "lstm_arch.lstm_units": tune.choice([64, 128, 256]),
+    "lstm_arch.lstm_layers": tune.choice([1, 2]),
+    "lstm_arch.dense_units": tune.choice([64, 128, 256]),
+    "lstm_arch.dropout_rate": tune.uniform(0.0,0.5),
+    "prepare.batch_size": tune.choice([16, 32, 64])
 }
 
 analysis = tune.run(
-    train_func, num_samples=2, resources_per_trial={'gpu': 0, 'cpu': 2},
+    train_func, num_samples=25, resources_per_trial={'gpu': 1, 'cpu': 10},
     config=config,
     search_alg=hyperopt)
 
 print("Best config for val accuracy: ", analysis.get_best_config(metric="val_accuracy",mode="max", scope="all"))
-#print("Best config for eval accuracy: ", analysis.get_best_config(metric="eval_accuracy",mode="max", scope="all"))
 
 # Get a dataframe for analyzing trial results.
 df = analysis.dataframe()

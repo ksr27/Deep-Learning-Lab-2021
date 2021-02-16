@@ -2,223 +2,206 @@ import gin
 import tensorflow as tf
 import logging
 import datetime
-from evaluation.metrics import ConfusionMatrix, Accuracy, Sensitivity, Specificity, F1Score, RocAuc
+from evaluation.metrics import ConfusionMatrix, BalancedAccuracy, Accuracy, Precision, Recall, F1Score
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
 from shutil import copyfile
+import focal_loss as focal_loss
+import cv2
+import os
+
 
 @gin.configurable
 class Trainer(object):
-    def __init__(self, model, ds_train, ds_val, ds_test, ds_info, run_paths, total_steps, log_interval, ckpt_interval):
+    def __init__(self, model, ds_train, ds_val, ds_test, ds_info, epochs, gamma, beta, switch, log_cm):
         # Summary Writer
         self.timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        self.summary_writer = tf.summary.create_file_writer("logs/train/"+self.timestamp)
+        self.summary_writer = tf.summary.create_file_writer("logs/train/" + self.timestamp)
 
-        # Loss objective
+        # Loss configurations
+        # loss weighting, simplifies to no weighting for beta = 0.0
+        class_distribution = ds_info['train']['class_distribution']
+        self.weights = [(1 - beta) / (1 - pow(beta, x)) for x in class_distribution]
+        # alaways map loss of '0'-labeled samples to zero
+        self.weights[0] = 0.0
+        self.scce_loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True,
+                                                                       reduction=tf.keras.losses.Reduction.NONE)
+        self.focal_loss = focal_loss.SparseCategoricalFocalLoss(gamma=gamma, from_logits=True,
+                                                                class_weight=self.weights,
+                                                                reduction=tf.keras.losses.Reduction.NONE)
+        # epoch to switch from scce loss to focal loss
+        self.switch = switch
+        # for validation and test loss
         self.loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
         self.optimizer = tf.keras.optimizers.Adam()
 
         # Checkpoint Manager
-        self.ckpt = tf.train.Checkpoint(step=tf.Variable(1),net=model,optimizer=self.optimizer, iterator=iter(ds_train)) #
-        self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts/'+self.timestamp, max_to_keep=50)
+        self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), net=model, optimizer=self.optimizer,iterator=iter(ds_train))
+        self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts/' + self.timestamp, max_to_keep=epochs)
 
         # Metrics
         self.train_loss = tf.keras.metrics.Mean(name='train_loss')
-        self.train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy')
-        self.train_confusion_matrix = ConfusionMatrix()
-        self.train_sensitivity = Sensitivity()
-        self.train_specificity = Specificity()
-        self.train_f1_score = F1Score()
-        self.train_roc_auc = RocAuc()
+        self.train_accuracy = Accuracy(ds_info=ds_info)
+        self.train_baccuracy = BalancedAccuracy(ds_info=ds_info)
+        self.train_cm = ConfusionMatrix(ds_info=ds_info)
+        self.train_precision = Precision(ds_info=ds_info)
+        self.train_recall = Recall(ds_info=ds_info)
+        self.train_f1_score = F1Score(ds_info=ds_info)
 
-        self.test_loss = tf.keras.metrics.Mean(name='test_loss')
-        self.test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
-        self.test_confusion_matrix = ConfusionMatrix()
-        self.test_sensitivity = Sensitivity()
-        self.test_specificity = Specificity()
-        self.test_f1_score = F1Score()
-        self.test_roc_auc = RocAuc()
-
-        self.eval_loss = tf.keras.metrics.Mean(name='test_loss')
-        self.eval_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
-        self.eval_confusion_matrix = ConfusionMatrix()
-        self.eval_sensitivity = Sensitivity()
-        self.eval_specificity = Specificity()
-        self.eval_f1_score = F1Score()
-        self.eval_roc_auc = RocAuc()
+        self.val_loss = tf.keras.metrics.Mean(name='val_loss')
+        self.val_baccuracy = BalancedAccuracy(ds_info=ds_info)
+        self.val_accuracy = Accuracy(ds_info=ds_info)
+        self.val_cm = ConfusionMatrix(ds_info=ds_info)
+        self.val_precision = Precision(ds_info=ds_info)
+        self.val_recall = Recall(ds_info=ds_info)
+        self.val_f1_score = F1Score(ds_info=ds_info)
 
         self.model = model
         self.ds_train = ds_train
         self.ds_val = ds_val
         self.ds_test = ds_test
         self.ds_info = ds_info
-        self.run_paths = run_paths
-        self.total_steps = total_steps
-        self.log_interval = log_interval
-        self.ckpt_interval = ckpt_interval
+        self.epochs = epochs
+        self.current_epoch = 1
+        self.log_cm = log_cm
 
     @tf.function
-    def train_step(self, images, labels):
+    def train_step(self, sensor_data, labels):
         with tf.GradientTape() as tape:
-            # training=True is only needed if there are layers with different
-            # behavior during training versus inference (e.g. Dropout).
-            predictions = self.model(images, training=True)
-            loss = self.loss_object(labels, predictions)
+            predictions = self.model(sensor_data, training=True)
+            # switching between scce and focal loss
+            if self.current_epoch <= self.switch:
+                loss = self.scce_loss(labels, predictions)
+            else:
+                loss = self.focal_loss(labels, predictions)
+
+            # loss weighting
+            for i in range(self.ds_info['num_classes']):
+                loss = tf.where(labels == i, self.weights[i] * loss, loss)
+            # in case batch contains only zero labeled samples avoid /0
+            if tf.math.count_nonzero(labels) == 0:
+                loss = 0.0
+            else:
+                loss = tf.reduce_sum(loss) / tf.cast(tf.math.count_nonzero(labels), dtype=loss.dtype)
+
         gradients = tape.gradient(loss, self.model.trainable_variables)
         self.optimizer.apply_gradients(zip(gradients, self.model.trainable_variables))
 
-        self.train_loss(loss)
-        self.train_accuracy(labels, predictions)
-        self.train_confusion_matrix.update_state(labels, predictions)
-        self.train_sensitivity.update_state(labels, predictions)
-        self.train_specificity.update_state(labels, predictions)
+        self.train_loss.update_state(loss)
+        self.train_baccuracy.update_state(labels, predictions)
+        self.train_accuracy.update_state(labels, predictions)
+        self.train_cm.update_state(labels, predictions)
+        self.train_precision.update_state(labels, predictions)
+        self.train_recall.update_state(labels, predictions)
         self.train_f1_score.update_state(labels, predictions)
-        self.train_roc_auc.update_state(labels, predictions)
 
     @tf.function
-    def test_step(self, images, labels):
-        # training=False is only needed if there are layers with different
-        # behavior during training versus inference (e.g. Dropout).
-        predictions = self.model(images, training=False)
-        t_loss = self.loss_object(labels, predictions)
+    def val_step(self, sensor_data, labels):
+        predictions = self.model(sensor_data, training=False)
+        loss = self.loss_object(labels, predictions)
 
-        self.test_loss(t_loss)
-        self.test_accuracy(labels, predictions)
-        self.test_confusion_matrix.update_state(labels, predictions)
-        self.test_sensitivity.update_state(labels, predictions)
-        self.test_specificity.update_state(labels, predictions)
-        self.test_f1_score.update_state(labels, predictions)
-        self.test_roc_auc.update_state(labels, predictions)
-
-    @tf.function
-    def eval_step(self, images, labels):
-        # training=False is only needed if there are layers with different
-        # behavior during training versus inference (e.g. Dropout).
-        predictions = self.model(images, training=False)
-        t_loss = self.loss_object(labels, predictions)
-
-        self.eval_loss(t_loss)
-        self.eval_accuracy(labels, predictions)
-        self.eval_confusion_matrix.update_state(labels, predictions)
-        self.eval_sensitivity.update_state(labels, predictions)
-        self.eval_specificity.update_state(labels, predictions)
-        self.eval_f1_score.update_state(labels, predictions)
-        self.eval_roc_auc.update_state(labels, predictions)
+        self.val_loss.update_state(loss)
+        self.val_baccuracy.update_state(labels, predictions)
+        self.val_accuracy.update_state(labels, predictions)
+        self.val_cm.update_state(labels, predictions)
+        self.val_precision.update_state(labels, predictions)
+        self.val_recall.update_state(labels, predictions)
+        self.val_f1_score.update_state(labels, predictions)
 
     def train(self):
-
         self.ckpt.restore(self.manager.latest_checkpoint)
         if self.manager.latest_checkpoint:
             logging.info("Restored from {}".format(self.manager.latest_checkpoint))
         else:
             logging.info("Initializing from scratch.")
 
-        for idx, (images, labels) in enumerate(self.ds_train):
+        if self.ds_info['mode'] == 's2l':
+            steps_per_epoch = tf.math.ceil(self.ds_info['train']['len'] / (self.ds_info['batch_size']))
+        else:
+            steps_per_epoch = tf.math.ceil(
+                self.ds_info['train']['len'] / (self.ds_info['batch_size'] * self.ds_info['window_length']))
 
+        for idx, (sensor_data, labels) in enumerate(self.ds_train):
             step = idx + 1
-            self.train_step(images, labels)
+            self.train_step(sensor_data, labels)
 
-            if step % self.log_interval == 0:
+            if step % steps_per_epoch == 0:
 
-                # Reset test metrics
-                self.test_loss.reset_states()
-                self.test_accuracy.reset_states()
-                self.test_confusion_matrix.reset_states()
-                self.test_sensitivity.reset_states()
-                self.test_specificity.reset_states()
-                self.test_f1_score.reset_states()
-                self.test_roc_auc.reset_states()
+                # Reset val metrics
+                self.val_loss.reset_states()
+                self.val_baccuracy.reset_states()
+                self.val_accuracy.reset_states()
+                self.val_cm.reset_states()
 
-                self.eval_loss.reset_states()
-                self.eval_accuracy.reset_states()
-                self.eval_confusion_matrix.reset_states()
-                self.eval_sensitivity.reset_states()
-                self.eval_specificity.reset_states()
-                self.eval_f1_score.reset_states()
-                self.eval_roc_auc.reset_states()
+                for val_images, val_labels in self.ds_val:
+                    self.val_step(val_images, val_labels)
 
-                for test_images, test_labels in self.ds_val:
-                    self.test_step(test_images, test_labels)
-
-                for eval_images, eval_labels in self.ds_test:
-                    self.eval_step(eval_images, eval_labels)
-
-                # ROC AUC: {},, Test ROC AUC: {}
-                template = 'Step {}, Accuracy: {},Confusion Matrix: {}, Sensitivity: {}, Specificity: {}, ' \
-                           '\n Test Accuracy: {}, Test Confusion Matrix: {}, Test Sensitivity: {}, Test Specificity: {},' \
-                           ' \n Eval Accuracy: {}, Eval Confusion Matrix: {}, Eval Sensitivity: {}, Eval Specificity: {}'
-                # template = 'Step {}, Loss: {}, Accuracy: {},Confusion Matrix: {}, Sensitivity: {}, Specificity: {}, ' \
-                       #    'F1 Score: {}, \n Test Loss: {}, Test Accuracy: {}, Test Confusion Matrix: {}, ' \
-                       #    'Test Sensitivity: {}, Test Specificity: {}, Test F1 Score: {} \n Eval Loss: {}, ' \
-                       #    'Eval Accuracy: {}, Eval Confusion Matrix: {}, Eval Sensitivity: {}, Eval Specificity: {}, ' \
-                       #    'Eval F1 Score: {}'
+                # ROC AUC: {},, Val ROC AUC: {}
+                template = 'Epoch {}/{}, Loss: {}, Balanced Accuracy: {}, Accuracy: {},\n Confusion Matrix: \n {}, ' \
+                           '\n Precision: {} \n,\n Recall: {} \n, \n F1 Score: {}\n Val Loss: {}, Val Balanced Accuracy: {},' \
+                           ' Val Accuracy: {},\n Val Confusion Matrix: \n {},\n Val Precision: {} \n, \n Val Recall: {} \n,' \
+                           ' \n Val F1 Score: {}'
                 logging.info(template.format(
-                                            step,
-                                            #self.train_loss.result(),
-                                            self.train_accuracy.result() * 100,
-                                            self.train_confusion_matrix.result(),
-                                            self.train_sensitivity.result()*100,
-                                            self.train_specificity.result()*100,
-                                           # self.train_f1_score.result()*100,
-                                            #self.train_roc_auc.result(),
+                    self.current_epoch,
+                    self.epochs,
+                    self.train_loss.result(),
+                    self.train_baccuracy.result() * 100,
+                    self.train_accuracy.result() * 100,
+                    self.train_cm.result(),
+                    self.train_precision.result()*100,
+                    self.train_recall.result() * 100,
+                    self.train_f1_score.result(),
 
-                                            #self.test_loss.result(),
-                                            self.test_accuracy.result() * 100,
-                                            self.test_confusion_matrix.result(),
-                                            self.test_sensitivity.result() * 100,
-                                            self.test_specificity.result() * 100, #,self.test_roc_auc.result()
-                                            #self.test_f1_score.result() * 100,
+                    self.val_loss.result(),
+                    self.val_baccuracy.result() * 100,
+                    self.val_accuracy.result() * 100,
+                    self.val_cm.result(),
+                    self.val_precision.result() * 100,
+                    self.val_recall.result() * 100,
+                    self.val_f1_score.result()))
 
-                                            #self.eval_loss.result(),
-                                            self.eval_accuracy.result() * 100,
-                                            self.eval_confusion_matrix.result(),
-                                            self.eval_sensitivity.result() * 100,
-                                            self.eval_specificity.result() * 100))  # ,self.test_roc_auc.result()
-                                            #self.eval_f1_score.result() * 100))
+                # save cm imgs to file
+                train_cm_tb, train_cm = plot_to_image(
+                    plot_confusion_matrix(self.train_cm.result(), ds_info=self.ds_info))
+                val_cm_tb, val_cm = plot_to_image(plot_confusion_matrix(self.val_cm.result(), ds_info=self.ds_info))
+
+                if self.log_cm:
+                    if self.current_epoch == 1:
+                        os.mkdir("./logs/train/" + self.timestamp + "/train_cm")
+                        os.mkdir("./logs/train/" + self.timestamp + "/val_cm")
+
+                    cv2.imwrite("./logs/train/" + self.timestamp + '/train_cm/' + str(self.current_epoch) + '.png',
+                                cv2.cvtColor(train_cm.numpy(), cv2.COLOR_RGB2BGR))
+                    cv2.imwrite("./logs/train/" + self.timestamp + '/val_cm/' + str(self.current_epoch) + '.png',
+                                cv2.cvtColor(val_cm.numpy(), cv2.COLOR_RGB2BGR))
 
                 # Write summary to tensorboard
                 with self.summary_writer.as_default():
-                    tf.summary.scalar('Train loss', self.train_loss.result(), step=step)
-                    tf.summary.scalar('Train accuracy', self.train_accuracy.result(), step=step)
-                    #tf.summary.image('Train Confusion Matrix',
-                    #                 plot_to_image(plot_confusion_matrix(self.train_confusion_matrix.result(),
-                    #                                                     class_names=['1', '0'])),
-                    #                 step=step)
-                    tf.summary.scalar('Train sensitivity', self.train_sensitivity.result(), step=step)
-                    tf.summary.scalar('Train specificity', self.train_specificity.result(), step=step)
-                    tf.summary.scalar('Train F1 Score', self.train_f1_score.result(), step=step)
-                    tf.summary.scalar('Train ROC AUC', self.train_roc_auc.result(), step=step)
+                    tf.summary.scalar('Train loss', self.train_loss.result(), step=self.current_epoch)
+                    tf.summary.scalar('Train balanced accuracy', self.train_baccuracy.result(), step=self.current_epoch)
+                    tf.summary.scalar('Train accuracy', self.train_accuracy.result(), step=self.current_epoch)
+                    tf.summary.image('Train Confusion Matrix', train_cm_tb, step=self.current_epoch)
 
-                    tf.summary.scalar('Test loss', self.test_loss.result(), step=step)
-                    tf.summary.scalar('Test accuracy', self.test_accuracy.result(), step=step)
-                    #tf.summary.image('Test Confusion Matrix',
-                    #                 plot_to_image(plot_confusion_matrix(self.test_confusion_matrix.result(),
-                    #                                                     class_names=['1', '0'])),
-                    #                 step=step)
-                    tf.summary.scalar('Test sensitivity', self.test_sensitivity.result(), step=step)
-                    tf.summary.scalar('Test specificity', self.test_specificity.result(), step=step)
-                    tf.summary.scalar('Test F1 Score', self.test_f1_score.result(), step=step)
-                    tf.summary.scalar('Test ROC AUC', self.test_roc_auc.result(), step=step)
+                    tf.summary.scalar('Val loss', self.val_loss.result(), step=self.current_epoch)
+                    tf.summary.scalar('Val balanced accuracy', self.val_baccuracy.result(), step=self.current_epoch)
+                    tf.summary.scalar('Val accuracy', self.val_accuracy.result(), step=self.current_epoch)
+                    tf.summary.image('Val Confusion Matrix', val_cm_tb, step=self.current_epoch)
 
                 # Reset train metrics
                 self.train_loss.reset_states()
-                self.train_accuracy.reset_states()
-                self.train_confusion_matrix.reset_states()
-                self.train_sensitivity.reset_states()
-                self.train_specificity.reset_states()
-                self.train_f1_score.reset_states()
-                self.train_roc_auc.reset_states()
+                log_train_acc = self.train_baccuracy.result().numpy()
+                self.train_baccuracy.reset_states()
+                self.train_cm.reset_states()
 
-                yield self.test_accuracy.result().numpy(), self.eval_accuracy.result().numpy()#, eval_accuracy = self.eval_accuracy.result().numpy())
-
-            # Save checkpoint
-            if step % self.ckpt_interval == 0:
+                # Save checkpoint each epoch
                 save_path = self.manager.save()
-                #logging.info(f'Saving checkpoint to /tf_cpkt/{self.timestamp}.')
 
-            if step % self.total_steps == 0:
-                logging.info(f'Finished training after {step} steps.')
+                self.current_epoch += 1
+                yield self.val_baccuracy.result().numpy()
+
+            if self.current_epoch == self.epochs:
+                logging.info(f'Finished training after {step} steps and {self.epochs} epochs.')
                 # Save final checkpoint
                 save_path = self.manager.save()
-                # log current config file
-                copyfile('./configs/config.gin', './logs/train/'+self.timestamp+'/config.gin')
-                return self.test_accuracy.result().numpy(), self.eval_accuracy.result().numpy() #eval_accuracy
+                copyfile('./configs/config.gin', './logs/train/' + self.timestamp + '/config.gin')
+
+                return self.val_baccuracy.result().numpy()

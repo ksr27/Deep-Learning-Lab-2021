@@ -1,0 +1,31 @@
+# S2S: Hyper param opt architecture
+
+# Architectures
+lstm_arch.lstm_units = 256
+lstm_arch.lstm_layers = 2
+lstm_arch.dense_units = 256
+lstm_arch.dropout_rate = 0.351462
+lstm_arch.attention = False
+
+# Training
+#Trainer.total_steps = 1e2
+Trainer.name = 's2s-opt'
+Trainer.epochs = 80
+Trainer.log_interval = 1e1
+Trainer.ckpt_interval = 1e1
+Trainer.gamma = 0.0
+Trainer.beta = 0.0
+Trainer.switch = 100
+
+# Input pipeline
+load.name = 'hapt'
+hapt_params.window_length = 250
+hapt_params.window_shift = 125
+hapt_params.num_classes = 13
+hapt_params.mode = 's2s'
+
+load.data_dir = ''
+generate_ds.path = '/home/data/HAPT_dataset/RawData'
+
+prepare.batch_size = 16
+prepare.caching = True
