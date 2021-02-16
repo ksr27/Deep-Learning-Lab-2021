@@ -251,4 +251,4 @@ Best overall: scce+weighting
 
 checkpoint: `'./best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'` <br />
 
-see [paper](Project2-Human_Activity_Recognition/documentation/paper.pdf) 
+see [paper](Project2-Human_Activity_Recognition/human_activity_recognition/documentation/paper.pdf) 
