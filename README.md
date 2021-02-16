@@ -33,14 +33,14 @@ Project1-Diabetic_Retinopathy/diabetic_retinopathy:
 
 ### How to run the code
 As we generated custom tfds from "idrid" and a subset of "kaggle_dr" dataset you have to adjust the path to the custom_tfds folder
-"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds" for your server user account/ computer in the config.gin file.
+*"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds"* for your server user account/ computer in the *config.gin* file.
 So f.e. load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds'
 
 #### To run in train mode:
 in main.py:
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 
-Now you can just run "python main.py"
+Now you can just run *"python main.py"*
 
 #### To run in eval mode:
 flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
@@ -53,23 +53,23 @@ evaluate(model,
          visualize_flag=True) Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
 
 Take a checkpoint from the following list to evaluate our model on:
-1. No image processing:       './results/best_runs/no-processing/tf_ckpts/ckpt-45'
+1. No image processing:       *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*
    Please adjust the config gin: prepare.processing_mode = 'none'
-2. ben graham img processing: './results/best_runs/ben-graham/tf_ckpts/ckpt-48'
+2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'*
    Please adjust the config gin: prepare.processing_mode = 'btg' 
-3. clahe img processing:      './results/best_runs/clahe/tf_ckpts/ckpt-24'
+3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'*
    Please adjust the config gin: prepare.processing_mode = 'clahe'
-4. No augmentation:           './results/best_runs/no-augmentation/tf_ckpts/ckpt-74'
+4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'*
    Please adjust the config gin: prepare.processing_mode = 'none'
-5. No balancing:              './results/best_runs/plain/tf_ckpts/ckpt-78'
+5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'*
    Please adjust the config gin: prepare.processing_mode = 'none'
 
 ### Results
 Best overall: 
-Balanced Train Accuracy: 94,78%	 
-Balanced Validation Accuracy: 93,27%
-Balanced Test Accuracy: 89,62%
+Balanced Train Accuracy: **94,78%**
+Balanced Validation Accuracy: **93,27%**
+Balanced Test Accuracy: **89,62%**
 
-checkpoint: './results/best_runs/no-processing/tf_ckpts/ckpt-45'
+checkpoint: *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*
 
-see /dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results and /dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation for more detailed information on our results
+see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
