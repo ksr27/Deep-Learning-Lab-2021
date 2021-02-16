@@ -1,9 +1,4 @@
-# find optimum variables for scce switch to focal loss, weighting in s2l+attention
-# params are:
-#    "Trainer.gamma": tune.choice([0.0,0.5,1.0,2.0]),
-#    "Trainer.beta": tune.choice([0.9999,0.0]),
-#    "Trainer.switch": tune.choice([40,50])
-# architecture: 2xLSTM(units=256) + dropout(rate=(0.351462), 2xdense_units(units=[256]), batch_size = [32]
+# S2L Basic architecture
 
 ## Architectures
 lstm_arch.lstm_units = 128 #256

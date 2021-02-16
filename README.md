@@ -40,15 +40,15 @@ So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Pro
 
 #### To run in train mode:
 in *main.py*:
-```python 
-flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.') 
+```python
+flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 ```
 
 Now you can just run `"python main.py"`
 
 #### To run in eval mode:
-```python 
-flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.') 
+```python
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
 ```
 
 Evaluate function:
@@ -64,7 +64,7 @@ Take a checkpoint from the following list to evaluate our model on:
 1. No image processing:       `'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'none'
 2. ben graham img processing: `'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />`
-   Please adjust the config.gin: prepare.processing_mode = 'btg' 
+   Please adjust the config.gin: prepare.processing_mode = 'btg'
 3. clahe img processing:      `'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'clahe'
 4. No augmentation:           `'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />`
@@ -73,11 +73,11 @@ Take a checkpoint from the following list to evaluate our model on:
    Please adjust the config.gin: prepare.processing_mode = 'none'
 
 ### Results
-Best overall: 
+Best overall:
 - Balanced Train Accuracy: **94,78%**
 - Balanced Validation Accuracy: **93,27%**
 - Balanced Test Accuracy: **89,62%**
- 
+
 checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
 
 see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
@@ -108,3 +108,112 @@ Project2-Human_Activity_Recognition/human_activity_recognition : main project fo
               /loss-opt               : logs, checkpoint and train, val and test confusion matrices for different loss configuration
 ```
 
+### How to run the code
+To use the self-recorded dataset, please adjust the folder path for your server user account/ computer in the `config.gin`:
+`"dl-lab-2020-team15/Project2-Human_Activity_Recognition/self_recorded_ds"`
+So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project2-Human_Activity_Recognition/self_recorded_ds' ```
+
+#### To run in train mode:
+in *main.py*:
+```python
+flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
+```
+
+Now you can just run `"python main.py"`
+
+#### To run in eval mode:
+```python
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
+```
+Now you can just run `"python main.py"`
+
+Evaluator:
+```python
+evaluator = Evaluator(model,
+                      './best_runs/basic/s2l/tf_ckpts/ckpt-77', # add the wanted checkpoint path here (see below)
+                      ds_test,
+                      ds_info,
+                      visualize_flag=False) #Set this flag to visualize the model prediction (logged to ./logs/eval/-timestamp)
+```
+
+# S2 checkpoints:
+# './best_runs/basic/s2s/tf_ckpts/ckpt-70'
+# './best_runs/basic/s2s/tf_ckpts/ckpt-75'
+# './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'
+# './best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'
+# './best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'
+
+# S2L checkpoints:
+# './best_runs/basic/s2l/tf_ckpts/ckpt-77'
+# './best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'
+# './best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'
+# './best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'
+# './best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'
+# './best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'
+
+Take a checkpoint from the following list to evaluate our model on:
+S2L checkpoints:      
+1. basic s2l model: `'./best_runs/basic/s2l/tf_ckpts/ckpt-77'* <br />`
+   Please adjust the config.gin:
+   ```
+   hapt_params.mode = 's2l'
+   lstm_arch.lstm_units = 128
+   lstm_arch.lstm_layers = 1
+   lstm_arch.dense_units = 128
+   lstm_arch.attention = False
+   ```
+2. after hyperparameter opt: `'./best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'* <br />`
+    Please adjust the config.gin:
+    ```
+    hapt_params.mode = 's2l'
+    lstm_arch.lstm_units = 256
+    lstm_arch.lstm_layers = 2
+    lstm_arch.dense_units = 256
+    lstm_arch.attention = False
+    ```
+3. hyperparameter opt+ attention: `'./best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'* <br />`
+    Please adjust the config.gin:
+    ```
+    hapt_params.mode = 's2l'
+    lstm_arch.lstm_units = 256
+    lstm_arch.lstm_layers = 2
+    lstm_arch.dense_units = 256
+    lstm_arch.attention = True
+    ```
+5. SCCE with weighting          `'./best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'* <br />`
+   Please adjust the config.gin:
+   ```
+   hapt_params.mode = 's2l'
+   lstm_arch.lstm_units = 256
+   lstm_arch.lstm_layers = 2
+   lstm_arch.dense_units = 256
+   lstm_arch.attention = True
+      ```
+6. Focal loss:              `'./best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'* <br />`
+    Please adjust the config.gin:
+    ```
+    hapt_params.mode = 's2l'
+    lstm_arch.lstm_units = 256
+    lstm_arch.lstm_layers = 2  
+    lstm_arch.dense_units = 256
+    lstm_arch.attention = True
+       ```
+7. Focal loss+ weighting:  `'./best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'* <br />`
+    Please adjust the config.gin:
+    ```
+    hapt_params.mode = 's2l'
+    lstm_arch.lstm_units = 256
+    lstm_arch.lstm_layers = 2  
+    lstm_arch.dense_units = 256
+    lstm_arch.attention = True
+       ```
+
+### Results
+Best overall:
+- Balanced Train Accuracy: **94,78%**
+- Balanced Validation Accuracy: **93,27%**
+- Balanced Test Accuracy: **89,62%**
+
+checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
+
+see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
