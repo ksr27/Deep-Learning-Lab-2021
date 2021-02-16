@@ -44,8 +44,6 @@ in *main.py*:
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 ```
 
-Now you can just run `"python main.py"`
-
 #### To run in eval mode:
 ```python
 flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
@@ -118,8 +116,10 @@ in *main.py*:
 ```python
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 ```
-
-Now you can just run `"python main.py"`
+Configuration in config.gin:
+```
+Trainer.log_cm = True # whether to save all confusion matrices from training to file
+```
 
 #### To run in eval mode:
 ```python
