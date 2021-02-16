@@ -4,6 +4,41 @@
 
 ## Project 1: Diabetic Retinopathy
 
+### How to run the code
+As we generated custom tfds from "idrid" and a subset of "kaggle_dr" dataset you have to adjust the path to the custom_tfds folder
+*"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds"* for your server user account/ computer in the *config.gin* file.
+So f.e. load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds'
+
+#### To run in train mode:
+in *main.py*:
+flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
+
+Now you can just run *"python main.py"*
+
+#### To run in eval mode:
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
+
+Evaluate function:
+```python
+evaluate(model,
+         checkpoint='./results/best_runs/clahe/tf_ckpts/ckpt-24', # add the wanted checkpoint path here (see below)
+         ds_test=ds_test,
+         ds_info=ds_info,
+         visualize_flag=True) #Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
+```
+
+Take a checkpoint from the following list to evaluate our model on:
+1. No image processing:       *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />
+   Please adjust the config.gin: prepare.processing_mode = 'none'
+2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />
+   Please adjust the config.gin: prepare.processing_mode = 'btg' 
+3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />
+   Please adjust the config.gin: prepare.processing_mode = 'clahe'
+4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />
+   Please adjust the config.gin: prepare.processing_mode = 'none'
+5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'* <br />
+   Please adjust the config.gin: prepare.processing_mode = 'none'
+
 ### Project structure
 -Project1-Diabetic_Retinopathy/custom_tfds: contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
 
@@ -54,41 +89,6 @@
 ----------------------*/grad_cam*: Before and after images for Grad Cam (for all three image processing options)
 
 ----------------------*/img_evolution*: Shows one images progression through all preprocessing steps.
-
-### How to run the code
-As we generated custom tfds from "idrid" and a subset of "kaggle_dr" dataset you have to adjust the path to the custom_tfds folder
-*"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds"* for your server user account/ computer in the *config.gin* file.
-So f.e. load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds'
-
-#### To run in train mode:
-in *main.py*:
-flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
-
-Now you can just run *"python main.py"*
-
-#### To run in eval mode:
-flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
-
-Evaluate function:
-```python
-evaluate(model,
-         checkpoint='./results/best_runs/clahe/tf_ckpts/ckpt-24', # add the wanted checkpoint path here (see below)
-         ds_test=ds_test,
-         ds_info=ds_info,
-         visualize_flag=True) #Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
-```
-
-Take a checkpoint from the following list to evaluate our model on:
-1. No image processing:       *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />
-   Please adjust the config.gin: prepare.processing_mode = 'none'
-2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />
-   Please adjust the config.gin: prepare.processing_mode = 'btg' 
-3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />
-   Please adjust the config.gin: prepare.processing_mode = 'clahe'
-4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />
-   Please adjust the config.gin: prepare.processing_mode = 'none'
-5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'* <br />
-   Please adjust the config.gin: prepare.processing_mode = 'none'
 
 ### Results
 Best overall: 
