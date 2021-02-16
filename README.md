@@ -173,7 +173,7 @@ S2L checkpoints:
    lstm_arch.lstm_layers = 2
    lstm_arch.dense_units = 256
    lstm_arch.attention = True
-      ```
+   ```
 6. Focal loss:              `'./best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'` <br />
     Please adjust the config.gin:
     ```
@@ -182,7 +182,7 @@ S2L checkpoints:
     lstm_arch.lstm_layers = 2  
     lstm_arch.dense_units = 256
     lstm_arch.attention = True
-       ```
+    ```
 7. Focal loss+ weighting:  `'./best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'` <br />
     Please adjust the config.gin:
     ```
@@ -191,7 +191,7 @@ S2L checkpoints:
     lstm_arch.lstm_layers = 2  
     lstm_arch.dense_units = 256
     lstm_arch.attention = True
-       ```
+    ```
 
 S2S checkpoints:
 1. basic s2s model: `'./best_runs/basic/s2s/tf_ckpts/ckpt-70'` <br />
