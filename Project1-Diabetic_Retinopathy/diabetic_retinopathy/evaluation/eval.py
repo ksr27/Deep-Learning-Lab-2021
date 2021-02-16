@@ -58,7 +58,7 @@ def evaluate(model, ds_test, ds_info, checkpoint, visualize_flag):
                                  accuracy.result() * 100,
                                  sensitivity.result()*100,
                                  specificity.result()*100,
-                                 f1_score.result()*100))
+                                 f1_score.result()))
 
     # Write evaluation summary to tensorboard
     with summary_writer.as_default():

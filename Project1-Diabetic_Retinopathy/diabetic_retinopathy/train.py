@@ -107,26 +107,26 @@ class Trainer(object): # Checkpointing: Baran, Using Epoch instead of steps, log
                 for val_images, val_labels in self.ds_val:
                     self.val_step(val_images, val_labels)
 
-                template = 'Epoch {}/{}, \n Confusion Matrix: {}, Loss: {:0.2f}, Accuracy: {:0.2f}, ' \
-                           'Sensitivity: {:0.2f}, Specificity: {:0.2f}, F1 Score: {} \n Val Confusion Matrix: {}, ' \
-                           'Val Loss: {:0.2f}, Val Accuracy: {:0.2f}\n {}, Val Sensitivity: {:0.2f}, ' \
+                template = 'Epoch {}/{}, Loss: {:0.2f}, Accuracy: {:0.2f} \n Confusion Matrix: {} \n' \
+                           'Sensitivity: {:0.2f}, Specificity: {:0.2f}, F1 Score: {},\n Val Loss: {:0.2f}, ' \
+                           'Val Accuracy: {:0.2f} \n Val Confusion Matrix: {},  Val Sensitivity: {:0.2f}, ' \
                            'Val Specificity: {:0.2f}, Val F1 Score: {}'
-                logging.info(template.format(
-                    self.current_epoch,
-                    self.epochs,
-                    self.train_loss.result(),
-                    self.train_accuracy.result() * 100,
-                    self.train_cm.result(),
-                    self.train_sensitivity.result() * 100,
-                    self.train_specificity.result() * 100,
-                    self.train_f1_score.result(),
+                logging.info(template.format(self.current_epoch,
+                                             self.epochs,
 
-                    self.val_loss.result(),
-                    self.val_accuracy.result() * 100,
-                    self.val_cm.result(),
-                    self.val_sensitivity.result() * 100,
-                    self.val_specificity.result() * 100,
-                    self.train_f1_score.result()))
+                                             self.train_loss.result(),
+                                             self.train_accuracy.result() * 100,
+                                             self.train_cm.result(),
+                                             self.train_sensitivity.result() * 100,
+                                             self.train_specificity.result() * 100,
+                                             self.train_f1_score.result(),
+
+                                             self.val_loss.result(),
+                                             self.val_accuracy.result() * 100,
+                                             self.val_cm.result(),
+                                             self.val_sensitivity.result() * 100,
+                                             self.val_specificity.result() * 100,
+                                             self.val_f1_score.result()))
 
                 # Write summary to tensorboard
                 with self.summary_writer.as_default():
