@@ -136,21 +136,6 @@ evaluator = Evaluator(model,
                       visualize_flag=False) #Set this flag to visualize the model prediction (logged to ./logs/eval/-timestamp)
 ```
 
-# S2 checkpoints:
-# './best_runs/basic/s2s/tf_ckpts/ckpt-70'
-# './best_runs/basic/s2s/tf_ckpts/ckpt-75'
-# './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'
-# './best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'
-# './best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'
-
-# S2L checkpoints:
-# './best_runs/basic/s2l/tf_ckpts/ckpt-77'
-# './best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'
-# './best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'
-# './best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'
-# './best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'
-# './best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'
-
 Take a checkpoint from the following list to evaluate our model on:
 S2L checkpoints:      
 1. basic s2l model: `'./best_runs/basic/s2l/tf_ckpts/ckpt-77'* <br />`
