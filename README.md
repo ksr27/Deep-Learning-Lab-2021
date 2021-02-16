@@ -61,15 +61,15 @@ evaluate(model,
 ```
 
 Take a checkpoint from the following list to evaluate our model on:
-1. No image processing:       *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />
+1. No image processing:       `'./results/best_runs/no-processing/tf_ckpts/ckpt-45'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'none'
-2. ben graham img processing: *'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />
+2. ben graham img processing: `'./results/best_runs/ben-graham/tf_ckpts/ckpt-48'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'btg' 
-3. clahe img processing:      *'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />
+3. clahe img processing:      `'./results/best_runs/clahe/tf_ckpts/ckpt-24'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'clahe'
-4. No augmentation:           *'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />
+4. No augmentation:           `'./results/best_runs/no-augmentation/tf_ckpts/ckpt-74'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'none'
-5. No balancing:              *'./results/best_runs/plain/tf_ckpts/ckpt-78'* <br />
+5. No balancing:              `'./results/best_runs/plain/tf_ckpts/ckpt-78'* <br />`
    Please adjust the config.gin: prepare.processing_mode = 'none'
 
 ### Results
@@ -78,7 +78,7 @@ Best overall:
 - Balanced Validation Accuracy: **93,27%**
 - Balanced Test Accuracy: **89,62%**
  
-checkpoint: *'./results/best_runs/no-processing/tf_ckpts/ckpt-45'*
+checkpoint: `'./results/best_runs/no-processing/tf_ckpts/ckpt-45' `
 
 see */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/results* and */dl-lab-2020-team15/Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation* for more detailed information on our results
 
