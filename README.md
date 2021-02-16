@@ -50,7 +50,7 @@ Evaluate function:
          checkpoint='./results/best_runs/clahe/tf_ckpts/ckpt-24', # add the wanted checkpoint path here (see below)
          ds_test=ds_test,
          ds_info=ds_info,
-         visualize_flag=True) Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
+         visualize_flag=True) #Set this flag to run grad cam on a batch of images (logged to ./logs/eval/-timestamp-/grad_cam)
          `
 
 Take a checkpoint from the following list to evaluate our model on:
