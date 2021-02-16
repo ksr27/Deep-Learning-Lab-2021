@@ -2,9 +2,9 @@
 - Lydia Schönpflug (st169955)
 - Baran Can Gül (st168861)
 
-# Project 1: Diabetic Retinopathy
+## Project 1: Diabetic Retinopathy
 
-# Project structure
+### Project structure
 Project1-Diabetic_Retinopathy/custom_tfds: contains "idrid" and a subset of "kaggle_dr" dataset in tfds form
 Project1-Diabetic_Retinopathy/diabetic_retinopathy:
 - main.py : Run the code with this file
@@ -31,18 +31,18 @@ Project1-Diabetic_Retinopathy/diabetic_retinopathy:
                  /grad_cam: Before and after images for Grad Cam (for all three image processing options)
                  /img_evolution: Shows one images progression through all preprocessing steps.
 
-# How to run the code
+### How to run the code
 As we generated custom tfds from "idrid" and a subset of "kaggle_dr" dataset you have to adjust the path to the custom_tfds folder
 "dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds" for your server user account/ computer in the config.gin file.
 So f.e. load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds'
 
-# To run in train mode:
+#### To run in train mode:
 in main.py:
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
 
 Now you can just run "python main.py"
 
-# To run in eval mode:
+#### To run in eval mode:
 flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
 
 Evaluate function:
@@ -64,7 +64,7 @@ Take a checkpoint from the following list to evaluate our model on:
 5. No balancing:              './results/best_runs/plain/tf_ckpts/ckpt-78'
    Please adjust the config gin: prepare.processing_mode = 'none'
 
-# Results
+### Results
 Best overall: 
 Balanced Train Accuracy: 94,78%	 
 Balanced Validation Accuracy: 93,27%
