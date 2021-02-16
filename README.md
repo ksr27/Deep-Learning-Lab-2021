@@ -12,9 +12,9 @@ Project1-Diabetic_Retinopathy/diabetic_retinopathy:
 - *tune.py* : For running hyperparameter optimization
 - *configs/config.gin*: All configurations for model architecture, dataset loading, visualization etc. can be set here.
 - *input_pipeline/datasets.py*: Load dataset and preprocess.
-                -*/preprocessing.py*: Contains preprocessing functions.
-                -*/img_processing.py*: Clahe, Ben Graham preprocessing functions
-                -*/visualization.py*: Confusion matrix visualization
+  -*/preprocessing.py*: Contains preprocessing functions.
+                */img_processing.py*: Clahe, Ben Graham preprocessing functions
+                */visualization.py*: Confusion matrix visualization
 - *models/architectures.py*: Defines model architecture
         -*/layers.py*: Defines single vgg_block
 - *evaluation/metrics.py*: Metric classes
