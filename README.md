@@ -39,6 +39,8 @@ Please adjust the path to the custom_tfds folder:
 
 So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds' ```
 
+And please adjust the checkpoint paths form relative paths to explicit paths, as (at least for me) it did give an error on the server.
+
 #### To run in train mode:
 in *main.py*:
 ```python
