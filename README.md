@@ -86,7 +86,7 @@ see [results-folder](Project1-Diabetic_Retinopathy/diabetic_retinopathy/results)
 ## Project 2: Human Activity Recognition
 ### Project structure
 ```
-Project2-Human_Activity_Recognition/self_recorded_ds           : contains csv filf reclorded dataset
+Project2-Human_Activity_Recognition/self_recorded_ds           : contains csv file recorded dataset
 Project2-Human_Activity_Recognition/human_activity_recognition : main project folder
 
    - main.py                          : Run the code with this file
@@ -217,7 +217,7 @@ S2S checkpoints:
   lstm_arch.lstm_units = 256
   lstm_arch.lstm_layers = 2
   lstm_arch.dense_units = 256
-     ```
+   ```
 4. Focal loss:              `'./best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'` <br />
    Please adjust the config.gin:
    ```
@@ -225,7 +225,7 @@ S2S checkpoints:
    lstm_arch.lstm_units = 256
    lstm_arch.lstm_layers = 2
    lstm_arch.dense_units = 256
-      ```
+   ```
 5. Focal loss+ weighting:  `'./best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'` <br />
    Please adjust the config.gin:
    ```
