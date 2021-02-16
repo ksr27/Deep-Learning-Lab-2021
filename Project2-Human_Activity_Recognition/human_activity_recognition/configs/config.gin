@@ -3,7 +3,7 @@ load.name = 'hapt' #'self-recorded'
 hapt_params.window_length = 250
 hapt_params.window_shift = 125
 hapt_params.num_classes = 13
-hapt_params.mode = 's2l' # 's2l' or 's2s': classification mode
+hapt_params.mode = 's2s' # 's2l' or 's2s': classification mode
 
 generate_hapt_ds.path = '/home/data/HAPT_dataset/RawData'
 # please adjust the path to the custom ds for your computer/ user account
@@ -13,10 +13,10 @@ prepare.batch_size = 16
 prepare.caching = True
 
 # Architectures
-lstm_arch.lstm_units = 128 #for basic: 128, else: 256
-lstm_arch.lstm_layers = 1 #for basic: 1, else: 2
+lstm_arch.lstm_units = 256 #for basic: 128, else: 256
+lstm_arch.lstm_layers = 2 #for basic: 1, else: 2
 lstm_arch.dense_units = 256
-lstm_arch.dense_layers = 0 #for basic: 0, else: 2
+lstm_arch.dense_layers = 2 #for basic: 0, else: 2
 lstm_arch.dropout_rate = 0.3514 # s2l: 0.1018, s2s: 0.3514
 lstm_arch.attention = False #False #using attention flag for s2l
 
@@ -28,4 +28,21 @@ Trainer.beta = 0.0 #0.9999 # loss weighting factor, simplifies to no weighting f
 Trainer.log_cm = True # whether to save all confusion matrices from training to file
 
 # Evaluation
-Evaluator.num_batches = 5 # num of batches to visualize the output prediction for
+Evaluator.num_batches = 1 # num of batches to visualize the output prediction for
+Evaluator.checkpoint = './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'
+Evaluator.visualize_flag = True
+
+# S2L checkpoints:
+# './best_runs/basic/s2s/tf_ckpts/ckpt-70'
+# './best_runs/basic/s2s/tf_ckpts/ckpt-75'
+# './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'
+# './best_runs/loss-opt/s2s/focal-loss/tf_ckpts/ckpt-69'
+# './best_runs/loss-opt/s2s/focal-loss-weighting/tf_ckpts/ckpt-67'
+
+# S2L checkpoints:
+# './best_runs/basic/s2l/tf_ckpts/ckpt-77'
+# './best_runs/arch-opt/s2l/tf_ckpts/ckpt-65'
+# './best_runs/arch-opt/s2l-attention/tf_ckpts/ckpt-67'
+# './best_runs/loss-opt/s2l/scce-weighting/tf_ckpts/ckpt-57'
+# './best_runs/loss-opt/s2l/focal-loss/tf_ckpts/ckpt-68'
+# './best_runs/loss-opt/s2l/focal-loss-weighting/tf_ckpts/ckpt-65'

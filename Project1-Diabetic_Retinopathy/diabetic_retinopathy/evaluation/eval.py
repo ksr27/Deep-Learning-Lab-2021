@@ -9,7 +9,7 @@ from input_pipeline.visualize import plot_cm, plot_to_image
 from deep_visualization.grad_cam import grad_cam_wbp
 
 @gin.configurable
-def evaluate(model, checkpoint, ds_test, ds_info, visualize_flag):
+def evaluate(model, ds_test, ds_info, checkpoint, visualize_flag):
     """Evaluates model using test dataset.
 
     Parameters:

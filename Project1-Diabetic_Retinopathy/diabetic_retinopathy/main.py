@@ -35,12 +35,7 @@ def main(argv):
         for _ in trainer.train():
             continue
     else:
-        evaluate(model,
-                 checkpoint='./results/best_runs/no-processing/tf_ckpts/ckpt-45'
-                 ds_test=ds_test,
-                 ds_info=ds_info,
-                 visualize_flag=True)
-
+        evaluate(model,ds_test=ds_test, ds_info=ds_info)
 
 if __name__ == "__main__":
     app.run(main)

@@ -29,6 +29,10 @@ Trainer.initial_lr = 0.1
 Trainer.momentum = 0.616
 Trainer.epochs = 80
 
+# Evaluation
+evaluate.checkpoint = './results/best_runs/no-processing/tf_ckpts/ckpt-45'
+evaluate.visualize_flag = True
+
 # Deep Visualization
 grad_cam_wbp.num_of_batches = 1
 

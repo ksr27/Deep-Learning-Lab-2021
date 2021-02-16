@@ -14,7 +14,7 @@ import cv2
 
 @gin.configurable
 class Evaluator(object):
-    def __init__(self, model, checkpoint, ds_test, ds_info, visualize_flag, num_batches):
+    def __init__(self, model, ds_test, ds_info, visualize_flag, checkpoint, num_batches):
         """Evaluates model using test dataset.
 
         Parameters:
