@@ -1,8 +1,12 @@
-## Project 1: Diabetic Retinopathy
+## Project 1: Diabetic Retinopathy Detection
+                
+| ![comp15](https://user-images.githubusercontent.com/62755943/167409051-afc8cbd5-c37c-4ab3-b35e-a82272e54563.png) |  ![gradcam15_label_1_pred_1](https://user-images.githubusercontent.com/62755943/167409060-5f57d46d-584e-439b-b205-8cefcc64dd5f.png) |
+|:--:|:--:| 
+| Input Image (NRDR) | Deep Visualization for TP prediction|
 
 ### Abstract
 Diabetic retinopathy (DR) is a side effect of diabetes and mainly detected through a time-consuming examination of retina images by trained personal. An automated detection could support doctors in recognizing and categorizing stages of DR, thus fastening the diagnosis and treatment process.
-A CNN-based model was trained on the IDRiD dataset (Indian Diabetic Retinopathy Image Dataset) to classify images into referable (RDR) and non-referable diabetic retinopathy (NRDR.
+A CNN-based model was trained on the IDRiD dataset (Indian Diabetic Retinopathy Image Dataset) to classify images into referable (RDR) and non-referable diabetic retinopathy (NRDR).
 Model performance was evaluated for three image preprocessing configurations. (1) Contrast limited adaptive histogram equalization (clahe), (2) preprocessing according to Ben Graham's approach int the Diabetic Retinopathy Kaggle challenge and (3) no additional preprocessing. The best overall accuracy was for no image processing. This might be due to the small size of the dataset and rather high quality of the dataset images, which proves further processing steps to be unnecessary. Improvements could however be achieved through balancing and augmenting the dataset, leading to a +7% increase for validation and test accuracy.
 
 See [results-folder](Project1-Diabetic_Retinopathy/diabetic_retinopathy/results) and [poster](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/poster-team15.pdf) and [presentation](Project1-Diabetic_Retinopathy/diabetic_retinopathy/documentation/presentation-team15.pdf) for more detailed information on our results
@@ -42,6 +46,10 @@ grad_cam_wbp.num_of_batches = 1 # Amount of visualization batches
 ```
 
 ## Project 2: Human Activity Recognition
+
+|  ![visualization2](https://user-images.githubusercontent.com/62755943/167409867-583b2c92-a430-4c2e-935b-ca00dc5eee05.png) |  ![visualization2](https://user-images.githubusercontent.com/62755943/167409962-76440676-84b9-4065-b276-2b6b89a1b100.png) |
+|:--:|:--:| 
+| Prediction vs true labels for S2L | Prediction vs true labels for S2S|
 
 ### Abstract
 Deep Learning approaches to Human Activity Recognition (HAR) are an active field of research with applications such as elderly and youth care, daily life monitoring or assisting Industry Manufacturing. Based on the Human Activities and Postural Transitions (HAPT) Dataset we developed a RNN-based classifier for both sequence-to-sequence (S2S) and sequence-to-label (S2L) classification. The models achieved 94.9% train, 78.81% validation and 94.0% test balanced accuracy for S2S- and 99.0% train, 84.24% validation and 88.43% test balanced accuracy for S2L-classification. As the HAPT dataset shows a great imbalance between basic activities and transition activties (91.38% to 8.62%) we proposed loss weighting and focal loss as ways to overcome this challenge. The overall best performance was achieved by using categorical cross entropy loss with loss weighting, resulting in 94.16% train, 79.35% validation and 80.94% test balanced accuracy for S2S- and 97.2% train, 90.3% validation and 92.3% test balanced accuracy for S2L-classification. Moreover we evaluated our model on a self-recorded dataset, the best results on this dataset was achieved by the S2S-model using focal loss with 30.56%.
