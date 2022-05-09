@@ -1,7 +1,7 @@
 ## Project 1: Diabetic Retinopathy
 ### Project structure
 ```
-Project1-Diabetic_Retinopathy/custom_tfds         : contains (Indian Diabetic Retinopathy Image Dataset)/[https://dx.doi.org/10.21227/H25W98] dataset
+   - custom_tfds                      : IDRiD (Indian Diabetic Retinopathy Image Dataset) in custom tfds format
    - train.py                         : Trainer class for model training
    - tune.py                          : Hyperparameter optimization
    - configs/config.gin               : Configurations for training and evaluation
@@ -64,32 +64,22 @@ see [results-folder](Project1-Diabetic_Retinopathy/diabetic_retinopathy/results)
 Project2-Human_Activity_Recognition/self_recorded_ds           : contains csv file recorded dataset
 Project2-Human_Activity_Recognition/human_activity_recognition : main project folder
 
-   - main.py                          : Run the code with this file
-   - train.py                         : Contains trainer class for model training
-   - tune.py                          : For running hyperparameter optimization
-   - configs/config.gin               : All configurations for model architecture, dataset loading, visualization etc. can be set here.
-   - input_pipeline/datasets.py       : Load dataset and preprocess.
-                   /preprocessing.py  : Dataset loading, preprocessing and managing tfrecord files
-                   /visualization.py  : Confusion matrix visualization
-   - models/architectures.py          : Defines model architecture
-   - evaluation/metrics.py            : Metric classes
-              /evaluate.py            : Class evaluator for evaluating the model on ds_test
-   - logs                             : During train/ evaluation run tensorboard and grad cam images (for evaluation) will be logged here.
-   - tf_ckpts                         : During train/ evaluation run checkpoints will be stored here.
-   - tfrecords/s2s                    : tfrecord files for s2s classifcation
-              /s2l                    : tfrecord files for s2l classifcation
-   - documentation                    : Contains our paper
+   - train.py                         : Trainer class for model training
+   - tune.py                          : Hyperparameter optimization
+   - configs/config.gin               : Configurations
+   - configs/config.gin               : Configurations for training and evaluation
+   - input_pipeline                   : Dataset loader, preprocessing functions
+   - models                           : Model architecture
+   - evaluation                       : Metrics and evalautor class
+   - documentation                    : Project paper
    - best_runs/basic                  : logs, checkpoint and train, val and test confusion matrices for basic s2s and s2l model
               /arch-opt               : logs, checkpoint and train, val and test confusion matrices after hyperparam opt+ adding attention
               /loss-opt               : logs, checkpoint and train, val and test confusion matrices for different loss configuration
 ```
 
 ### How to run the code
-To use the self-recorded dataset, please adjust the folder path for your server user account/ computer in the `config.gin`:
-`"dl-lab-2020-team15/Project2-Human_Activity_Recognition/self_recorded_ds"`
-So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project2-Human_Activity_Recognition/self_recorded_ds' ```
 
-#### To run in train mode:
+#### Training:
 in *main.py*:
 ```python
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
