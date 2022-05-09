@@ -1,15 +1,14 @@
-## Lydia ##
-
-import tensorflow as tf
-import gin
-from evaluation.metrics import ConfusionMatrix, Accuracy, BalancedAccuracy, Precision, Recall, F1Score
-import logging
 import datetime
-from input_pipeline.visualize import plot_to_image, plot_confusion_matrix
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import numpy as np
+import logging
+
 import cv2
+import gin
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from evaluation.metrics import ConfusionMatrix, Accuracy, BalancedAccuracy, Precision, Recall, F1Score
+from input_pipeline.visualize import plot_to_image, plot_confusion_matrix
 
 
 @gin.configurable

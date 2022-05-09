@@ -1,14 +1,16 @@
+import datetime
+import logging
+from shutil import copyfile
+
 import gin
 import tensorflow as tf
-import logging
-import datetime
+
 from evaluation.metrics import ConfusionMatrix, BalancedAccuracy, Sensitivity, Specificity, F1Score
 from input_pipeline.visualize import plot_cm, plot_to_image
-from shutil import copyfile
 
 
 @gin.configurable
-class Trainer(object): # Checkpointing: Baran, Using Epoch instead of steps, logging to tensorboard, SGD: Lydia
+class Trainer(object):
     def __init__(self, model, ds_train, ds_val, ds_test, ds_info, run_paths, epochs,
                  log_interval, ckpt_interval, initial_lr, momentum):  # total_steps
         # Summary Writer
@@ -21,7 +23,7 @@ class Trainer(object): # Checkpointing: Baran, Using Epoch instead of steps, log
             initial_lr, decay_steps=ds_info['size'], decay_rate=0.96, staircase=True)
         self.optimizer = tf.keras.optimizers.SGD(learning_rate=self.lr_schedule, momentum=momentum, nesterov=True)
 
-        # Checkpoint Manager #Baran
+        # Checkpoint Manager
         self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), net=model, optimizer=self.optimizer,
                                         iterator=iter(ds_train))  #
         self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts/' + self.timestamp, max_to_keep=epochs)

@@ -7,7 +7,7 @@ import random
 
 @tf.function
 @gin.configurable
-def reformat(image, label, img_height, img_width, ds_name):  #Lydia
+def reformat(image, label, img_height, img_width, ds_name):
     """Dataset preprocessing: Cropping, padding and resizing"""
 
     # Crop and pad image to square in central region
@@ -53,7 +53,7 @@ def get_dataset_moments(ds):
 
 
 @tf.function
-def normalize(image, label, ds_mean, ds_std): #Lydia
+def normalize(image, label, ds_mean, ds_std):
     """Dataset preprocessing: Normalizing:
         1. img/255 -> [0,1] scale
         2. channelwise zero-mean unit variance: img-channel_mean/(channel_std).
@@ -66,7 +66,7 @@ def normalize(image, label, ds_mean, ds_std): #Lydia
 
 
 @tf.function
-def augment(image, label): #Baran
+def augment(image, label):
     """(randomized) Data augmentation
         * flip image
         * rotate image at random angle
@@ -100,7 +100,7 @@ def check_distribution(dataset): #Lydia
 
 
 @gin.configurable
-def balance_augment_ds(ds, ds_info, aug_perc): #Lydia
+def balance_augment_ds(ds, ds_info, aug_perc):
     """balances ds to equal amount of 0 and 1 labels by either augmenting or repeating
 
     Parameters:

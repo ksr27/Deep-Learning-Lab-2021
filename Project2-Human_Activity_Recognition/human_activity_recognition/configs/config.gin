@@ -5,9 +5,8 @@ hapt_params.window_shift = 125
 hapt_params.num_classes = 13
 hapt_params.mode = 's2s'        # 's2l' or 's2s': classification mode
 
-generate_hapt_ds.path = '/home/data/HAPT_dataset/RawData'
-# please adjust the path to the custom ds for your computer/ user account
-generate_custom_ds.path = '/dl-lab-2020-team15/Project2-Human_Activity_Recognition/self_recorded_ds'
+generate_hapt_ds.path = './HAPT/RawData' # download HAPT dataset from https://archive.ics.uci.edu/ml/datasets/Smartphone-Based+Recognition+of+Human+Activities+and+Postural+Transitions
+generate_custom_ds.path = '../self_recorded_ds'
 
 prepare.batch_size = 16
 prepare.caching = True
@@ -22,7 +21,7 @@ lstm_arch.attention = False #True   # temporal attention flag for s2l
 
 # Training
 Trainer.epochs = 80
-Trainer.switch = 50   # epoch to switch from scce to focal loss, set to number > Trainer.epochs if swichting is undesired
+Trainer.switch = 50   # epoch to switch from scce to focal loss, set to number > Trainer.epochs if switching is undesired
 Trainer.gamma = 0.0   #gamma = 0.0: SCCE Loss, gamma = 0.5: Focal Loss
 Trainer.beta = 0.0    #0.9999 # loss weighting factor, simplifies to no weighting for beta = 0.0
 Trainer.log_cm = True # whether to save all confusion matrices from training to file
@@ -32,7 +31,7 @@ Evaluator.num_batches = 1 # num of batches to visualize the output prediction fo
 Evaluator.checkpoint = './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'
 Evaluator.visualize_flag = True
 
-# S2L checkpoints:
+# S2S checkpoints:
 # './best_runs/basic/s2s/tf_ckpts/ckpt-70'
 # './best_runs/basic/s2s/tf_ckpts/ckpt-75'
 # './best_runs/loss-opt/s2s/scce-weighting/tf_ckpts/ckpt-74'

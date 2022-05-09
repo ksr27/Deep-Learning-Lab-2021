@@ -1,11 +1,11 @@
-## Lydia ##
+import io
+import itertools
 
-import tensorflow as tf
 import gin
 import matplotlib.pyplot as plt
 import numpy as np
-import itertools
-import io
+import tensorflow as tf
+
 
 @gin.configurable
 def plot_confusion_matrix(cm, ds_info):
@@ -19,7 +19,7 @@ def plot_confusion_matrix(cm, ds_info):
     figure = plt.figure(figsize=(8, 8))
 
     # Normalize the confusion matrix.
-    cm = np.around(tf.cast(cm, tf.float32)/ tf.math.reduce_sum(cm, axis=0), decimals=2)
+    cm = np.around(tf.cast(cm, tf.float32) / tf.math.reduce_sum(cm, axis=0), decimals=2)
 
     plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     plt.title("Confusion matrix")
@@ -29,7 +29,7 @@ def plot_confusion_matrix(cm, ds_info):
     if ds_info['missing_classes']:
         class_names_x = np.array(ds_info['contained_classes']).astype(str)
     else:
-        class_names_x = np.arange(start=1, stop=int(ds_info['num_classes'])).astype(str) # ignore 0 labels
+        class_names_x = np.arange(start=1, stop=int(ds_info['num_classes'])).astype(str)  # ignore 0 labels
     class_names_y = np.arange(start=1, stop=int(ds_info['num_classes'])).astype(str)  # ignore 0 labels
     plt.xticks(tick_marks_x, class_names_x, rotation=45)
     plt.yticks(tick_marks_y, class_names_y)

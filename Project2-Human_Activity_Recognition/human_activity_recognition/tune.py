@@ -1,6 +1,5 @@
-## Baran and Lydia ##
-
 import logging
+
 import gin
 from ray import tune
 from ray.tune.suggest.hyperopt import HyperOptSearch
@@ -9,6 +8,7 @@ from input_pipeline.datasets import load
 from models.architectures import lstm_arch
 from train import Trainer
 from utils import utils_params, utils_misc
+
 
 def train_func(config):
     # Hyperparameters
@@ -43,7 +43,7 @@ config = {
     "lstm_arch.lstm_units": tune.choice([64, 128, 256]),
     "lstm_arch.lstm_layers": tune.choice([1, 2]),
     "lstm_arch.dense_units": tune.choice([64, 128, 256]),
-    "lstm_arch.dropout_rate": tune.uniform(0.0,0.5),
+    "lstm_arch.dropout_rate": tune.uniform(0.0, 0.5),
     "prepare.batch_size": tune.choice([16, 32, 64])
 }
 
@@ -52,7 +52,7 @@ analysis = tune.run(
     config=config,
     search_alg=hyperopt)
 
-print("Best config for val accuracy: ", analysis.get_best_config(metric="val_accuracy",mode="max", scope="all"))
+print("Best config for val accuracy: ", analysis.get_best_config(metric="val_accuracy", mode="max", scope="all"))
 
 # Get a dataframe for analyzing trial results.
 df = analysis.dataframe()

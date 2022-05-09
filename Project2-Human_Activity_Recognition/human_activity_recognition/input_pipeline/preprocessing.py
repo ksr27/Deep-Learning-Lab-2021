@@ -1,10 +1,9 @@
-## Lydia ##
-
 import glob
-import numpy as np
-import tensorflow as tf
+
 import gin
+import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 
 def take_prominent_label(sensor_data, label):
@@ -285,7 +284,6 @@ def write_to_file(dataset, split_name, name, mode):
 
     serialized_dataset = dataset.map(tf_serialize_example)
 
-    # filename = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project2-Human_Activity_Recognition/human_activity_recognition/tfrecords/' + mode + '/hapt_' + split_name + '.tfrecord'
     filename = 'tfrecords/' + mode + '/' + name + '_' + split_name + '.tfrecord'
 
     writer = tf.data.experimental.TFRecordWriter(filename)
@@ -303,7 +301,6 @@ def read_from_file(split_name, window_length, name, mode):
     Returns:
         dataset (tf.tf.data.Dataset): extracted Dataset
     """
-    # filename = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project2-Human_Activity_Recognition/human_activity_recognition/tfrecords/'+ mode+ '/hapt_' + split_name + '.tfrecord'
     filename = 'tfrecords/' + mode + '/' + name + '_' + split_name + '.tfrecord'
     filenames = [filename]
     raw_dataset = tf.data.TFRecordDataset(filenames)

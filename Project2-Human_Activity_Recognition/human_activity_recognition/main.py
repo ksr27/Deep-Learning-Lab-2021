@@ -1,16 +1,17 @@
-import gin
 import logging
+
+import gin
 from absl import app, flags
 
-from train import Trainer
 from evaluation.eval import Evaluator
 from input_pipeline import datasets
-from utils import utils_params, utils_misc
 from models.architectures import lstm_arch
+from train import Trainer
+from utils import utils_params, utils_misc
+
 
 FLAGS = flags.FLAGS
-flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
-
+flags.DEFINE_boolean('train', False, 'Specify whether to train or evaluate a model.')
 
 def main(argv):
     # generate folder structures

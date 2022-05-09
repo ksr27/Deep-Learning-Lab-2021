@@ -1,6 +1,7 @@
 # Custom
 .DS_Info
-**/.DS_Info
+.DS_Store
+**/.DS_Store
 kaggle_dr/
 
 # Byte-compiled / optimized / DLL files

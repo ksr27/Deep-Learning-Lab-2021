@@ -1,5 +1,3 @@
-#Lydia
-
 import tensorflow as tf
 import datetime
 import gin

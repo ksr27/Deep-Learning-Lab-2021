@@ -1,11 +1,10 @@
-## Baran ##
-
 import gin
 import tensorflow as tf
 
 
 @gin.configurable
-def lstm_arch(input_shape, n_classes, mode, lstm_layers, lstm_units, dense_layers, dense_units, dropout_rate, attention):
+def lstm_arch(input_shape, n_classes, mode, lstm_layers, lstm_units, dense_layers, dense_units, dropout_rate,
+              attention):
     """Defines a RNN architecture.
 
     Parameters:
@@ -29,13 +28,15 @@ def lstm_arch(input_shape, n_classes, mode, lstm_layers, lstm_units, dense_layer
         out = tf.keras.layers.LSTM(lstm_units, return_sequences=True)(out)
 
     if mode == 's2l':
-        if attention: # temporal attention
+        if attention:  # temporal attention
             out = tf.keras.layers.LSTM(lstm_units, return_sequences=True)(out)
-            attention = tf.keras.layers.Dense(1, activation='tanh')(out) # one neuron layer, weight and bias shapes calculated automatically
+            attention = tf.keras.layers.Dense(1, activation='tanh')(
+                out)  # one neuron layer, weight and bias shapes calculated automatically
             attention = tf.keras.layers.Flatten()(attention)
             attention = tf.keras.layers.Activation('softmax')(attention)
             attention = tf.keras.layers.RepeatVector(lstm_units)(attention)  # (None, 250) to (None, lstm_units,250)
-            attention = tf.keras.layers.Permute([2, 1])(attention)  # change shape from (None, lstm_units,250) to (None, 250, lstm_units)
+            attention = tf.keras.layers.Permute([2, 1])(
+                attention)  # change shape from (None, lstm_units,250) to (None, 250, lstm_units)
             attention_out = tf.keras.layers.Multiply()([out, attention])  # multiply weight with each dimension
             out = tf.keras.layers.Lambda(lambda xin: tf.keras.backend.sum(xin, axis=-2), output_shape=(lstm_units,))(
                 attention_out)

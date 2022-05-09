@@ -4,7 +4,7 @@ from models.layers import vgg_block
 
 
 @gin.configurable
-def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropout_rate): #Baran
+def vgg_like(input_shape, n_classes, base_filters, n_blocks, dense_units, dropout_rate):
     """A VGG-like architecture.
 
     Parameters:

@@ -1,15 +1,15 @@
-## Lydia ##
+import datetime
+import logging
+import os
+from shutil import copyfile
 
+import cv2
+import focal_loss as focal_loss
 import gin
 import tensorflow as tf
-import logging
-import datetime
+
 from evaluation.metrics import ConfusionMatrix, BalancedAccuracy, Accuracy, Precision, Recall, F1Score
 from input_pipeline.visualize import plot_confusion_matrix, plot_to_image
-from shutil import copyfile
-import focal_loss as focal_loss
-import cv2
-import os
 
 
 @gin.configurable
@@ -37,7 +37,8 @@ class Trainer(object):
         self.optimizer = tf.keras.optimizers.Adam()
 
         # Checkpoint Manager
-        self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), net=model, optimizer=self.optimizer,iterator=iter(ds_train))
+        self.ckpt = tf.train.Checkpoint(step=tf.Variable(1), net=model, optimizer=self.optimizer,
+                                        iterator=iter(ds_train))
         self.manager = tf.train.CheckpointManager(self.ckpt, './tf_ckpts/' + self.timestamp, max_to_keep=epochs)
 
         # Metrics
@@ -149,7 +150,7 @@ class Trainer(object):
                     self.train_baccuracy.result() * 100,
                     self.train_accuracy.result() * 100,
                     self.train_cm.result(),
-                    self.train_precision.result()*100,
+                    self.train_precision.result() * 100,
                     self.train_recall.result() * 100,
                     self.train_f1_score.result(),
 
