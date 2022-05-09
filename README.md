@@ -1,45 +1,22 @@
-# Team15
-- Lydia Schönpflug (st169955)
-- Baran Can Gül (st168861)
-
 ## Project 1: Diabetic Retinopathy
 ### Project structure
 ```
-Project1-Diabetic_Retinopathy/custom_tfds         : contains "idrid" [and a subset of "kaggle_dr" dataset in tfds form that was too big to contribute to github, so if you are interested please contact Lydia (st169955@stud.uni-stuttgart.de)]
-Project1-Diabetic_Retinopathy/diabetic_retinopathy: main project folder
-
-   - main.py                          : Run the code with this file
-   - train.py                         : Contains trainer class for model training
-   - tune.py                          : For running hyperparameter optimization
-   - configs/config.gin               : All configurations for model architecture, dataset loading, visualization etc. can be set here.
-   - input_pipeline/datasets.py       : Load dataset and preprocess.
-                   /preprocessing.py  : Contains preprocessing functions.
-                   /img_processing.py : Clahe, Ben Graham preprocessing functions
-                   /visualization.py  : Confusion matrix visualization
-   - models/architectures.py          : Defines model architecture
-           /layers.py                 : Defines single vgg_block
-   - evaluation/metrics.py            : Metric classes
-              /evaluate.py            : Function for evaluating the model on ds_test
-   - deep visualization/grad_cam.py   : Guided grad cam implementation
-   - logs                             : During train/ evaluation run tensorboard and grad cam images (for evaluation) will be logged here.
-   - tf_ckpts                         : During train/ evaluation run checkpoints will be stored here.
-   - documentation                    : Contains our poster and presentation
+Project1-Diabetic_Retinopathy/custom_tfds         : contains (Indian Diabetic Retinopathy Image Dataset)/[https://dx.doi.org/10.21227/H25W98] dataset
+   - train.py                         : Trainer class for model training
+   - tune.py                          : Hyperparameter optimization
+   - configs/config.gin               : Configurations for training and evaluation
+   - input_pipeline                   : Dataset loader, preprocessing functions
+   - models                           : Model architecture
+   - evaluation                       : Metrics and evalautor class
+   - deep visualization               : Guided grad cam implementation
+   - documentation                    : Poster and presentation
    - results/avg10                    : Contains logs and checkpoints for 10 runs for each configuration (basis for our average 10 runs result)
            /best_runs                 : Contains logs and checkpoints for the best run for each configuration
-   - examples_images/btgraham         : Before and after images for Ben Graham image processing.
-                    /clahe            : Before and after images for clahe
-                    /data_augmentation: Before and after images for data augmentation
-                    /grad_cam         : Before and after images for Grad Cam (for all three image processing options)
-                    /img_evolution    : Shows one images progression through all preprocessing steps.
 ```
 
 ### How to run the code
-Please adjust the path to the custom_tfds folder: 
-`"dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds"` for your server user account/ computer in the `config.gin` file.
 
-So f.e. ```python load.data_dir = '/home/RUS_CIP/st169955/dl-lab-2020-team15/Project1-Diabetic_Retinopathy/custom_tfds' ```
-
-#### To run in train mode:
+#### Training:
 in *main.py*:
 ```python
 flags.DEFINE_boolean('train', True, 'Specify whether to train or evaluate a model.')
